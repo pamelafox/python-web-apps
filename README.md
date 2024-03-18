@@ -3,7 +3,7 @@
 This repository contains the teaching materials for a 5-part Python Web Apps workshop series,
 as well as additional links and resources that may be useful for students and teachers.
 
-* [Workshop Series](#workshop-series)
+* [Workshops](#workshops)
 * [Example Projects](#example-projects)
 * [Talks](#talks)
 
@@ -77,6 +77,10 @@ These recordings cover topics related to the workshop materials, so they may be 
 | Writing Python Web Apps with VS Code | [Video](https://www.youtube.com/watch?v=AO9yHm8zKsk) | [Slides](https://pamelafox.github.io/my-py-talks/python-apps-vscode/) | Customizing VS Code to work on Python web apps (Django specifically) - Dev Containers, Debugging, Testing, etc.
 | 1-click deploys of Python web apps to Azure | [Video](https://www.youtube.com/watch?v=XeDwYnuuTWI) | [Slides](https://pamelafox.github.io/my-py-talks/iac-deploys/) | Deploying Python web apps to Azure using the Azure Developer CLI |
 | Using PostgreSQL in VS Code | [Video](https://www.youtube.com/watch?v=JTHTWp9DIZQ&t=93s) | -- | Using PostgreSQL in VS Code Dev Containers and Codespaces, using Docker and SQLTools extension |
+
+## Upcoming live workshop series
+
+We are planning to run an online workshop series using these materials in June 2024. Please check back here for details.
 
 ## Feedback
 
