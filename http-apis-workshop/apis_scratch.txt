@@ -1,0 +1,30 @@
+
+import json
+
+json.dumps({"name": "Margaret", "is_staff": True})
+
+"{\"name\": \"Margaret\"}"
+
+response = requests.get('weatherapi.com/zip')
+response_dict = json.loads(response.text)
+
+def to_dict(self):
+    return {
+        "name": self.name,
+        "is_staff": self.is_staff,
+    }
+
+Query parameters
+/weather?zip=94530&api_key=324234324
+
+Path parameters
+/books/123/downloads
+RESTful APIs
+Django-REST
+
+Headers
+X-Subscription-Key: 123213123
+X-Compression-Type: brotli
+
+
+@route('/books/:book_id/downloads')

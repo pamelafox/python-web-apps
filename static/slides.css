@@ -1,0 +1,120 @@
+.reveal {
+  font-family: "Work Sans", sans-serif;
+}
+
+.reveal .slides section a {
+  text-decoration: underline;
+}
+
+.reveal .slides section {
+  text-align: left;
+  font-size: smaller;
+}
+
+.slide-number-a {
+  background-color: #747474;
+}
+
+.reveal section li {
+  margin-bottom: 12px;
+}
+
+.reveal pre {
+  width: 100%;
+  border-left: 2px solid #ccc;
+  border-right: 2px solid #ccc;
+  box-shadow: none;
+  font-size: 30px;
+}
+
+.reveal pre code {
+  padding: 8px 8px 8px 8px;
+}
+
+.reveal .code-badge {
+  right: 10px;
+}
+
+.reveal code {
+  font-family: "Roboto Mono", monospace;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: "Roboto", sans-serif;
+  color: rgb(50, 50, 50);
+}
+
+.reveal section.heading-only {
+  text-align: center;
+}
+
+.no-code-badge .code-badge {
+  display: none;
+}
+
+.code-badge-language {
+  display: none;
+}
+
+.reveal h3 {
+  margin-bottom: 40px;
+}
+
+.smaller {
+  font-size: smaller;
+}
+
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  border-radius: 4px;
+}
+
+p.padded {
+  margin-top: 32px;
+}
+
+section .row {
+  display: flex;
+}
+
+section .column {
+  flex: 48%;
+  margin: 10px;
+}
+
+.reveal pre.overflow-in-print {
+  height: 400px;
+  overflow-y: scroll;
+}
+.print-pdf .reveal pre.overflow-in-print {
+  height: auto;
+  overflow-y: visible;
+}
+
+@media print {
+  .no-print,
+  .no-print *,
+  .code-badge,
+  .slide-menu-button {
+    display: none !important;
+  }
+  .reveal pre.overflow-in-print {
+    height: 2000px;
+    overflow-y: visible;
+  }
+}
+
+.aka {
+  font-family: "Roboto Mono", monospace;
+  background-color: #1c6192;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  display: inline-block;
+}

@@ -1,0 +1,802 @@
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Containerizing Python Web Apps</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reset.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/theme/simple.css" id="theme">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+        <link rel="stylesheet" href="../static/a11y-dark.min.css">
+		<link rel="stylesheet" href="../static/slides.css">
+	</head>
+    <body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1>Containerization<br>
+                    Workshop
+                </h1>
+                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%;">
+                    Tips for navigating the slides:
+                    <ul>
+                        <li>Press O or Escape for overview mode.</li>
+                        <li>Visit <a href="?print-pdf" target="_blank">this link</a> for a nice printable version</li>
+                        <li>Press the copy icon on the upper right of code blocks to copy the code</li>
+                    </ul>
+                </div>
+
+                <aside class="speaker-notes">
+                </aside>
+            </section>
+
+            <section>
+                <h3>Welcome!</h3>
+
+                <p>Classroom "rules":</p>
+                <ul>
+                    <li>I am here for you!</li>
+                    <li>Every question is important</li>
+                    <li>Help each other</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Introductions</h3>
+                <p>Tell us about yourself:</p>
+                <ul>
+                    <li>Name
+                    <li>Pronouns
+                    <li>Location
+                    <li>Programming/Web experience 
+                    <li>What interests you about containerization?
+                    <li>What is the coolest/weirdest/cutest animal? 🐍
+                </ul>
+            </section>
+            
+            <section>
+                <h3>Today's agenda</h3>
+
+                <img src="../media/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:30px; line-height: 2em; float:left; width: 500px;">
+                    <li>Intro to Containers
+                    <li>Containerizing Flask
+                    <li>👩🏾‍💻 Exercise: Run a container
+                    <li>Databases in containers
+                    <li>👩🏼‍💻 Exercise: Run multiple containers
+                    <li>Deploying a container
+                    <li>👩🏻‍💻 Exercise: Deploy a container app
+                </ul>
+            </section>
+
+            <section>
+                <h3>Prerequisites</h3>
+
+                <p>Option 1: Online development with Codespaces:
+                    <ul>
+                        <li><a target="_blank" href="https://github.com/signup">GitHub account</a></p>
+                    </ul>
+                </p>
+
+                <p>Option 2: Local development with VS Code</p>
+                <ul>
+                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                    <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                </ul>
+
+                <p>Option 3: Local development</p>
+                <ul>
+                    <li>Code editor</li>
+                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>Docker</h2>
+           </section>
+
+            <section>
+                <h3>Docker overview</h3>
+
+                <p>The Docker engine runs multiple Docker containers,
+                    where each container is an isolated environment.</p>
+
+                <img src="containers.svg" alt="Diagram of two Docker containers running on top of one Docker engine running on top of an Operating System on top of Hardware" width="700">
+            
+            </section>
+
+            <section>
+                <h3>Docker overview example</h3>
+
+                <p>Each container can be a very different environment,
+                    with binaries and libraries dependent on the application.</p>
+
+                <img src="containers-example.svg" alt="Diagram of two Docker containers, one with Python/PostgreSQL/Django, the other with Ruby/MySQL/Rails" width="700">
+            
+            </section>
+
+            <section>
+                <h3>Why Docker?</h3>
+
+                <ul>
+                    <li><strong>Environment consistency</strong>:  Ensure that 
+                        the developer environment, test environment, staging environment,
+                        and production environments are the same.
+                    <li><strong>Application portability</strong>: Easy to run
+                        the application on new hardware if old hardware fails
+                        or if application needs to scale.
+                    <li><strong>Efficient hardware use</strong>: A machine
+                        can run multiple containers to make optimal use of its resources.
+                </ul>
+                <p>
+            </section>
+
+            <section>
+                <h3>Docker images</h3>
+
+                <p>A <strong>container image</strong> is a software package that includes
+                    everything needed to run an application.
+                    <br>
+                    A <strong>container</strong> is a running instance of a container image. 
+                </p>
+                <img src="images.svg" alt="Diagram of two Docker images, one with Python/PostgreSQL/Django, the other with Ruby/MySQL/Rails, and one running Django container" width="650">
+            
+            </section>
+            
+            <section>
+                <h3>Docker images</h3>
+
+                <p>Multiple containers can be run from the same image. 
+                </p>
+                <img src="images-two.svg" alt="Diagram of two Django containers running on top of a single Docker engine" width="700">
+            
+            </section>
+
+            <section>
+                <h3>Image registries</h3>
+
+                <p>A <strong>registry</strong> is a place to store and share images.</p>
+
+                <p>Commonly used image registries:</p>
+                    <ul>
+                        <li><a target="_blank" href="https://hub.docker.com/">Docker Hub</a>: contains many images, including official images for python, postgres, Unix systems, etc.
+                        <li><a target="_blank" href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry">GitHub container registry</a>
+                        <li><a target="_blank" href="https://azure.microsoft.com/en-us/services/container-registry/">Azure container registry</a>
+                        <li><a target="_blank" href="https://aws.amazon.com/ecr/">AWS container registry</a>
+                        <li><a target="_blank" href="https://cloud.google.com/container-registry">Google Cloud container registry</a>
+                    <br>
+            </section>
+
+            <section>
+                <h3>Image layers</h3>
+
+                <p>A container image often starts off with a <strong>base image</strong>, 
+                    and then adds layers on top of it.</p>
+                
+                <p>For example:</p>
+                    <ul>
+                        <li>Base image: Ubuntu 20.04
+                        <li>Layer 1: Python 3.9
+                        <li>Layer 2: Flask 2.0
+                        <li>Layer 3: Your app
+                    </ul>
+                <p>Docker can cache each layer, which improves performance.</p>
+            </section>
+
+            <section class="heading-only"  data-background-image="background_headingonly.png">
+                <h2>Productionizing<br>
+                Flask apps</h2>
+
+                <img src="../media/BIT_PYTHON.svg" alt="Bit (the raccoon) in front of a computer and Python logo" width="400">
+            </section>
+            
+            <section>
+                <h3>Sample Flask app 
+                    <a target="_blank" href="https://github.com/codespaces/new?hide_repo_select=true&amp;ref=main&amp;repo=592979753"><img style="float:right;" src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces" style="max-width: 100%;"></a>
+                </h3>
+
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
+                from flask import Flask, render_template, request
+
+                app = Flask(__name__, template_folder='templates', static_folder='static')
+                
+                @app.route('/')
+                def index():
+                   return render_template('index.html')
+            
+                @app.route('/hello')
+                def hello():
+                    return render_template('hello.html', name=request.args.get('name'))
+                </code></pre>
+
+                <p>
+                    👀 Demo: 
+                    <a class="smaller" target="_blank" href="https://flaskcontainer-jd5m-containerapp.graymoss-ba9f7d1d.centralus.azurecontainerapps.io/">flaskcontainer-jd5m-containerapp.graymoss-ba9f7d1d.centralus.azurecontainerapps.io</a>
+                </p>
+                <p>
+                    👩🏼‍💻 Code: <a class="smaller" target="_blank" href="https://github.com/pamelafox/simple-flask-server-container/">github.com/pamelafox/simple-flask-server-container</a>
+                </p>
+
+            </section>
+            
+            <section>
+                <h3>Running Flask app locally</h3>
+
+                <p>Using the built-in Flask server:</p>
+                <pre style="font-size:0.9em;"><code data-trim data-noescape class="bash">
+                python3 -m flask run --port 50505 --debug
+                </code></pre>
+
+                <p class="fragment">⚠️ The dev server is <strong>not recommended</strong> for production use.</p>
+
+            </section>
+
+            <section>
+                <h3>Running Flask with gunicorn</h3>
+
+                <p>Gunicorn is a production-level server
+                    that can run multiple worker processes.</p>
+
+                <p>Add <code>gunicorn</code> to <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                Flask==2.2.3
+                gunicorn==20.1.0
+                </code></pre>
+
+                <p class="padded">Use <code>gunicorn</code> to run Flask app with multiple workers:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn app:app --workers 4 --bind 0.0.0.0:50505
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Configuring gunicorn</h3>
+
+                <p>Gunicorn can be configured with a <code>gunicorn.conf.py</code> file:</p>
+
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="python">
+                import multiprocessing
+                    
+                max_requests = 1000
+                max_requests_jitter = 50
+                log_file = "-"
+                bind = "0.0.0.0:50505"
+                
+                workers = (multiprocessing.cpu_count() * 2) + 1
+                threads = workers
+                timeout = 120
+                </code></pre>
+
+                <p>The run command can be simplified to:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn app:app
+                </code></pre>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Containerizing<br>
+                Python apps</h2>
+
+                <img src="../media/DATA_BIT.svg" alt="Bit (the raccoon) as Neo from the Matrix" width="400">
+
+            </section>
+
+            <section>
+                <h3>Containerization steps</h3>
+
+                <ol>
+                    <li><strong>Write</strong> a Dockerfile
+                    <li><strong>Build</strong> image from Dockerfile
+                    <li><strong>Run</strong> container using built image
+                </ol>  
+            </section>
+
+            <section>
+                <h3>Dockerfile format</h3>
+
+                <p>A Dockerfile includes:</p>
+
+                <table style="font-size: smaller;">
+                    <tr>
+                        <td>The base or parent image*
+                        <td><code>FROM python:3.11</code>
+                    <tr>
+                        <td>Additional software
+                        <td><code>RUN pip3 install Flask gunicorn</code>
+                    <tr><td>Application code
+                        <td><code>WORKDIR /code</code><br>
+                            <code>COPY . .</code>
+                    <tr><td>Services to expose (storage/network)
+                        <td><code>EXPOSE 50505</code>
+                    <tr><td>Command to run upon launching container
+                        <td><code>ENTRYPOINT ["gunicorn", "-c", "gunicorn.conf.py", "app:app"]</code>
+                </table>
+
+                <p class="smaller">*Find existing images in registries, like <a target="_blank" href="https://hub.docker.com/search?image_filter=official&q=">DockerHub</a>.</p>
+            </section>
+            
+
+            <section>
+                <h3>Dockerfile for Flask</h3>
+
+                <p>A complete file:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="docker">
+                FROM python:3.11
+
+                WORKDIR /code
+
+                COPY requirements.txt .
+                RUN pip3 install -r requirements.txt
+
+                COPY . .
+
+                EXPOSE 50505
+
+                ENTRYPOINT ["gunicorn", "-c", "gunicorn.conf.py", "app:app"]
+                </code></pre>
+
+                <p class="smaller">📖 Learn more: <a target="_blank" href="https://gabnotes.org/docker-images-layers-and-cache/">Docker images layer and cache</a></p>
+
+            </section>
+
+
+            <section>
+                <h3>Add a dockerignore file</h3>
+
+                <p>Prevent unnecessary files from being copied to the image:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="docker">
+                .git*
+                .venv/
+                **/*.pyc
+                __pycache__/
+                </code></pre>
+
+            </section>
+
+
+            <section>
+                <h3>Building the image</h3>
+
+                <p>Using the <code>docker build</code> command:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="bash">
+                docker build --tag flaskapp .
+                </code></pre>
+
+                <p>Using the <code>VS Code Docker extension</code>:</p>
+                <img src="vsc-docker.png" alt="Screenshot of Docker extension in Visual Studio Code" width="700">
+
+            </section>
+
+            <section>
+                <h3>Running the container</h3>
+
+                <p>Using the <code>docker run</code> command:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="bash">
+                docker run --publish 50505:50505 flaskapp
+                </code></pre>
+                
+                <p class="padded" style="margin-bottom:0px">Using Docker Desktop:</p>
+                <img src="docker-run.png" alt="Screenshot of Docker images list with run button next to one of them" width="650">
+
+                <p class="smaller">You can also use the VS Code Docker extension to run containers.</p>
+            </section>
+
+            <section>
+                <h3>Exercise: Run a container</h3>
+
+                <p>Starting from this repo:<br>
+                   <a target="_blank" href="https://github.com/pamelafox/simple-flask-server-container">
+                    github.com/pamelafox/simple-flask-server-container
+                   </a>
+                </p>
+
+                <ol>
+                    <li>Follow the <a target="_blank" href="https://github.com/pamelafox/simple-flask-server-container#local-development-with-docker">Local development with Docker steps</a>.
+                    <li>Try changing the base image to a higher Python version number and re-building / re-running.
+                    <li>Try changing the HTML code and re-building / re-running.
+                </ol>
+                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Databases in containers</h2>
+            </section>
+
+            <section>
+                <h3>Sample Flask app with DB
+                    <a target="_blank" href="https://github.com/codespaces/new?hide_repo_select=true&amp;ref=main&amp;repo=592499662"><img style="float:right;" src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces" style="max-width: 100%;"></a>
+                </h3>
+
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
+                ...
+                @app.route('/surveys', methods=['GET'])
+                def surveys_list_page():
+                    surveys = Survey.query.all()    
+                    return render_template('surveys_list.html', surveys=surveys)
+                
+                @app.route('/surveys/<int:survey_id>', methods=['GET'])
+                def survey_page(survey_id):
+                    survey = Survey.query.where(Survey.id == survey_id).first()
+                    answers = Survey.query.where(Answer.survey==survey_id)
+                    return render_template('survey_details.html', survey=survey, answers=answers, already_voted='survey_id' in request.cookies)
+                ...
+                </code></pre>
+
+                <p>
+                    👀 Demo: 
+                    <a class="smaller" target="_blank" href="https://flasurveycon-b2ikkm-ca.ashysea-c408c9d0.eastus.azurecontainerapps.io/surveys">flasurveycon-b2ikkm-ca.ashysea-c408c9d0.eastus.azurecontainerapps.io/surveys</a>
+                </p>
+                <p>
+                    👩🏼‍💻 Code: <a class="smaller" target="_blank" href="https://github.com/pamelafox/flask-surveys-container-app">github.com/pamelafox/flask-surveys-container-app</a>
+                </p>
+
+            </section>
+
+            <section>
+                <h3>Data persistence in containers</h3>
+            
+                <p>Data <em>can</em> be written to a container's file system, but:</p>
+
+                <ul>
+                    <li>Removing a container removes the data
+                    <li>Container data is difficult to move between environments
+                    <li>Container storage drives are less performant
+                </ul>
+                
+                <p>If you need to persist data, you should store it outside the container.</p>
+                
+            </section>
+
+            <section>
+                <h3>Docker volumes</h3>
+
+                <p>A <strong>volume</strong>  is a directory on the host machine that is mapped to a directory in the container.
+                </p>
+                
+                <img alt="Diagram of Docker container and Docker volumes inside the File System" src="volumes.svg" width="450">
+
+                <p>When developing with databases locally, use a volume to store the data for the database.</p>
+            </section>
+
+            <section>
+                <h3>Running PostgreSQL with Docker</h3>
+
+                <p>Create a volume:</p>
+                <pre style="font-size:0.7em; margin-top: -10px;"><code data-trim data-noescape class="bash">
+                docker volume create postgres-data
+                </code></pre>
+
+                <p class="padded">Create a network for the containers to communicate over:</p>
+                <pre style="font-size:0.7em; margin-top: -10px;"><code data-trim data-noescape class="bash">
+                docker network create postgres-net
+                </code></pre>
+
+                <p class="padded">Run a PostgreSQL container with the volume and network:</p>
+                <pre style="font-size:0.7em; margin-top: -10px;"><code data-trim data-noescape class="bash">
+                docker run --rm -d -v postgres-data:/var/lib/postgresql/data \
+                    --network postgres-net --name db \
+                    -e POSTGRES_USER=app_user -e POSTGRES_PASSWORD=app_password \
+                    postgres
+                </code></pre>
+
+                <p class="smaller">From <a target="_blank" href="https://docs.docker.com/language/dotnet/develop/#run-a-database-in-a-container">
+                    Docker tutorial: Run a database in a container</a></p>
+            </section>
+
+            <section>
+                <h3>Connecting the app to the DB</h3>
+
+                <p>Set environment variables for the database connection:</p>
+
+                <pre style="font-size:0.7em; margin-top: -10px;"><code data-trim data-noescape class="bash">
+                DBHOST=db
+                DBNAME=postgres
+                DBUSER=app_user
+                DBPASS=app_password
+                </code></pre>
+
+                <p>Build the container:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="bash">
+                docker build --tag flasksurveyscontainerapp .
+                </code></pre>
+
+                <p class="padded">Run the app container over the same network:</p>
+
+                <pre style="font-size:0.7em; margin-top: -10px;"><code data-trim data-noescape class="bash">
+                docker run --rm -d --network postgres-net \
+                    --name flask-db-app -p 50505:50505 \
+                    flasksurveyscontainerapp
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Docker compose</h3>
+
+                <p>Docker compose is a tool for defining and running multi-container Docker apps,
+                    and <code>docker-compose.yaml</code> is a YAML file that defines the services that make up your app.
+                </p>
+
+                <pre style="font-size:0.4em; margin-top: -10px;"><code data-trim data-noescape class="bash">
+                services:
+                    db:
+                        image: postgres
+                        restart: always
+                        environment:
+                            POSTGRES_PASSWORD: ${DBPASS:?database password not set}
+                            POSTGRES_USER: ${DBUSER:?database user not set}
+                            POSTGRES_DB: ${DBNAME:?database name not set}
+                        volumes:
+                            - postgres-data:/var/lib/postgresql/data
+                        healthcheck:
+                            test: ["CMD-SHELL", "pg_isready -U ${DBUSER} -d ${DBNAME}"]
+                            interval: 5s
+                            timeout: 5s
+                            retries: 5
+                    app:
+                        build:
+                            context: .
+                        ports:
+                            - 50505:50505
+                        depends_on:
+                            db:
+                                condition: service_healthy
+                    volumes:
+                        postgres-data:
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Run multiple containers</h3>
+
+                <p>Run the app and database containers:</p>
+
+                <pre style="font-size:0.9em;"><code data-trim data-noescape class="bash">
+                docker-compose up
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Exercise: Run multiple containers</h3>
+
+                <p>Starting from this repo:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/flask-surveys-container-app">
+                        github.com/pamelafox/flask-surveys-container-app
+                    </a>
+                 </p>
+ 
+                 <ol>
+                    <li>Follow the <a target="_blank" href="https://github.com/pamelafox/flask-surveys-container-app#local-development-with-docker">Local development with Docker steps</a>.
+                    <li>Make a survey in the app.
+                    <li>If you're in Codespaces, change the visibility of port 50505 to "Public" and share the URL of your survey with classmates.
+                 </ol>
+                 <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Hosting containers<br>
+                on Azure!</h2>
+
+                <img src="../media/BIT_AZURE.png" alt="Bit (the raccoon) in the clouds next to Azure logo" width="400">
+
+            </section>
+
+
+            <section>
+                <h3>Hosting considerations</h3>
+
+                <ul>
+                    <li>How much traffic do you expect?
+                    <li>Do you need scale-to-zero?
+                    <li>How variable will the traffic be?
+                    <li>How much control do you need over the environment?
+                </ul>
+            </section>
+
+
+            <section>
+                <h3>Azure hosting options</h3>
+                
+                <style>
+                table.deploy-stack {
+                    border-spacing: 30px; 
+                    border-collapse: separate;
+                    border: 0px;
+                }
+
+                table.deploy-stack th, table.deploy-stack td {
+                    font-size: 20px;
+                    border-bottom: 0px none;
+                    border-radius: 12px;
+                    text-align: center;
+                    vertical-align: middle;
+                    padding: 8px;
+                }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>Cloud
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                    <tr>
+                        <th>Environment
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Containers
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Container Management
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+                        
+                    </tr>
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr> 
+                </table>
+                <p class="fragment smaller">For hosting containers, 
+                    <span style="background-color: #00bc70; color: white; padding: 3px 6px; border-radius: 6px;">Kubernetes Service</span>,
+                    <span style="background-color: #00bc70; color: white; padding: 3px 6px; border-radius: 6px;">Container Apps</span>, and
+                    <span style="background-color: #00bc70; color: white; padding: 3px 6px; border-radius: 6px;">App Service</span> 
+                    are all good options.</p>
+            </section>
+
+
+            <section>
+                <h3>Storage in container apps</h3>
+
+                <p>For temporary storage, you can write to file system or
+                have an <a target="_blank" href="https://learn.microsoft.com/en-us/azure/container-apps/storage-mounts?pivots=azure-cli#temporary-storage">
+                    ephemeral volume</a> in a container app.
+                </p>
+
+                <p class="fragment">For permanent storage, you can mount
+                    <a target="_blank" href="https://learn.microsoft.com/en-us/azure/container-apps/storage-mounts?pivots=azure-cli#azure-files">Azure Files</a>
+                    but performance is too limited to be useful for a database.
+                </p>
+
+                <p class="fragment">
+                Best approach for Azure: <br>
+                Use a managed database service <em>outside</em> the container.
+                </p>
+            </section>
+
+            <section>
+                <h3>Azure managed databases services</h3>
+
+                <style>
+                .fragment.background-green {
+                    background-color: transparent;
+                }
+                .fragment.background-green.visible {
+                    background-color: #04865a;
+                }
+                </style>
+
+                <p>These are just some of the options:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Azure CosmosDB
+                            <td>Distributed database with multiple APIs, including MongoDB and Cassandra.
+                        </tr>
+                        <tr>
+                            <td>Azure Cosmos DB for PostgreSQL</td>
+                            <td>Distributed database using PostgreSQL and the Citus extension. Can scale vertically and horizontally.
+                            </td>
+                          </tr>
+                        <tr class="fragment custom background-green">
+                            <td>Azure Database for PostgreSQL – Flexible Server</td>
+                            <td>Fully managed service with vertical scaling.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            
+            <section>
+                <h3>Hosting on Azure Container Apps</h3>
+
+                <p>A <strong>Container Apps Environment</strong>
+                    manages a <strong>Container App</strong>
+                    which pulls its image from an <strong>Azure Container Registry</strong>.</p>
+                <p>The <strong>Container App</strong> connects with the <strong>PostgreSQL server</strong>
+                    over the internal Azure network.</p>
+
+                <img src="flaskdb_container.png" alt="Flask container architecture diagram: Azure Container Apps Environment, Azure Container App, Azure Container Registry, Container, and PostgreSQL Server">
+                </p>
+            </section>
+            
+            <section>
+                <h3>Deploying to Azure Container Apps</h3>
+
+                <p>Using the <a target="_blank" href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview?WT.mc_id=python-81211-pamelafox">Azure Dev CLI</a>:</p>
+
+                <img src="screenshot_azd_up.png" alt="Screenshot of azd up command deploying to Azure Container Apps" style="border: 1px solid #ccc">
+
+            </section>
+
+            <section>
+                <h3>Exercise: Deploy a container app</h3>
+
+                <p>Starting from this repo (or your fork):<br>
+                    <a target="_blank" href="https://github.com/pamelafox/flask-surveys-container-app">
+                     github.com/pamelafox/flask-surveys-container-app
+                    </a>
+                 </p>
+
+                <ol>
+                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/en-in/free/?WT.mc_id=python-81211-pamelafox">free Azure account</a> and create a subscription.
+                    <li>Either open the project in Codespaces 
+                        or follow <a target="_blank" href="https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd?WT.mc_id=python-81211-pamelafox">these installation steps for the Azure Developer CLI.</a>
+                    <li>Follow the <a target="_blank" href="https://github.com/pamelafox/flask-surveys-container-app#deployment">Deployment steps</a> in the README.
+                    <li>If it deploys successfully, share the endpoint URL with your classmates.
+                        If not, let us know about any bugs. 🪲
+                    <li>Once you've verified the app is working, run <code>azd down</code> to un-deploy the app.
+                </ol>
+
+                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+            </section>
+
+
+
+            <section>
+                <h3>More resources</h3>
+
+                <img src="../media/BIT_COWORKING.png" alt="Raccoons with laptops" width="35%" style="float:right;">
+
+                <ul style="float:left; width: 60%; display: grid; gap: 18px;">
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/training/paths/administer-containers-in-azure/">Administer containers in Azure</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/developer/python/quickstarts-app-hosting">Hosting Python apps on Azure</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/developer/python/containers-in-azure-overview-python">Python Container Apps in Azure</a>
+                    <li><a target="_blank" href="https://code.visualstudio.com/docs/python/python-tutorial">Getting Started with Python in VS Code</a>
+                    <li><a target="_blank" href="https://techcommunity.microsoft.com/t5/educator-developer-blog/how-to-optimize-your-codespaces-pro-tips-for-managing-quotas/ba-p/3712032">How to optimize your Codespaces</a>
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>Any questions?</h2>
+                <img src="../media/BIT_STUDENTS.svg" alt="A bunch of raccoon students with computers" width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        const srcUrlPrefix = "https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/";
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            plugins: [ RevealHighlight, RevealMenu ],
+            pdfSeparateFragments: true
+        });
+
+        window.highlightJsBadge();
+
+    </script>
+    </body>
+</html>
