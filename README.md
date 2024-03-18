@@ -15,13 +15,13 @@ so each workshop takes about 2.5-3 hours to teach.
 
 The workshop series is designed to be taught in the following order:
 
-| Title   | Slides | Topics |
-| ------- | ------ | ------ |
-| Flask, Routing, Templates | [Slides](/flask-web-apps-workshop/) | Introduction to HTTP, web apps, setting up a Flask app, routing, and templates |
-| Databases and ORMs | [Slides](/db-web-apps-workshop/) | Introduction to databases, SQLAlchemy, and Django |
-| HTTP APIs| [Slides](/http-apis-workshop/) | Introduction to HTTP APIs and FastAPI |
-| Containerization | [Slides](/containers-workshop/) | Introduction to Docker and containerization for Python web apps |
-| Testing Web Apps | [Slides](/testing-web-apps-workshop/) | Testing Python web apps with pytest and Playwright |
+| Title   | Slides | Slide files | Topics |
+| ------- | ------ | ----------- | ------ |
+| Flask, Routing, Templates | [View online](https://pamelafox.github.io/python-web-apps/flask-web-apps-workshop/) | [See in repo](/flask-web-apps-workshop/) | Introduction to HTTP, web apps, setting up a Flask app, routing, and templates |
+| Databases and ORMs | [View online](https://pamelafox.github.io/python-web-apps/db-web-apps-workshop/) | [See in repo](/db-web-apps-workshop/) |  Introduction to databases, SQLAlchemy, and Django |
+| HTTP APIs| [View online](https://pamelafox.github.io/python-web-apps/http-apis-workshop/) | [See in repo](/http-apis-workshop/) | Introduction to HTTP APIs and FastAPI |
+| Containerization | [View online](https://pamelafox.github.io/python-web-apps/containers-workshop/) | [See in repo](/containers-workshop/) | Introduction to Docker and containerization for Python web apps |
+| Testing Web Apps | [View online](https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/) | [See in repo](/testing-web-apps-workshop/)  | Testing Python web apps with pytest and Playwright |
 
 The slides are built using [Reveal.js](https://revealjs.com/) and are written in HTML.
 The exercises are GitHub repositories with [dev containers](https://code.visualstudio.com/docs/devcontainers/containers)
@@ -30,7 +30,8 @@ for easy usage in GitHub Codespaces and VS Code.
 ## Example projects
 
 These repositories can be used as starting points for student projects (and some of them are already used in the exercises).
-Many of these contain instructions for easy deployment to Azure, but they can also be run locally or deployed to other cloud providers.
+All repositories contain instructions for running the app locally, and many of them contain instructions for deploying to Azure.
+Other cloud providers can be used as well, but the steps would be different.
 
 ### Flask/Quart
 
