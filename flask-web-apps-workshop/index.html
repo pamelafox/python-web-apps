@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>Web Apps</title>
+		<title>Python Web Apps</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
@@ -32,58 +32,24 @@
             </section>
 
             <section>
-                <h3>Welcome!</h3>
-
-                <p>Classroom "rules":</p>
-                <ul>
-                    <li>I am here for you!</li>
-                    <li>Every question is important</li>
-                    <li>Help each other</li>
-                </ul>
-            </section>
-
-            <section>
-                <h3>Introductions</h3>
-                <p>Tell us about yourself:</p>
-                <ul>
-                    <li>Name
-                    <li>Pronouns
-                    <li>Location
-                    <li>Programming/Web experience 
-                    <li>What interests you about Python Web Apps?
-                    <li>What's one non-digital activity you've enjoyed recently?
-                </ul>
-            </section>
-            
-            <section>
                 <h3>Today's topics</h3>
 
                 <img src="../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
-                <ul style="margin-top:20px; font-size:44px; line-height: 2em;">
+                <ul style="margin-top:20px; font-size:44px; line-height: 1.2em; width: 600px;">
                     <li>How the web works
-                    <li>Python for web apps: Flask
+                    <li>Web framework: Flask
+                        <ul class="smaller">
+                            <li>👩🏾‍💻 Exercise #1: Flask app
+                            <li>👩🏼‍💻 Exercise #2: Template inheritance
+                        </ul>
+                    <li>Web framework: Quart
                     <li>Hosting web apps
+                        <ul class="smaller">
+                            <li>👩🏻‍💻 Exercise #3: Deploy an app
+                        </ul>
                 </ul>
             </section>
 
-            <section>
-                <h3>Prerequisites</h3>
-
-                <p>Online development: <a target="_blank" href="https://github.com/signup">Github account</a></p>
-
-                <p>Local development:</p>
-                <ul>
-                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
-                    <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
-                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
-                </ul>
-
-                <p>Local development (option 2):</p>
-                <ul>
-                    <li>Code editor</li>
-                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
-                </ul>
-            </section>
 
             <section class="heading-only">
                 <h2>How the web works</h2>
@@ -193,6 +159,40 @@
                 </ul>
             </section>
 
+
+            <section>
+                <h3>Choosing a tech stack</h3>
+
+		<img height="300" src="https://pamelafox.github.io/my-py-talks/flask-web-apps-workshop/client_server_HTTP.png">
+		<div style="display:grid; grid-template-columns: 1fr 1fr">
+		<div>
+                <p>For the frontend:</p>
+
+                <ul style="line-height:1em">
+                    <li>HTML, CSS</li>
+                    <li>JavaScript or TypeScript</li>
+                    <li>Frameworks: React, Vue, Svelte, Lit, Web Components, HTMX</li>
+                </ul>
+		</div>
+
+		<div>
+                <p>For the backend:</p>
+
+                <ul style="line-height:1em; column-count: 2">
+                    <li>Python</li>
+                    <li>Node.js</li>
+                    <li>Java</li>
+                    <li>C#</li>
+                    <li>Go</li>
+		    <li>PHP</li>
+                    <li>Ruby</li>
+                    <li>Rust</li>
+                </ul>
+		</div>
+		</div>
+
+            </section>
+
             <section class="heading-only">
                 <h2>Server-side Python</h2>
 
@@ -200,7 +200,7 @@
 
             </section>
 
-            <section>
+            <section data-visibility="hidden">
                 <h3>Simple HTTP server</h3>
 
                 <p>The <a target="_blank" href="https://docs.python.org/3/library/http.server.html">http module</a>
@@ -212,7 +212,7 @@
                 <p>It's handy for learning and local development, however...</p>
             </section>
 
-            <section>
+            <section data-visibility="hidden">
                 <h3>Example: Simple file server</h3>
 
                 <p>A file server serves up files and folders according to their path in the file system.
@@ -246,6 +246,30 @@
             </section>
 
             <section>
+                <h3>What is a web framework?</h3>
+
+            </section>
+
+
+            <section>
+                <h3>Python web frameworks</h3>
+
+                <figure style="float:right; width: 40%; border-left: 1px solid grey; padding-left: 12px;">
+                    <img src="graph_frameworks.png" alt="Graph of Python web framework popularity" style="width: 100%;">
+                    <figcaption style="font-size:0.5em">Source: <a target="_blank" href="https://www.jetbrains.com/lp/devecosystem-2023/python/">JetBrains Developers Survey 2023</a></figcaption>
+                </figure>
+                
+                <p>Python has a few modern web frameworks that are popular:</p>
+
+
+                <ul style="width: 55%">
+                    <li><a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/">Flask</a> / <a target="_blank" href="https://quart.palletsprojects.com/en/latest/">Quart</a>: Lightweight, flexible</li>
+                    <li><a target="_blank" href="https://fastapi.tiangolo.com/">FastAPI</a>: Lightweight, popular for API-first development</li>
+                    <li><a target="_blank" href="https://www.djangoproject.com/">Django</a>: Opinionated, includes database functionality</li>
+                </ul>
+            </section>
+
+            <section>
                 <h3>Flask framework</h3>
 
                 <p><a target="_blank" href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a>, an external package,
@@ -262,12 +286,10 @@
             <section>
                 <h3>Example: Simple Flask website</h3>
 
-                <p>👀 Demo: <a  target="_blank" href="https://tinyurl.com/simple-flask-website">tinyurl.com/simple-flask-website</a></p>
-
-                <p class="padded">👩🏼‍💻 Repo: <a  target="_blank" class="smaller" href="https://github.com/pamelafox/simple-flask-server-example/">github.com/pamelafox/simple-flask-server-example/</a></p>
+                <p class="padded">👩🏼‍💻 Repo: <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a></p>
                 
-                <p>Most of the server code is in <a target="_blank" href="https://github.com/pamelafox/simple-flask-server-example/blob/main/app.py">app.py</a>.
-                    Uses Flask to generate responses for each route
+                <p>Most server code is in <a target="_blank" href="https://github.com/Azure-Samples/simple-flask-server-appservice/blob/main/app.py">app.py</a>.
+                    Uses Flask to generate responses for each route.
                 </p>
                 
                 <p class="padded">Run the server:</p>
@@ -362,11 +384,31 @@
                 </code></pre>
             </section>
 
+
+            <section>
+                <h3>Exercise prerequisites</h3>
+
+                <p>Online development: <a target="_blank" href="https://github.com/signup">Github account</a></p>
+
+                <p>Local development:</p>
+                <ul>
+                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                    <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                </ul>
+
+                <p>Local development (option 2):</p>
+                <ul>
+                    <li>Code editor</li>
+                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                </ul>
+            </section>
+
             <section>
                 <h3>Exercise: Flask App</h3>
 
                 <p>Using this repo:<br>
-                    <a  target="_blank" class="smaller" href="https://github.com/pamelafox/simple-flask-server-example/">github.com/pamelafox/simple-flask-server-example/</a>
+                    <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
                 </p>
                 <ol>
                     <li>Follow the readme steps to get the app running.
@@ -410,7 +452,7 @@
                 <h3>Exercise: Template Inheritance</h3>
 
                 <p>Using this repo:<br>
-                    <a  target="_blank" class="smaller" href="https://github.com/pamelafox/simple-flask-server-example/">github.com/pamelafox/simple-flask-server-example/</a>
+                    <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
                     <br>
                     or your own app from the previous exercise.
                 </p>
