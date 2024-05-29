@@ -80,7 +80,7 @@ These recordings cover topics related to the workshop materials, so they may be 
 
 ## Upcoming live workshop series
 
-We are planning to run an online workshop series using these materials in June 2024. Please check back here for details.
+We are planning to run an online workshop series using these materials in June 2024. [Sign up here!](https://developer.microsoft.com/reactor/series/S-1310/?wt.mc_id=twitter_S-1310_webpage_reactor)
 
 ## Feedback
 
