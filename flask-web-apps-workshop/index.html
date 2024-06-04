@@ -64,7 +64,30 @@
             </section>
 
             <section>
-                <h3 style="font-size:48px;">HTTP</h3>
+                <h3>What is a request?</h3>
+
+                Clients send requests to a route on the server...
+                
+                <p><strong>To GET:</strong></p>
+                <ul>
+                    <li>HTML, CSS, and JavaScript that make up a web page</li>
+                    <li>Files to download</li>
+                    <li>Raw data or text</li>
+                </ul>
+
+                </br>
+
+                <p><strong>To POST:</strong></p>
+                <ul>
+                    <li>Their submission to a form</li>
+                    <li>Files to upload</li>
+                    <li>Raw data or text</li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h3 style="font-size:48px;">HTTP Requests</h3>
 
                 <p>A client sends an HTTP request:</p>
 
@@ -93,7 +116,7 @@
 
             <!-- TODO: HTTP status codes-->
             <section>
-                <h3>HTTP Status Codes</h3>
+                <h3>Responses - HTTP Status Codes</h3>
 
                 <p>The most commonly used codes:</p>
                 <table>
@@ -127,19 +150,122 @@
                     </p>
             </section>
             <section>
-                <h3>Webpages</h3>
+                <h3>What's in Webpages?</h3>
 
-                <p>Webpages are made up of three languages:</p>
+                <p>Webpages bring together three kinds of files/languages:</p>
 
                 <ul>
-                    <li><strong>HTML</strong>: Contains the content and uses tags to 
-                        break it into semantic chunks (headings, paragraphs, etc)</li>
-                    <li><strong>CSS</strong>: Contains style rules that apply
-                        properties to elements on a page.</li>
-                    <li><strong>JavaScript</strong>: Contains code that dynamically
-                        accesses and updates the page content to make it more interactive.</li>
+                    <li><strong>HTML</strong>: The content structure of the page</li>
+                    <li><strong>CSS</strong>: Defines sytle rules that relate to the HTML</li>
+                    <li><strong>JavaScript</strong>: Code that makes the content interactive</li>
                 </ul>
             </section>
+
+            <section>
+                <h3>HTML Examples</h3>
+
+                <p>HTML contains the content and structure of your webpage in tags like these:</p>
+
+                <strong>Headings</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;h1&gt;Web Development - Chapter 1&lt;/h1&gt;
+                </code></pre>
+
+                <strong>Paragraphs</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;p&gt;Today I am learning about webp development.&lt;/p&gt;
+                </code></pre>
+
+                <strong>Lists</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;ul&gt;
+                        &lt;li&gt;Topic 1 - What is the Web&lt;/li&gt;
+                        &lt;li&gt;Topic 2 - Web Dev Frameworks&lt;/li&gt;
+                        &lt;li&gt;Topic 3 -  Deploying to Azure&lt;/li&gt;
+                    &lt;/ul&gt;
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>More HTML</h3>
+
+                <p>HTML captures content, puts it in semantic chunks, and creates hierarchy.</p>
+                    
+                <p>There are a lot of tags to use to:</p>
+                <ul>
+                    <li>Add content like headings, paragrphs, images, links, lists, and tables</li>
+                    <li>Group parts together with divs, sections, and articles</li>
+                    <li>Add metadata, eg: links to fonts and styles</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>CSS Example</h3>
+
+                <p><strong>CSS uses rules to set target elements to style.</strong></p>
+
+                Targets can be set with:
+                <ul>
+                    <li>The type of element. <em>i.e. All H2 elements</em></li>
+                    <li>The structure of elements. <em>i.e. All links inside a heading</em></li>
+                    <li>Setting specific groups or items with classes and IDs</li>
+                </ul>
+
+                <p><strong>We could style headings and paragrphas like this:</strong></p>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="CSS">
+                    h1 {
+                        font-family: "Roboto", sans-serif;
+                        color: rgb(240, 50, 132);
+                      }
+
+                    p {
+                        background-color: yellow;
+                      }
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>More CSS</h3>
+
+                <p>CSS can do a lot of things!</p>
+
+                <ul>
+                    <li>Style colours, fonts, sizes</li>
+                    <li>Set margins, padding, and sizing</li>
+                    <li>Control layout, eg: how an element follows on from the last</li>
+                    <li>Basic dynaics, eg: hover</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>What's in Webpages?</h3>
+
+                <p>Webpages bring together three kinds of files/languages:</p>
+
+                <ul>
+                    <li><strong>HTML</strong>: The content structure of the page</li>
+                    <li><strong>CSS</strong>: Defines sytle rules that relate to the HTML</li>
+                    <li><strong>JavaScript</strong>: Code that makes the content interactive</li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h3>JavaScript</h3>
+
+                <p>JavaScript is Code that dynamically
+                    accesses and updates the page content to make it more interactive.</p>
+
+                <p>It can do these things and many more:</p>
+
+                <ul>
+                    <li>Run scripts on button clicks or typing</li>
+                    <li>Make requests behind the scenes</li>
+                    <li>Process incomming data</li>
+                    <li>Manage cookies</li>
+                </ul>
+            </section>
+
 
             <section>
                 <h3>What does a server do?</h3>
@@ -390,17 +516,17 @@
 
                 <p>Online development: <a target="_blank" href="https://github.com/signup">Github account</a></p>
 
+                <p>Local development (option 2):</p>
+                <ul>
+                    <li>Code editor</li>
+                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                </ul>
+
                 <p>Local development:</p>
                 <ul>
                     <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
                     <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
                     <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
-                </ul>
-
-                <p>Local development (option 2):</p>
-                <ul>
-                    <li>Code editor</li>
-                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
                 </ul>
             </section>
 
@@ -411,13 +537,21 @@
                     <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
                 </p>
                 <ol>
+                    <li>Get the app running!
+                    <li>Add a new route for "/about" that uses a new "about.html" template.
+                    <li>Check the new route works.
+                    <li>Add a "location" query parameter for the new route and display
+                        the value on the page.
+                </ol>
+
+                <ol style="display: none;">
                     <li>Follow the readme steps to get the app running.
                     <li>Add a new route for "/about" that uses a new "about.html" template.
                     <li>Check the new route works.
                     <li>Bonus: Accept a "location" query parameter for the new route and display
                         the value on the page.
                 </ol>
-                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+                <p style="display: none;">🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
             </section>
 
             <section>
@@ -451,7 +585,7 @@
             <section>
                 <h3>Exercise: Template Inheritance</h3>
 
-                <p>Using this repo:<br>
+                <p style="display: none;">Using this repo:<br>
                     <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
                     <br>
                     or your own app from the previous exercise.
@@ -461,7 +595,7 @@
                     <li>Refactor the other templates to extend the base template.
                     <li>Change the 404 handler to render a template that extends the base template.
                 </ol>
-                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+                <p style="display: none;">🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
             </section>
 
             <section class="heading-only">
