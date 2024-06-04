@@ -118,3 +118,7 @@ section .column {
   border-radius: 6px;
   display: inline-block;
 }
+
+a.aka, a.aka:visited, a.aka:hover, a.aka:active {
+  color: white;
+}
