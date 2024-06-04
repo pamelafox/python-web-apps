@@ -31,6 +31,62 @@
                 </aside>
             </section>
 
+
+            <section>
+                <h3>Meet Pamela</h3>
+                
+                <img src="https://pamelafox.github.io/my-py-talks/configure-vscode/photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Coursera, Khan Academy, Google</p>
+                <br>
+                <p>Find Pamela online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
+            </section>
+
+            <section>
+                <h3>Meet Renee</h3>
+
+                <img src="https://developer.microsoft.com/en-us/advocates/media/profiles/renee-noble.png" alt="Photo of Renee smiling" style="float:right; height:400px;">
+
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Executive Director of Girls Programming Network, CEO/Founder of ConnectEd Code</p>
+
+                <br>
+
+                <p>Find Renee online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Twitter
+                      <td><a target="_blank" href="https://twitter.com/noble_renee">@noble_renee</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://github.com/reneenoble/">github.com/reneenoble</a></td>
+                        </tr>   
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/renee-noble-48a37159/">linkedin.com/in/renee-noble-48a37159/</a></td>
+                    </tr>
+                </table>
+            </section>
+
             <section>
                 <h3>Today's topics</h3>
 
@@ -193,7 +249,7 @@
                     
                 <p>There are a lot of tags to use to:</p>
                 <ul>
-                    <li>Add content like headings, paragrphs, images, links, lists, and tables</li>
+                    <li>Add content like headings, paragraphs, images, links, lists, and tables</li>
                     <li>Group parts together with divs, sections, and articles</li>
                     <li>Add metadata, eg: links to fonts and styles</li>
                 </ul>
@@ -238,30 +294,18 @@
             </section>
 
             <section>
-                <h3>What's in Webpages?</h3>
-
-                <p>Webpages bring together three kinds of files/languages:</p>
-
-                <ul>
-                    <li><strong>HTML</strong>: The content structure of the page</li>
-                    <li><strong>CSS</strong>: Defines sytle rules that relate to the HTML</li>
-                    <li><strong>JavaScript</strong>: Code that makes the content interactive</li>
-                </ul>
-
-            </section>
-
-            <section>
                 <h3>JavaScript</h3>
 
-                <p>JavaScript is Code that dynamically
+                <img src="haiku.gif" alt="Screenshot of a chat request to write a haiku" style="float:right; height:280px; border: 1px solid #ccc;">
+
+                <p>JavaScript is code that dynamically
                     accesses and updates the page content to make it more interactive.</p>
 
-                <p>It can do these things and many more:</p>
+                <p style="clear:right">It can do these things and many more:</p>
 
                 <ul>
                     <li>Run scripts on button clicks or typing</li>
-                    <li>Make requests behind the scenes</li>
-                    <li>Process incomming data</li>
+                    <li>Make requests and process responses</li>
                     <li>Manage cookies</li>
                 </ul>
             </section>
@@ -270,13 +314,13 @@
             <section>
                 <h3>What does a server do?</h3>
 
+                <img src="screenshot_kaloggedin.png" alt="Screenshot of Khan Academy webpage for logged in user with their name and classes" style="float:right; height:350px; border: 1px solid #ccc;">
                 <p>The most basic server just serves up HTML and multimedia files
                     from a file system.
                 </p>
 
-                <p>Server-side code is also useful for anything that requires access
-                    to persistent data or needs an additional layer of security than
-                    allowed in the client.</p>
+                <p>Servers are also used for features that require persistent data
+                    or more security than allowed in the client:</p>
                 
                 <ul>
                     <li>User authentication
@@ -289,9 +333,9 @@
             <section>
                 <h3>Choosing a tech stack</h3>
 
-		<img height="300" src="https://pamelafox.github.io/my-py-talks/flask-web-apps-workshop/client_server_HTTP.png">
-		<div style="display:grid; grid-template-columns: 1fr 1fr">
-		<div>
+                <img height="300" src="https://pamelafox.github.io/my-py-talks/flask-web-apps-workshop/client_server_HTTP.png">
+                <div style="display:grid; grid-template-columns: 1fr 1fr">
+                <div>
                 <p>For the frontend:</p>
 
                 <ul style="line-height:1em">
@@ -608,12 +652,123 @@
                 <p style="display: none;">🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
             </section>
 
+
+            <section class="heading-only" data-visibility="hidden">
+                <h2>Flask in VS Code</h2>
+            </section>
+
+            <section data-visibility="hidden">
+                <h3>Debugging Flask</h3>
+
+                <p>Use a launch configuration to run the Flask app in debug mode.</p>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Quart & Async</h2>
+
+                <img src="../static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) in front of a computer and Python logo" width="400">
+            </section>
+
+            <section>
+                <h3>Quart</h3>
+
+                <p><a target="_blank" href="https://quart.palletsprojects.com/">Quart</a> is the asynchronous version of Flask.</p>
+
+                <pre><code data-trim data-noescape class="python">
+                @app.get("/")
+                async def index():
+                    return await render_template("index.html")
+                </code></pre>
+
+                <br>
+                <p class="padded">Quart is useful when apps have slow I/O or network calls:</p>
+
+                <pre><code data-trim data-noescape class="python">
+                @app.route('/')
+                async def chat():
+                    return await openai_client.chat.completions.create(
+                        messages=[{"role": "user", "content": "Write a haiku"}]
+                    )
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>The importance of async</h3>
+
+                <p>We need async to build modern web apps that support concurrency.</p>
+
+                <p>A web app without async:</p>
+
+                <img src="diagram_sync.png" alt="Diagram of a synchronous web app" style="width: 40%;">
+
+                <p>A web app with async can handle new requests while waiting for an I/O op:</p>
+
+                <img src="diagram_async.png" alt="Diagram of an asynchronous web app" style="width: 40%;">
+
+                <p>Any app with slow network requests, DB queries, or file reads can benefit.</p>
+
+                <p>See also: <a target="_blank" href="https://fastapi.tiangolo.com/async/">FastAPI tutorial on async</a></p>
+            </section>
+
+            <section>
+                <h3>Porting Flask to Quart</h3>
+
+                <p>Install Quart:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                pip install quart
+                </code></pre>
+
+                <p>Change the app construction:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                from quart import Quart
+
+                app = Quart(__name__)
+                </code></pre>
+
+                <p>Change routes to async:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                @app.route('/')
+                async def index():
+                </code></pre>
+
+                <p>Change API/DB calls to async.</p>
+
+            </section>
+
+            <section>
+                <h3>Quart examples</h3>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Repo
+                        <th>Description
+                    <tbody>
+                    <tr>
+                        <td><a target="_blank" href="https://github.com/Azure-Samples/azure-search-openai-demo/">
+                            azure-search-openai-demo</a>
+                        <td>RAG chat app using OpenAI
+                    <tr>
+                        <td><a target="_blank" href="https://github.com/Azure-Samples/openai-chat-app-quickstart">
+                            openai-chat-app-quickstart</a>
+                        <td>Simple chat app using OpenAI
+                    <tr>
+                        <td><a target="_blank" href="https://github.com/Azure-Samples/openai-chat-app-entra-auth-local">
+                            openai-chat-app-entra-auth-local</a>
+                        <td>Simple chat app using OpenAI and user auth with Quart-Session
+                        </table>
+                        
+            </section>
+
             <section class="heading-only">
                 <h2>Hosting web apps</h2>
                 <img src="../static/images/BIT_AZURE.png" alt="Bit (the raccoon) on a cloud with the Azure logo" width="400">
 
             </section>
-
 
             <section>
                 <h3>Hosting options</h3>
@@ -767,6 +922,8 @@
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
     <script>
         Reveal.initialize({
+            width: 1280,
+            height: 720,
             hash: true,
             center: false,
             slideNumber: true,
