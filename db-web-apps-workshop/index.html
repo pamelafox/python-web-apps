@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>Web Apps with Databases</title>
+		<title>Databases & ORMS</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
@@ -17,8 +17,8 @@
         <div class="slides">
 
             <section class="heading-only" style="padding-top:5%">
-                <h1 style="font-size:120px">Python Web Apps<br>
-                    with Databases</h1>
+                <h1 style="font-size:120px">Python Web Apps:<br>
+                    Databases & ORMs</h1>
                 <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%;">
                     Tips for navigating the slides:
                     <ul>
@@ -32,40 +32,44 @@
                 </aside>
             </section>
 
-            <section>
-                <h3>Welcome!</h3>
-
-                <p>Classroom "rules":</p>
-                <ul>
-                    <li>I am here for you!</li>
-                    <li>Every question is important</li>
-                    <li>Help each other</li>
-                </ul>
-            </section>
 
             <section>
-                <h3>Introductions</h3>
-                <p>Tell us about yourself:</p>
-                <ul>
-                    <li>Name
-                    <li>Pronouns
-                    <li>Location
-                    <li>Programming/Web experience 
-                    <li>What interests you about Python Web Apps?
-                    <li>Favorite kind of pet/animal?
-                </ul>
+                <h3>Meet Pamela</h3>
+                
+                <img src="https://pamelafox.github.io/my-py-talks/configure-vscode/photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Coursera, Khan Academy, Google</p>
+                <br>
+                <p>Find Pamela online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
             </section>
-            
+
+
             <section>
                 <h3>Today's topics</h3>
 
                 <img src="../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="200" style="float:right;">
                 <ul style="margin-top:20px; font-size:44px; line-height: 1.5em; float:left; width:700px;">
-                    <li>Python web apps with databases
-                        <ul>
-                            <li>Flask
-                            <li>Django
-                        </ul>
+                    <li>Databases
+                    <li>Using databases from Python
+                    <li>Using Flask with databases
                     <li>Deploying web apps and databases
                 </ul>
             </section>
@@ -113,24 +117,77 @@
             </section>
             
             <section class="heading-only">
-                <h2>Adding databases</h2>
+                <h2>Databases & ORMs</h2>
+
+                <img src="../static/images/DATA_BIT.svg" alt="Bit (the raccoon) with 0s and 1s behind" width="400">
             </section>
 
             <section>
-                <h3>Webapps with Databases</h3>
+                <h3>Why databases?</h3>
 
                 <p>Web apps store data in databases that needs to be shared across multiple users/computers. </p>
                 
                 <img src="app_with_sql.png" alt="Diagram using SQL to update and query a database storing data for a web application"/>
             </section>
 
-            <section>
-                <h3>Intro to databases</h3>
 
-                <p>A database contains <strong>tables</strong>. <br>
+            <section>
+                <h3>Database types</h3>
+
+                <figure style="float:right;" style="width:30%;">
+                    <img src="graph_databases.png" alt="Graph of  database popularity">
+                    <figcaption style="font-size:0.5em;">Source: <a target="_blank" href="https://www.jetbrains.com/lp/devecosystem-2023/databases/">JetBrains Developers Survey 2023</a></figcaption>
+                </figure>
+
+                <div style="float:left; width: 60%;">
+                <p>Two main types of databases:</p>
+                <ul>
+                    <li><strong>Non-relational databases</strong>:
+                        <ul>
+                            <li>MongoDB
+                            <li>Redis
+                            <li>...
+                        </ul>
+                    </li>
+                    <li><strong>Relational databases</strong>: 
+                        <ul>
+                            <li>PostgreSQL
+                            <li>MySQL
+                            <li>SQLite
+                            <li>MS SQL server
+                            <li>...
+                    </li>
+                </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Non-relational databases</h3>
+
+                <p>A <strong>non-relational database</strong> stores data in a very flexible way,
+                often as JSON documents or as key-value stores.</p>
+
+                <p>Example document in a <strong>MongoDB</strong> collection:</p>
+                <pre><code data-trim data-noescape class="json">
+                {
+                    "username": "Pamela Fox",
+                    "email": "pamelafox@microsoft.com"
+                }
+                </code></pre>
+
+                <p class="padded">Example key-value pair in a <strong>Redis</strong> store:</p>
+                <pre><code data-trim data-noescape class="shell">
+                usersession1234: { "username": "Pamela Fox", "email": "pamelafox@microsoft.com" }
+                </code></pre>
+            </section>
+            
+            <section>
+                <h3>Relational databases</h3>
+
+                <p>A <strong>relational database</strong> contains <strong>tables</strong>. <br>
                     Each table has <strong>columns</strong> and <strong>rows</strong>.</p>
                 
-                <p>Example table called <code>organizers</code>:</p>
+                <p>Example table called <code>speakers</code>:</p>
                 <table>
                     <thead>
                         <tr>
@@ -142,31 +199,105 @@
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Katie Brydon</td>
-                            <td>GDI Community Director</td>
+                            <td>Pamela Fox</td>
+                            <td>Python Cloud Advocate</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Katie Franco</td>
-                            <td>GDI Executive Director</td>
+                            <td>Renee Noble</td>
+                            <td>Python Cloud Advocate</td> 
                         </tr>
                         <tr>
                             <td>3</td>
-                            <td>Jeseekia Vaughn</td>
-                            <td>Subject Matter Expert</td>
+                            <td>Victor Vazquez</td>
+                            <td>Software Developer</td>
                         </tr>
                         <tr>
                             <td>4</td>
-                            <td>Alex Vaughn</td>
-                            <td>Coordinator</td>
+                            <td>Dawn Wages</td>
+                            <td>Python Community Advocate</td>
                         </tr>
                 </table>
             </section>
 
             <section>
-                <h3>Accessing DBs from Web Apps: SQL</h3>
+                <h3>SQL</h3>
 
-                <p>Web apps need to be able to access and modify data in databases.</p>
+                <p><strong>SQL (Structured Query Language)</strong> is a language for querying and modifying relational databases.</p>
+
+                <p>SQL commands:</p>
+                <ul>
+                    <li><code>SELECT</code> - get data
+                    <li><code>INSERT</code> - add data
+                    <li><code>UPDATE</code> - modify data
+                    <li><code>DELETE</code> - remove data
+                </ul>
+
+                <p>Learn SQL for free with my course on Khan Academy:
+                    <a target="_blank" href="https://www.khanacademy.org/computing/computer-programming/sql">khanacademy.org/computing/computer-programming/sql</a>
+                </p>
+            </section>
+
+            <section>
+                <h3>PostgreSQL</h3>
+
+                <p><a target="_blank" href="https://www.postgresql.org/">PostgreSQL</a> is a popular open-source relational database that supports JSON, XML, and other data types.</p>
+
+                <pre><code data-trim data-noescape class="sql">
+                CREATE TABLE cities (
+                    name            varchar(80),
+                    location        point
+                );
+                INSERT INTO cities VALUES ('San Francisco', '(-194.0, 53.0)');
+                SELECT name FROM cities WHERE location <@ circle '((0,0), 300)';
+                </code></pre>
+
+                <p>There are many popular extensions for PostgreSQL like PostGIS for geospatial data
+                    and pgvector for vector similarity search.</p>
+
+                <p>Python libraries for PostgreSQL:
+                    <a target="_blank" href="https://www.psycopg.org/">psycopg (driver)</a>,
+                    <a target="_blank" href="https://www.sqlalchemy.org/">SQLAlchemy (ORM)</a>
+                </p>
+                <p>Playgrounds: <a target="_blank" href="https://github.com/pamelafox/postgresql-playground">PostgreSQL playground</a>,
+                    <a target="_blank" href="https://github.com/pamelafox/pgvector-playground">pgvector playground</a></p>
+            </section>
+
+            <section>
+                <h3>Exercise: Play with PostgreSQL</h3>
+
+                <p>Using this repo:<br>
+                    <a  target="_blank" class="smaller" href=https://github.com/pamelafox/postgresql-playground">github.com/pamelafox/postgresql-playground</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/postgres-playground">aka.ms/postgres-playground</a>
+                </p>
+
+                <ol>
+                    <li>Open in GitHub Codespaces or VS Code with Dev Containers extension
+                    <li>Copy <code>.env.devcontainer</code> into a <code>.env</code> file
+                    <li>Open the SQLTools extension from the sidebar and select 'Local database'
+                    <li>Enter these SQL statements and select 'Run on active connection':
+
+                    <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="sql">
+                        CREATE TABLE restaurants (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL)
+                        INSERT INTO restaurants (name) VALUES ('Taco Bell')
+                        SELECT * FROM restaurants
+                    </code></pre>
+
+                    <li>Explore the results in the extension
+                </ol>
+            
+            </section>
+                        
+
+            <section class="heading-only">
+                <h2>Accessing databases from Python</h2>
+
+                <img src="../static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) coding" width="400">
+            </section>
+            
+            <section>
+                <h3>Accessing databases from Python: SQL</h3>
 
                 <p>One option is to use SQL directly in the web app code.</p>
 
@@ -207,9 +338,9 @@
             </section>
 
             <section>
-                <h3>Accessing DBs from Web Apps: ORM</h3>
+                <h3>Accessing databases from Python: ORM</h3>
 
-                <p>A better approach is to use an <strong>ORM (Object-Relational Mapper)</strong> to interact with the database.</p>
+                <p>A safer approach is to use an <strong>ORM (Object-Relational Mapper)</strong> to interact with the database.</p>
 
                 <p>An ORM represents table rows as Python objects, and provides methods for querying and modifying data.</p>
 
@@ -247,8 +378,34 @@
                 </code></pre>
 
                 <p class="padded">Play with queries in:<br>
-                <a target="_blank" href="https://github.com/pamelafox/postgresql-playground">PostgreSQL SQLAlchemy Playground</a>
+                <a target="_blank" href="https://github.com/pamelafox/postgresql-playground">PostgreSQL Playground</a>
+                <br>
+                <a target="_blank" class="smaller aka" href="https://aka.ms/postgres-playground">aka.ms/postgres-playground</a>
                 </p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Flask with databases</h2>
+
+                <img src="../static/images/BIT_DEV.svg" alt="Bit (the raccoon) with a laptop" width="400">
+            </section>
+
+            <section>
+                <h3>Using Flask with SQLAlchemy</h3>
+
+                <p>Flask is a lightweight web framework for Python,
+                    which does <strong>not</strong> come with any built-in database functionality.
+                </p>
+
+                <p>A common way to use Flask with SQLAlchemy:</p>
+
+                <ul>
+                    <li>Install Flask-SQLAlchemy extension
+                    <li>Install Flask-Migrate extension
+                    <li>Define models in Python classes
+                    <li>Run database migrations
+                    <li>Use SQLAlchemy queries in routes
+                </ul>
             </section>
 
             <section>
@@ -308,9 +465,7 @@
                         <a target="_blank" href="https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#order-by">order_by</a>.
                     <li>Reload and confirm the destinations appear sorted.
                 </ol>
-                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
             </section>
-
 
             <section>
                 <h3>More Flask + DB examples</h3>
@@ -325,93 +480,9 @@
                 <p>Also check out the <a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/tutorial/">Flask tutorial</a>.</p>
             </section>
 
-            <section>
-                <h3>Django framework</h3>
-
-                <p><a target="_blank" href="https://www.djangoproject.com/">Django</a>, an external library, is a fairly "opinionated"
-                    framework for server-side code. Includes an ORM for database interaction.</p>
-                
-                <p>Apps written in Django:</p>
-                <ul>
-                    <li>Coursera (originally, now Scala+Play)
-                    <li>Instagram
-                    <li>Pinterest (originally, now Flask)
-                    <li>Eventbrite
-                </ul>
-            </section>
-
-            <section>
-                <h3>Example: Django + PostgreSQL</h3>
-
-                <p class="smaller"><a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a></p>
-
-                <p class="padded">Important server files:<br>
-                    <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/models.py">models.py</a>
-                    , <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/urls.py">urls.py</a>
-                    , <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/views.py">views.py</a>
-                    , <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/admin.py">admin.py</a>
-                </p>
-
-                <p class="padded">Run DB migrations and server:</p>
-                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="shell">
-                python3 src/manage.py migrate
-                python3 src/manage.py loaddata src/seed_data.json
-
-                python3 src/manage.py collectstatic
-                python3 -m gunicorn project.wsgi:application --reload --pythonpath src
-                </code></pre>
-
-            </section>
-
-            <section>
-                <h3>Django admin</h3>
-
-                <p>Django includes a built-in admin interface for managing data.</p>
-
-                <ul>
-                    <li>Create a superuser:
-
-                    <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
-                    python3 src/manage.py createsuperuser
-                    </code></pre>
-
-                    <li>Restart the server and navigate to "/admin"
-                    <li>Login with the superuser credentials.
-                </ul>
-            </section>
-
-            <section>
-                <h3>Exercise: Django app</h3>
-
-                <p>Using this repo:<br>
-                    <p class="smaller"><a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a></p>
-                
-                    <ol>
-                    <li>Follow the readme steps to get the app running.
-                    <li>Inspect the local DB tables using SQLTools extension.
-                    <li>Follow the readme steps to get into the Django admin.
-                    <li>Add a new destination using the Django admin.
-                    <li>Change the destinations route to sort destinations by name,
-                        using <a target="_blank" href="https://docs.djangoproject.com/en/4.2/ref/models/querysets/#order-by">order_by</a>.
-                </ol>
-                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
-            </section>
-
-
-            <section>
-                <h3>More Django examples</h3>
-
-
-                <ul>
-                    <li><a  target="_blank" href="https://github.com/pamelafox/django-quiz-app/">github.com/pamelafox/django-quiz-app/</a>
-                    <li><a target="_blank" href="https://github.com/Azure-samples/msdocs-django-postgresql-sample-app">github.com/Azure-samples/msdocs-django-postgresql-sample-app</a>
-                </ul>
-
-                <p>Also check out the <a target="_blank" href="https://docs.djangoproject.com/en/4.2/intro/tutorial01/">Django tutorial</a>.</p>
-            </section>
 
             <section class="heading-only">
-                <h2>Hosting web apps</h2>
+                <h2>Hosting web apps with databases</h2>
                 <img src="../static/images/BIT_AZURE.png" alt="Bit (the raccoon) on a cloud with the Azure logo" width="400">
 
             </section>
@@ -419,7 +490,7 @@
             <section>
                 <h3>Hosting options</h3>
 
-                <p>When your website is <strong>hosted</strong> on a server,
+                <p>When your website and database are <strong>hosted</strong> on a server,
                     it means other users on the Internet can access it.
                 </p>
 
@@ -434,7 +505,10 @@
                 <ul>
                     <li>How much control do you want?
                     <li>How much do you enjoy administering systems?
-                    <li>Do you need it to scale up/out?
+                    <li>Do you need your app to scale up/out?
+                    <li>How much database storage do you need?
+                    <li>How many database read/writes do you expect?
+                    <li>How much latency can you tolerate between app/DB?
                 </ul>
             </section>
 
@@ -568,6 +642,8 @@
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
     <script>
         Reveal.initialize({
+            width: 1280,
+            height: 720,
             hash: true,
             center: false,
             slideNumber: true,
