@@ -1,0 +1,947 @@
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Aplicaciones Web con Python</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500|Work+Sans:400,700">
+        <link rel="stylesheet" href="../../../static/a11y-light.min.css">
+		<link rel="stylesheet" href="../../../static/slides.css">
+	</head>
+    <body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1>Aplicaciones Web<br>Python</h1>
+                
+                <div style="text-align: left; margin-top: 100px; font-size: 70%; display:none;">
+                    Consejos para navegar por las diapositivas:<br>
+                    <ul>
+                        <li>Press O or Escape for overview mode.</li>
+                        <li>Visit <a href="?print-pdf" target="_blank">this link</a> for a nice printable version</li>
+                        <li>Press the copy icon on the upper right of code blocks to copy the code</li>
+                    </ul>
+                </div>
+
+                <aside class="speaker-notes">
+                </aside>
+            </section>
+
+
+            <section>
+                <h3>Meet Pamela</h3>
+                
+                <img src="https://pamelafox.github.io/my-py-talks/configure-vscode/photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Coursera, Khan Academy, Google</p>
+                <br>
+                <p>Find Pamela online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
+            </section>
+
+            <section>
+                <h3>Meet Renee</h3>
+
+                <img src="https://developer.microsoft.com/en-us/advocates/media/profiles/renee-noble.png" alt="Photo of Renee smiling" style="float:right; height:400px;">
+
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Executive Director of Girls Programming Network, CEO/Founder of ConnectEd Code</p>
+
+                <br>
+
+                <p>Find Renee online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Twitter
+                      <td><a target="_blank" href="https://twitter.com/noble_renee">@noble_renee</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://github.com/reneenoble/">github.com/reneenoble</a></td>
+                        </tr>   
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.reneenoble.com">reneenoble.com</a></td>
+                    </tr>
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/noblerenee/">linkedin.com/in/noblerenee/</a></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section>
+                <h3>Today's topics</h3>
+
+                <img src="../../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:44px; line-height: 1.2em; width: 600px;">
+                    <li>How the web works
+                    <li>Web framework: Flask
+                        <ul class="smaller">
+                            <li>👩🏾‍💻 Exercise #1: Flask app
+                            <li>👩🏼‍💻 Exercise #2: Template inheritance
+                        </ul>
+                    <li>Web framework: Quart
+                    <li>Hosting web apps
+                        <ul class="smaller">
+                            <li>👩🏻‍💻 Exercise #3: Deploy an app
+                        </ul>
+                </ul>
+            </section>
+
+
+            <section class="heading-only">
+                <h2>How the web works</h2>
+                <img src="../../static/images/BIT_DEV.svg" alt="Bit (the raccoon) in front of monitors with browsers and analytics" width="400">
+
+            </section>
+
+            <section>
+                <h3>Clients and servers</h3>
+
+                <img src="client_server_HTTP.png" alt="Diagram of browser sending HTTP request to server and receiving HTTP response"/>
+            </section>
+
+            <section>
+                <h3>What is a request?</h3>
+
+                Clients send requests to a route on the server...
+                
+                <p><strong>To GET:</strong></p>
+                <ul>
+                    <li>HTML, CSS, and JavaScript that make up a web page</li>
+                    <li>Files to download</li>
+                    <li>Raw data or text</li>
+                </ul>
+
+                </br>
+
+                <p><strong>To POST:</strong></p>
+                <ul>
+                    <li>Their submission to a form</li>
+                    <li>Files to upload</li>
+                    <li>Raw data or text</li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h3 style="font-size:48px;">HTTP Requests</h3>
+
+                <p>A client sends an HTTP request:</p>
+
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="text">
+                GET /index.html HTTP/1.1
+                Host: www.example.com
+                </code></pre>
+
+                <p>The server sends back an HTTP response:</p>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                HTTP/1.1 200 OK
+                Content-Type: text/html; charset=UTF-8
+                Content-Length: 208
+                &lt;!DOCTYPE html&gt;
+                    &lt;html&gt;
+                    &lt;head&gt;
+                        &lt;title&gt;Example Domain&lt;/title&gt;
+                    &lt;/head&gt;
+                    &lt;body&gt;
+                    &lt;h1&gt;Example Domain&lt;/h1&gt;
+                    &lt;p&gt;This domain is to be used for illustrative examples in documents.&lt;/p&gt;
+                    &lt;/body&gt;
+                &lt;/html&gt;
+                </code></pre>
+            </section>
+
+            <!-- TODO: HTTP status codes-->
+            <section>
+                <h3>Responses - HTTP Status Codes</h3>
+
+                <p>The most commonly used codes:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>200</td>
+                            <td>OK</td>
+                        </tr>
+                        <tr>
+                            <td>301</td>
+                            <td>Moved Permanently</td>
+                        <tr>
+                            <td>404</td>
+                            <td>Not Found</td>
+                        </tr>
+                        <tr>
+                            <td>500</td>
+                            <td>Server Error</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <p class="smaller">See more codes at <a target="_blank" href="https://httpcats.com/">HTTPcats.com</a>
+                    or <a target="_blank" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Wikipedia: List of HTTP status codes</a>.
+                    </p>
+            </section>
+            <section>
+                <h3>What's in Webpages?</h3>
+
+                <p>Webpages bring together three kinds of files/languages:</p>
+
+                <ul>
+                    <li><strong>HTML</strong>: The content structure of the page</li>
+                    <li><strong>CSS</strong>: Defines style rules that relate to the HTML</li>
+                    <li><strong>JavaScript</strong>: Code that makes the content interactive</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>HTML Examples</h3>
+
+                <p>HTML contains the content and structure of your webpage in tags like these:</p>
+
+                <strong>Headings</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;h1&gt;Web Development - Chapter 1&lt;/h1&gt;
+                </code></pre>
+
+                <strong>Paragraphs</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;p&gt;Today I am learning about webp development.&lt;/p&gt;
+                </code></pre>
+
+                <strong>Lists</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;ul&gt;
+                        &lt;li&gt;Topic 1 - What is the Web&lt;/li&gt;
+                        &lt;li&gt;Topic 2 - Web Dev Frameworks&lt;/li&gt;
+                        &lt;li&gt;Topic 3 -  Deploying to Azure&lt;/li&gt;
+                    &lt;/ul&gt;
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>More HTML</h3>
+
+                <p>HTML captures content, puts it in semantic chunks, and creates hierarchy.</p>
+                    
+                <p>There are a lot of tags to use to:</p>
+                <ul>
+                    <li>Add content like headings, paragraphs, images, links, lists, and tables</li>
+                    <li>Group parts together with divs, sections, and articles</li>
+                    <li>Add metadata, eg: links to fonts and styles</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>CSS Example</h3>
+
+                <p><strong>CSS uses rules to set target elements to style.</strong></p>
+
+                Targets can be set with:
+                <ul>
+                    <li>The type of element. <em>i.e. All H2 elements</em></li>
+                    <li>The structure of elements. <em>i.e. All links inside a heading</em></li>
+                    <li>Setting specific groups or items with classes and IDs</li>
+                </ul>
+
+                <p><strong>We could style headings and paragraphs like this:</strong></p>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="CSS">
+                    h1 {
+                        font-family: "Roboto", sans-serif;
+                        color: rgb(240, 50, 132);
+                      }
+
+                    p {
+                        background-color: yellow;
+                      }
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>More CSS</h3>
+
+                <p>CSS can do a lot of things!</p>
+
+                <ul>
+                    <li>Style colours, fonts, sizes</li>
+                    <li>Set margins, padding, and sizing</li>
+                    <li>Control layout, eg: how an element follows on from the last</li>
+                    <li>Basic dynamics, eg: hover</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>JavaScript</h3>
+
+                <img src="haiku.gif" alt="Screenshot of a chat request to write a haiku" style="float:right; height:280px; border: 1px solid #ccc;">
+
+                <p>JavaScript is code that dynamically
+                    accesses and updates the page content to make it more interactive.</p>
+
+                <p style="clear:right">It can do these things and many more:</p>
+
+                <ul>
+                    <li>Run scripts on button clicks or typing</li>
+                    <li>Make requests and process responses</li>
+                    <li>Manage cookies</li>
+                </ul>
+            </section>
+
+
+            <section>
+                <h3>What does a server do?</h3>
+
+                <img src="screenshot_kaloggedin.png" alt="Screenshot of Khan Academy webpage for logged in user with their name and classes" style="float:right; height:350px; border: 1px solid #ccc;">
+                <p>The most basic server just serves up HTML and multimedia files
+                    from a file system.
+                </p>
+
+                <p>Servers are also used for features that require persistent data
+                    or more security than allowed in the client:</p>
+                
+                <ul>
+                    <li>User authentication
+                    <li>Database fetches/updates
+                    <li>Caching
+                </ul>
+            </section>
+
+
+            <section>
+                <h3>Choosing a tech stack</h3>
+
+                <img height="300" src="https://pamelafox.github.io/my-py-talks/flask-web-apps-workshop/client_server_HTTP.png">
+                <div style="display:grid; grid-template-columns: 1fr 1fr">
+                <div>
+                <p>For the frontend:</p>
+
+                <ul style="line-height:1em">
+                    <li>HTML, CSS</li>
+                    <li>JavaScript or TypeScript</li>
+                    <li>Frameworks: React, Vue, Svelte, Lit, Web Components, HTMX</li>
+                </ul>
+		</div>
+
+		<div>
+                <p>For the backend:</p>
+
+                <ul style="line-height:1em; column-count: 2">
+                    <li>Python</li>
+                    <li>Node.js</li>
+                    <li>Java</li>
+                    <li>C#</li>
+                    <li>Go</li>
+		    <li>PHP</li>
+                    <li>Ruby</li>
+                    <li>Rust</li>
+                </ul>
+		</div>
+		</div>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Server-side Python</h2>
+
+                <img src="../../static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) in front of a computer and Python logo" width="400">
+
+            </section>
+
+            <section data-visibility="hidden">
+                <h3>Simple HTTP server</h3>
+
+                <p>The <a target="_blank" href="https://docs.python.org/3/library/http.server.html">http module</a>
+                    in the Python standard library can run a basic server.
+                </p>
+                <br>
+                <p>⚠️ It is <strong>not</strong> recommended for production.</p>
+                <br>
+                <p>It's handy for learning and local development, however...</p>
+            </section>
+
+            <section data-visibility="hidden">
+                <h3>Example: Simple file server</h3>
+
+                <p>A file server serves up files and folders according to their path in the file system.
+                    Also known as a static server.</p>
+
+                <p class="padded">Run a file server from any folder:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 -m http.server 8080
+                </code></pre>
+
+                
+
+            </section>
+
+            <section data-visibility="hidden">
+                <h3>Example: Simple dynamic server</h3>
+
+                <!--<p>👀 Demo: <a  target="_blank" href="https://tinyurl.com/python-simple-server">tinyurl.com/python-simple-server</a></p>-->
+
+                <p  class="padded">👩🏼‍💻 Repo: <a  target="_blank" class="smaller" href="https://github.com/pamelafox/python-simple-server-example/">github.com/pamelafox/python-simple-server-example/</a></p>
+
+                <p class="padded">The server code is in <a target="_blank" href="https://github.com/pamelafox/python-simple-server-example/blob/main/server.py">server.py</a>.
+                Uses the <code>http</code> module to dynamically generate responses.
+                </p>
+                
+                <p class="padded">Run the server:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 server.py
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>What is a web framework?</h3>
+
+            <p><strong>Don't reinvent the wheel!</strong></p>
+            <p>People make websites all the time, so we have tools that make it simpler.</p>
+
+            <strong>Web frameworks have features like:</strong>
+            <ul>
+                <li>Managing routing URLs to functions</li>
+                <li>Enabling you to run a server</li>
+                <li>Supporting rendering templates for your webpages</li>
+            </ul>
+
+            <p><em>Different frameworks offer different features and levels of complexity.</em></p>
+            </section>
+
+
+            <section>
+                <h3>Python web frameworks</h3>
+
+                <figure style="float:right; width: 40%; border-left: 1px solid grey; padding-left: 12px;">
+                    <img src="graph_frameworks.png" alt="Graph of Python web framework popularity" style="width: 100%;">
+                    <figcaption style="font-size:0.5em">Source: <a target="_blank" href="https://www.jetbrains.com/lp/devecosystem-2023/python/">JetBrains Developers Survey 2023</a></figcaption>
+                </figure>
+                
+                <p>Python has a few modern web frameworks that are popular:</p>
+
+
+                <ul style="width: 55%">
+                    <li><a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/">Flask</a> / <a target="_blank" href="https://quart.palletsprojects.com/en/latest/">Quart</a>: Lightweight, flexible</li>
+                    <li><a target="_blank" href="https://fastapi.tiangolo.com/">FastAPI</a>: Lightweight, popular for API-first development</li>
+                    <li><a target="_blank" href="https://www.djangoproject.com/">Django</a>: Opinionated, includes database functionality</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Flask framework</h3>
+
+                <p><a target="_blank" href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a>, an external package,
+                    is a lightweight framework for server requests and responses.</p>
+
+                <p>Apps written in Flask:</p>
+                <ul>
+                    <li>Khan Academy (originally)
+                    <li>Reddit
+                    <li>Netflix
+                </ul>
+            </section>
+
+            <section>
+                <h3>Example: Simple Flask website</h3>
+
+                <p class="padded">👩🏼‍💻 Repo: <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a></p>
+                
+                <p>Most server code is in <a target="_blank" href="https://github.com/Azure-Samples/simple-flask-server-appservice/blob/main/app.py">app.py</a>.
+                    Uses Flask to generate responses for each route.
+                </p>
+                
+                <p class="padded">Run the server:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 -m flask run --port 50505 --debug
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Routes</h3>
+
+                <p>Handle GET requests to "/about" route:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.get("/about")
+                def index():
+                    return 'About Us'
+                </code></pre>
+
+                <p class="smaller">Handle query parameters:</p>
+                
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.get("/search")
+                def hello():
+                    query = request.args.get("query")
+                    return f"Searching for: {query}!"
+                </code></pre>
+
+                <p class="smaller">Handle path parameters:</p>
+
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.get("/book/&lt;id&gt;")
+                def hello(name):
+                    return f"Book with ID {id}!"
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Routes</h3>
+
+                <p>Handle POST requests:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.post("/submit")
+                def submit():
+                    return "Thanks for submitting!"
+                </code></pre>
+
+                <p class="smaller">Handle form data:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.post("/submit")
+                def submit():
+                    name = request.form.get("name")
+                    return f"Thanks for submitting, {name}!"
+                </code></pre>
+
+                <p class="smaller">Handle JSON data:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.post("/submit")
+                def submit():
+                    data = request.get_json()
+                    name = data.get("name")
+                    return f"Thanks for submitting, {name}!"
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Template basics</h3>
+
+                <p>Flask uses <a target="_blank" href="https://pypi.org/project/Jinja2/">Jinja2</a> templates to render HTML.</p>
+
+                <p class="smaller">Variables:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="html">
+                &lt;h1&gt;{{ title }}&lt;/h1&gt;
+                </code></pre>
+
+                <p class="smaller">Conditionals:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="html">
+                {% if user %}
+                    &lt;p&gt;{{ user.name }}&lt;/p&gt;
+                {% else %}
+                    &lt;p&gt;Logged out&lt;/p&gt;
+                {% endif %}
+                </code></pre>
+
+                <p class="smaller">Loops:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="html">
+                &lt;ul&gt;
+                {% for item in items %}
+                    &lt;li&gt;{{ item }}&lt;/li&gt;
+                {% endfor %}
+                &lt;/ul&gt;
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h3>Exercise prerequisites</h3>
+
+                <p>Online development: <a target="_blank" href="https://github.com/signup">Github account</a></p>
+
+                <p>Local development (option 2):</p>
+                <ul>
+                    <li>Code editor</li>
+                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                </ul>
+
+                <p>Local development:</p>
+                <ul>
+                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                    <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Exercise: Flask App</h3>
+
+                <p>Using this repo:<br>
+                    <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/flask-appservice">aka.ms/flask-appservice</a>
+                </p>
+                <ol>
+                    <li>Get the app running!
+                    <li>Add a new route for "/about" that uses a new "about.html" template.
+                    <li>Check the new route works.
+                    <li>Add a "location" query parameter for the new route and display
+                        the value on the page.
+                </ol>
+
+                <ol style="display: none;">
+                    <li>Follow the readme steps to get the app running.
+                    <li>Add a new route for "/about" that uses a new "about.html" template.
+                    <li>Check the new route works.
+                    <li>Bonus: Accept a "location" query parameter for the new route and display
+                        the value on the page.
+                </ol>
+                <p style="display: none;">🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+            </section>
+
+            <section>
+                <h3>Template inheritance</h3>
+                
+                <p>Jinja2 supports <a target="_blank" href="https://flask.palletsprojects.com/en/2.2.x/patterns/templateinheritance/">template inheritance</a>.</p>
+
+                <p class="smaller">Base template:</p>
+                <pre style="margin-top:-15px"><code data-trim data-noescape class="html">
+                &lt;html&gt;
+                &lt;head&gt;
+                    &lt;title&gt;{{ title }}&lt;/title&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    {% block content %}{% endblock %}
+                &lt;/body&gt;
+                &lt;/html&gt;
+                </code></pre>
+
+                <p class="smaller">Child template:</p>
+                <pre style="margin-top:-15px"><code data-trim data-noescape class="html">
+                {% extends "base.html" %}
+                {% block content %}
+                    &lt;h1&gt;About Us&lt;/h1&gt;
+                {% endblock %}
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Exercise: Template Inheritance</h3>
+
+                <p style="display: none;">Using this repo:<br>
+                    <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
+                    <br>
+                    or your own app from the previous exercise.
+                </p>
+                <ol>
+                    <li>Create a base template based on what's common across the other pages.
+                    <li>Refactor the other templates to extend the base template.
+                    <li>Change the 404 handler to render a template that extends the base template.
+                </ol>
+                <p style="display: none;">🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+            </section>
+
+
+            <section class="heading-only" data-visibility="hidden">
+                <h2>Flask in VS Code</h2>
+            </section>
+
+            <section data-visibility="hidden">
+                <h3>Debugging Flask</h3>
+
+                <p>Use a launch configuration to run the Flask app in debug mode.</p>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Quart & Async</h2>
+
+                <img src="../../static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) in front of a computer and Python logo" width="400">
+            </section>
+
+            <section>
+                <h3>Quart</h3>
+
+                <p><a target="_blank" href="https://quart.palletsprojects.com/">Quart</a> is the asynchronous version of Flask.</p>
+
+                <pre><code data-trim data-noescape class="python">
+                @app.get("/")
+                async def index():
+                    return await render_template("index.html")
+                </code></pre>
+
+                <br>
+                <p class="padded">Quart is useful when apps have slow I/O or network calls:</p>
+
+                <pre><code data-trim data-noescape class="python">
+                @app.route('/')
+                async def chat():
+                    return await openai_client.chat.completions.create(
+                        messages=[{"role": "user", "content": "Write a haiku"}]
+                    )
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>The importance of async</h3>
+
+                <p>We need async to build modern web apps that support concurrency.</p>
+
+                <p>A web app without async:</p>
+
+                <img src="diagram_sync.png" alt="Diagram of a synchronous web app" style="width: 40%;">
+
+                <p>A web app with async can handle new requests while waiting for an I/O op:</p>
+
+                <img src="diagram_async.png" alt="Diagram of an asynchronous web app" style="width: 40%;">
+
+                <p>Any app with slow network requests, DB queries, or file reads can benefit.</p>
+
+                <p>See also: <a target="_blank" href="https://fastapi.tiangolo.com/async/">FastAPI tutorial on async</a></p>
+            </section>
+
+            <section>
+                <h3>Porting Flask to Quart</h3>
+
+                <p>Install Quart:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                pip install quart
+                </code></pre>
+
+                <p>Change the app construction:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                from quart import Quart
+
+                app = Quart(__name__)
+                </code></pre>
+
+                <p>Change routes to async:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                @app.route('/')
+                async def index():
+                </code></pre>
+
+                <p>Change API/DB calls to async.</p>
+
+            </section>
+
+            <section>
+                <h3>Quart examples</h3>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Repo
+                        <th>Description
+                    <tbody>
+                    <tr>
+                        <td><a target="_blank" href="https://github.com/Azure-Samples/azure-search-openai-demo/">
+                            azure-search-openai-demo</a>
+                        <td>RAG chat app using OpenAI
+                    <tr>
+                        <td><a target="_blank" href="https://github.com/Azure-Samples/openai-chat-app-quickstart">
+                            openai-chat-app-quickstart</a>
+                        <td>Simple chat app using OpenAI
+                    <tr>
+                        <td><a target="_blank" href="https://github.com/Azure-Samples/openai-chat-app-entra-auth-local">
+                            openai-chat-app-entra-auth-local</a>
+                        <td>Simple chat app using OpenAI and user auth with Quart-Session
+                        </table>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Hosting web apps</h2>
+                <img src="../../static/images/BIT_AZURE.png" alt="Bit (the raccoon) on a cloud with the Azure logo" width="400">
+
+            </section>
+
+            <section>
+                <h3>Hosting options</h3>
+
+                <p>When your website is <strong>hosted</strong> on a server,
+                    it means other users on the Internet can access it.
+                </p>
+
+                <p>Many possible hosts:
+                <ul>
+                    <li>A rented computer in a data center
+                    <li>A virtual machine
+                    <li>A PaaS (platform as a service)
+                    </ul>
+
+                <p>Consider:
+                <ul>
+                    <li>How much control do you want?
+                    <li>How much do you enjoy administering systems?
+                    <li>Do you need it to scale up/out?
+                </ul>
+            </section>
+
+            <section>
+                <h3>Azure hosting options</h3>
+                
+                <style>
+                table.deploy-stack {
+                    border-spacing: 30px; 
+                    border-collapse: separate;
+                    border: 0px;
+                }
+
+                table.deploy-stack th, table.deploy-stack td {
+                    font-size: 20px;
+                    border-bottom: 0px none;
+                    border-radius: 12px;
+                    text-align: center;
+                    vertical-align: middle;
+                    padding: 8px;
+                }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr> 
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Container Management
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+                        
+                    </tr>
+                    <tr>
+                        <th>Environment
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Containers
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>Cloud
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                </table>
+                <p class="fragment smaller">For Flask, <span style="background-color: #00bc70; color: white; padding-left: 8px; padding-right: 8px; border-radius: 8px;">App Service</span> is easiest way to get started.</p>
+            </section>
+
+            <section>
+                <h3>But wait, there's more!</h3>
+
+                <table>
+                    <tr>
+                        <th>Databases
+                        <td>PostGreSQL, MySQL, CosmosDB, ...
+                    <tr>
+                        <th>Storage
+                        <td>Blob Storage, Files, Archive Storage, ...
+                    <tr>
+                        <th>Networking
+                        <td>DNS Zone, Virtual Network, VPN Gateway, ...
+                    <tr>
+                        <th>Caching
+                        <td>CDN, Front Door, ...
+                    <tr>
+                        <th>Security
+                        <td>Key Vault, Security Center, ...
+                    <tr>
+                        <th>Machine Learning
+                        <td>Translator, Bot Service, Computer Vision, ...
+                    <tr>
+                        <th colspan="2">...and more!
+                </table>
+
+            </section>
+
+            <section>
+                <h3>Hosting the Flask app on Azure</h3>
+
+                <p>
+                <img src="flask_diagram.png" alt="Flask app architecture diagram: App Service, App Service Plan, Log Analytics workspace" height="375">
+                </p>
+
+                <p>Using the <a target="_blank" href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview?WT.mc_id=python-79461-pamelafox">Azure Dev CLI</a>:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                azd up
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Exercise: Deploying an app</h3>
+
+                <ol>
+                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/en-in/free/?WT.mc_id=python-81211-pamelafox">free Azure account</a>
+                    <li>Either open one of the previous projects in Codespaces 
+                        or follow <a target="_blank" href="https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd?WT.mc_id=python-81211-pamelafox">these installation steps for the Azure Developer CLI.</a>
+                    <li>Run <code>azd up</code>. If prompted, login to your Azure account.
+                    <li>If it deploys successfully, share the endpoint URL with your classmates.
+                        If not, let us know what error you get. 🪲
+                    <li>Once you've verified the app is working, run <code> azd down</code> to un-deploy the app (so that you don't waste cloud resources unnecessarily).
+                </ol>
+            </section>
+
+            <section>
+                <h3>More Azure resources</h3>
+
+                <img src="../../static/images/BIT_COWORKING.png" alt="Raccoons with laptops" width="35%" style="float:right;">
+
+                <ul style="float:left; width: 60%; display: grid; gap: 18px;">
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/app-service/quickstart-python?WT.mc_id=python-81211-pamelafox">Deploy a Python (Django or Flask) web app to Azure App Service</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/app-service/tutorial-python-postgresql-app?WT.mc_id=python-81211-pamelafox">Deploy a Python (Django or Flask) web app with PostgreSQL in Azure</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/developer/python/quickstarts-app-hosting?WT.mc_id=python-81211-pamelafox">Hosting Python apps on Azure</a>
+                    <li><a target="_blank" href="https://code.visualstudio.com/docs/python/python-tutorial">Getting Started with Python in VS Code</a>
+                    <li><a target="_blank" href="https://aka.ms/python-discord">MS Python Discord: aka.ms/python-discord</a>
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>Any questions?</h2>
+                <img src="../../static/images/BIT_STUDENTS.svg" alt="A bunch of raccoon students with computers" width="400">
+            </section>  
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            autoPlayMedia: true,
+            plugins: [ RevealHighlight, RevealMenu ],
+            pdfSeparateFragments: true
+        });
+        window.highlightJsBadge();
+    </script>
+    </body>
+</html>
