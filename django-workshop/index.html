@@ -33,9 +33,6 @@
                         <li>Press the copy icon on the upper right of code blocks to copy the code</li>
                     </ul>
                 </div>
-
-                <aside class="speaker-notes">
-                </aside>
             </section>
 
             <section>
@@ -75,8 +72,10 @@
                         <ul class="smaller">
                             <li>👩🏾‍💻 Exercise #1: Django app
                         </ul>
+                    <li>Debugging Django
                     <li>More Django
-                    <li>Hosting Django Apps
+                    <li>Productionizing Django
+                    <li>Hosting Django
                         <ul class="smaller">
                             <li>👩🏻‍💻 Exercise #2: Deploying Django
                         </ul>
@@ -99,8 +98,8 @@
                                     <div style="background-color: #f0f0f0; padding: 10px;">
                                         Repos we'll use:
                                         <ul>
-                                            <li><a target="_blank" href="https://github.com/pamelafox/django-quiz-app">aka.ms/django-quiz-app</a></li>
                                             <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">aka.ms/django-pgflex-app</a></li>
+                                            <li><a target="_blank" href="https://github.com/pamelafox/django-quiz-app">aka.ms/django-quiz-app</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -573,12 +572,6 @@
             </section>
 
             <section>
-                <h3>Running a production server</h3>
-
-                <p>⚠️ The Django dev server is not recommended for production use.</p>
-
-
-            <section>
                 <h3>Azure relational database options</h3>
 
                 <p>Considerations:
@@ -687,15 +680,12 @@
             </section>
 
             <section>
-                <h3>Hosting Django with PostgreSQL on Azure</h3>
+                <h3>Azure architure for Django + PostgreSQL</h3>
 
-                <p>
-                <img src="djangodb.drawio.png" alt="Django app architecture diagram: App Service, App Service Plan, PostGreSQL server, Log Analytics workspace">
+                <p>One possible architecture:<br>
+                <img src="architecture.png" alt="Django app architecture diagram: App Service, App Service Plan, PostGreSQL server, Log Analytics workspace" style="width: 700px;">
                 </p>
 
-                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
-                azd up
-                </code></pre>
             </section>
 
             <section>
