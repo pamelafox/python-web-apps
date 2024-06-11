@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>Django</title>
+		<title>Python Web Apps: Django</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
@@ -19,7 +19,13 @@
             <section class="heading-only" style="padding-top:5%">
                 <h1 style="font-size:120px">Python Web Apps:<br>
                     Django</h1>
-                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%;">
+                
+                
+                <h2><a target="_blank" class="aka" href="https://aka.ms/python-web-apps-django">
+                    aka.ms/python-web-apps-django</a>
+                </h2>
+
+                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%; display:none;">
                     Tips for navigating the slides:
                     <ul>
                         <li>Press O or Escape for overview mode.</li>
@@ -33,70 +39,249 @@
             </section>
 
             <section>
+                <h3>Meet Pamela</h3>
+                
+                <img src="https://pamelafox.github.io/my-py-talks/configure-vscode/photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Coursera, Khan Academy, Google</p>
+                <br>
+                <p>Find Pamela online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
+            </section>
+
+            <section>
                 <h3>Today's topics</h3>
 
-                <img src="../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="200" style="float:right;">
-                <ul style="margin-top:20px; font-size:44px; line-height: 1.5em; float:left; width:700px;">
-                    <li>Django
-                    <li>Deploying Django
+                <img src="../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:44px; line-height: 1.5em; float:left; width:750px;">
+                    <li>Django 101
+                        <ul class="smaller">
+                            <li>👩🏾‍💻 Exercise #1: Django app
+                        </ul>
+                    <li>More Django
+                    <li>Hosting Django Apps
+                        <ul class="smaller">
+                            <li>👩🏻‍💻 Exercise #2: Deploying Django
+                        </ul>
                 </ul>
             </section>
 
             <section>
-                <h3>Prerequisites</h3>
+                <h3>Exercise setup</h3>
 
-                <p>Online development: <a target="_blank" href="https://github.com/signup">Github account</a></p>
+                        <p>To follow along with the exercises, your options are:</p>
+                        <ol>
+                            <li>                                
+                                <div style="display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 1fr;">
+                                    <div>
+                                        Online development with Codespaces: 
+                                        <ul>
+                                            <li><a target="_blank" href="https://github.com/signup">Github account</a>
+                                        </ul>
+                                    </div>                                
+                                    <div style="background-color: #f0f0f0; padding: 10px;">
+                                        Repos we'll use:
+                                        <ul>
+                                            <li><a target="_blank" href="https://github.com/pamelafox/django-quiz-app">aka.ms/django-quiz-app</a></li>
+                                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">aka.ms/django-pgflex-app</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <li class="padded">Local development with VS Code:
+                            <ul>
+                                <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                                <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                                <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                            </ul>
+        
+                            <li class="padded">Local development with any editor:
+                            <ul>
+                                <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                                <li><a target="_blank" href="https://www.postgresql.org/download/">PostgreSQL</a></li>
+                            </ul>
+                        </ol>
 
-                <p>Local development:</p>
-                <ul>
-                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
-                    <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
-                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
-                </ul>
-
-                <p>Local development (option 2):</p>
-                <ul>
-                    <li>Code editor</li>
-                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
-                    <li><a target="_blank" href="https://www.postgresql.org/download/">PostgreSQL</a></li>
-                </ul>
             </section>
 
             <section>
                 <h3>Django framework</h3>
 
-                <p><a target="_blank" href="https://www.djangoproject.com/">Django</a>, an external library, is a fairly "opinionated"
+                <img src="coursera_django.png" alt="Screenshot of Coursera admin" width="600" style="float:right; margin-left:10px">
+                <p><a target="_blank" href="https://www.djangoproject.com/">Django</a>, an external library, is an opinionated
                     framework for server-side code. Includes an ORM for database interaction.</p>
                 
                 <p>Apps written in Django:</p>
                 <ul>
-                    <li>Coursera (originally, now Scala+Play)
                     <li>Instagram
-                    <li>Pinterest (originally, now Flask)
                     <li>Eventbrite
+                    <li>Coursera (originally, now Scala+Play)
+                    <li>Pinterest (originally, now Flask)
                 </ul>
             </section>
 
             <section>
                 <h3>Example: Django + PostgreSQL</h3>
 
-                <p class="smaller"><a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a></p>
-
-                <p class="padded">Important server files:<br>
-                    <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/models.py">models.py</a>
-                    , <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/urls.py">urls.py</a>
-                    , <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/views.py">views.py</a>
-                    , <a target="_blank" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app/blob/main/restaurant_review/admin.py">admin.py</a>
+                <p>
+                    <a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/django-pgflex-app">aka.ms/django-pgflex-app</a>
                 </p>
 
-                <p class="padded">Run DB migrations and server:</p>
-                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                <p class="padded">Run DB migrations:</p>
+                <pre style="font-size:0.9em; margin-top: -5px;"><code data-trim data-noescape class="shell">
                 python3 src/manage.py migrate
-                python3 src/manage.py loaddata src/seed_data.json
-
-                python3 src/manage.py collectstatic
-                python3 -m gunicorn project.wsgi:application --reload --pythonpath src
                 </code></pre>
+
+                <p class="padded">Load seed data:</p>
+                <pre style="font-size:0.9em; margin-top: -5px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py loaddata src/seed_data.json
+                </code></pre>
+
+                <p class="padded">Run the server:</p>
+                <pre style="font-size:0.9em; margin-top: -5px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py runserver 8000
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Django project structure</h3>
+
+                <p>This app follows a typical Django project structure:</p>
+
+                <pre style="font-size:0.6em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                src/
+                    manage.py
+                    project/
+                        __init__.py
+                        asgi.py
+                        settings.py
+                        urls.py
+                        wsgi.py
+                    relecloud/
+                        __init__.py
+                        admin.py
+                        apps.py
+                        models.py
+                        urls.py
+                        views.py
+                    templates/
+                </code></pre>
+
+                <p>The <code>relecloud</code> folder represents a Django "app". 
+                    We can add more "app"s to the project, each with its own models, views, urls, etc.</p>
+            </section>
+
+            <section>
+                <h3>Django models</h3>
+
+                <p>Models are Python classes that represent database tables.</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                from django.db import models
+
+                class Destination(models.Model):
+                    name = models.CharField(unique=True, max_length=50, null=False, blank=False)
+                    subtitle = models.CharField(unique=False, max_length=240, null=False, blank=True)
+                    description = models.TextField(max_length=2000, null=False, blank=False)
+                </code></pre>
+
+                <p>🔗 From <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/models.py">models.py</a></p>
+
+                <p>To create a migration:</p>
+                <pre style="font-size:0.8em; margin-top: -10px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py makemigrations
+                </code></pre>
+
+                <p>To apply the migration:</p>
+                <pre style="font-size:0.8em; margin-top: -10px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py migrate
+                </code></pre>
+
+                <aside class="notes">
+                    add temperature, migrate, install sqltools, update
+                </aside>
+            </section>
+
+            <section>
+                <h3>Django views</h3>
+
+                <p>Views can be simple Python functions:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                def index(request):
+                    return render(request, "index.html")
+                </code></pre>
+
+                <p>Or subclasses of Django's <a target="_blank" href="https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-display/">generic views</a>:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                class CruiseDetailView(generic.DetailView):
+                    template_name = "cruise_detail.html"
+                    model = models.Cruise
+                </code></pre>
+
+                <p>🔗 From <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/views.py">views.py</a>
+                </p>
+
+            </section>
+
+            <section>
+                <h3>Django templates</h3>
+
+                <p>Templates are HTML files written in <a target="_blank" href="https://docs.djangoproject.com/5.0/ref/templates/language/">Django template language</a> (Jinja2-like):</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                &lt;p&gt;This cruise visits the following destinations:&lt;/p&gt;
+                {% for destination in cruise.destinations.all %}
+                &lt;a class="list-group-item list-group-item-action" href="{% url 'destination_detail' destination.id %}"&gt;{{ destination }}&lt;/a&gt;
+                {% endfor %}
+                </code></pre>
+
+                <p>🔗 From <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/tree/main/src/templates">templates/destination_detail.html</a>
+                </p>
+            </section>
+
+            <section>
+                <h3>Django URLs</h3>
+
+                <p>URLs map paths to views:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                urlpatterns = [
+                    path("", views.index, name="index"),
+                    path("about", views.about, name="about"),
+                    path("destinations/", views.destinations, name="destinations"),
+                    path(
+                        "destination/&lt;int:pk&gt;",
+                        views.DestinationDetailView.as_view(),
+                        name="destination_detail",
+                    ),
+                    path("cruise/&lt;int:pk&gt;", views.CruiseDetailView.as_view(), name="cruise_detail"),
+                    path("info_request", views.InfoRequestCreate.as_view(), name="info_request"),
+                ]
+                </code></pre>
+
+                <p>🔗 From <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/urls.py">urls.py</a>
+                </p>
 
             </section>
 
@@ -105,6 +290,15 @@
 
                 <p>Django includes a built-in admin interface for managing data.</p>
 
+                <pre><code data-trim data-noescape class="python">
+                admin.site.register(models.Cruise)
+                admin.site.register(models.Destination)
+                admin.site.register(models.InfoRequest)
+                </code></pre>
+
+                <p>🔗 From <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/admin.py">admin.py</a></p>
+
+                <p class="padded">To log in to the admin interface:</p>
                 <ul>
                     <li>Create a superuser:
 
@@ -121,9 +315,12 @@
                 <h3>Exercise: Django app</h3>
 
                 <p>Using this repo:<br>
-                    <p class="smaller"><a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a></p>
+                    <p class="smaller"><a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/django-pgflex-app">aka.ms/django-pgflex-app</a>
+                </p>
                 
-                    <ol>
+                <ol>
                     <li>Follow the readme steps to get the app running.
                     <li>Inspect the local DB tables using SQLTools extension.
                     <li>Follow the readme steps to get into the Django admin.
@@ -131,20 +328,187 @@
                     <li>Change the destinations route to sort destinations by name,
                         using <a target="_blank" href="https://docs.djangoproject.com/en/4.2/ref/models/querysets/#order-by">order_by</a>.
                 </ol>
-                <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Let us know if you need any help! 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Debugging in VS Code</h2>
+
+                <img src="../static/images/BIT_DEV.svg" alt="Bit (the raccoon) with a computer and VS Code logo" width="400">
+            </section>
+
+            <section>
+                <h3>Debugging Python code</h3>
+
+                <p style="margin-bottom:0px">.vscode/launch.json:</p>
+                <pre style="font-size:0.55em; margin-top:6px;"><code data-trim data-noescape class="json">
+                {
+                  "version": "0.2.0",
+                  "configurations": [{
+                        "name": "Python: Django",
+                        "type": "debugpy",
+                        "request": "launch",
+                        "program": "${workspaceFolder}/src/manage.py",
+                        "args": [
+                            "runserver"
+                        ],
+                        "django": true,
+                        "justMyCode": true
+                    }]}
+                </code></pre>
+
+                <p class="padded" style="margin-bottom:0px">In settings.py:</p>
+                <pre style="font-size:0.55em; margin-top:6px;"><code data-trim data-noescape class="json">
+                DEBUG_PROPAGATE_EXCEPTIONS = env("DEBUG") # True locally
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Debugging templates</h3>
+
+                <p style="margin-bottom:0px">Add to .vscode/launch.json:</p>
+                <pre style="font-size:0.55em; margin-top:6px;"><code data-trim data-noescape class="json">
+                {
+                    "version": "0.2.0",
+                    "configurations": [{
+                        "name": "Python: Django",
+                        "type": "debugpy",
+                        "request": "launch",
+                        "program": "${workspaceFolder}/src/manage.py",
+                        "args": [
+                            "runserver"
+                        ],
+                        "django": true,
+                        "justMyCode": true,
+                        "jinja": true // Add this line
+                }]}
+                </code></pre>
             </section>
 
 
-            <section>
-                <h3>More Django examples</h3>
+            <section class="heading-only">
+                <h2>More Django</h2>
 
+                <img src="../static/images/BIT_STUDENTS.svg" alt="Bit (the raccoon) with raccoon friends" width="400">
+            </section>
+
+            <section>
+                <h3>Django extensions</h3>
+
+                <p>Django is designed to be extensible. Some popular extensions:</p>
 
                 <ul>
-                    <li><a  target="_blank" href="https://github.com/pamelafox/django-quiz-app/">github.com/pamelafox/django-quiz-app/</a>
-                    <li><a target="_blank" href="https://github.com/Azure-samples/msdocs-django-postgresql-sample-app">github.com/Azure-samples/msdocs-django-postgresql-sample-app</a>
+                    <li><a target="_blank" href="https://www.django-rest-framework.org/">Django REST framework</a> for APIs
+                    <li><a target="_blank" href="https://django-debug-toolbar.readthedocs.io/en/latest/">Django Debug Toolbar</a> for debugging
+                    <li><a target="_blank" href="https://django-crispy-forms.readthedocs.io/en/latest/">Django Crispy Forms</a> for form styling
+                    <li><a target="_blank" href="https://django-allauth.readthedocs.io/en/latest/">Django Allauth</a> for authentication
+                    <li><a target="_blank" href="https://pypi.org/project/django-storages/">Django Storages</a> for cloud storage
+                    <li><a target="_blank" href="https://pypi.org/project/django-honeypot/">Django Honeypot</a> for spam prevention
                 </ul>
 
-                <p>Also check out the <a target="_blank" href="https://docs.djangoproject.com/en/4.2/intro/tutorial01/">Django tutorial</a>.</p>
+                <p>🔗 Read more: <a target="_blank" href="https://learndjango.com/tutorials/20-django-packages-i-use-every-project">
+                    20 Django Packages I Use in Every Project</a></p>
+            </section>
+
+            <section>
+                <h3>Wagtail CMS</h3>
+
+                <p><a target="_blank" href="https://wagtail.io/">Wagtail</a> is a popular CMS built on Django.</p>
+
+                <img src="screenshot_wagtail.png" alt="Wagtail CMS screenshot" width="800" style="border:1px solid #ccc; margin-top:-10px;">
+
+                <p>✨ Now with AI! 
+                    <br><a target="_blank" href="https://wagtail.org/wagtail-ai/">Wagtail AI</a> adds AI-based helpers to form fields.
+                    <br><a target="_blank" href="https://github.com/wagtail/wagtail-vector-index">Wagtail Vector Index</a> adds vector search to Wagtail.
+                </p>
+            </section>
+
+            <section>
+                <h3>Django + AI</h3>
+
+                <p>Check out Paolo's talk on Django and Vector Search:</p>
+
+                <img src="https://pbs.twimg.com/media/GPknT9gbUAAeBsD?format=jpg&name=small" alt="Posette talk on Django and Vector Search">
+
+                <p>
+                <a target="_blank" href="https://www.citusdata.com/posette/2024/schedule/#livestream4">
+                    https://www.citusdata.com/posette/2024/schedule/#livestream4
+                </a>
+                </p>
+            </section>
+
+            <section>
+                <h3>Full-stack Django</h3>
+
+                <p>Vue frontend plus Django-REST + Wagtail backend:</p>
+                <img src="https://github.com/dawnwages/LCARS-on-Wagtail/raw/main/example_screenshot.png" alt="Screenshot of LCARS on Wagtail frontend" width="800">
+                
+                <p>🔗 <a target="_blank" href="https://github.com/dawnwages/LCARS-on-Wagtail">github.com/dawnwages/LCARS-on-Wagtail</a>
+                </p>
+            </section>
+
+
+
+            <section class="heading-only"  data-background-image="background_headingonly.png">
+                <h2>Productionizing<br>
+                Django apps</h2>
+
+                <img src="../static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) in front of a computer and Python logo" width="400">
+            </section>
+            
+            <section>
+                <h3>Running Django app locally</h3>
+
+                <p>Using the built-in Django server:</p>
+                <pre style="font-size:0.9em;"><code data-trim data-noescape class="bash">
+                python3 -m src/manage.py runserver 8000
+                </code></pre>
+
+                <p>⚠️ But the dev server is <strong>not recommended</strong> for production use.</p>
+
+            </section>
+
+            <section>
+                <h3>Running Django with gunicorn</h3>
+
+                <p>Gunicorn is a production-level server
+                    that can run multiple worker processes.</p>
+
+                <p>Add <code>gunicorn</code> to <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                gunicorn==22.0.0
+                </code></pre>
+
+                <p class="padded">Use <code>gunicorn</code> to run Django app with multiple workers:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn project.wsgi --workers 4 --bind 0.0.0.0:8555
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Configuring gunicorn</h3>
+
+                <p>Gunicorn can be configured with a <code>gunicorn.conf.py</code> file:</p>
+
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="python">
+                import multiprocessing
+
+                max_requests = 1000
+                max_requests_jitter = 50
+                log_file = "-"
+                bind = "0.0.0.0:8000"
+                workers = (multiprocessing.cpu_count() * 2) + 1
+                
+                threads = workers
+                
+                timeout = 600
+                </code></pre>
+
+                <p>The run command can be simplified to:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn project.wsgi
+                </code></pre>
+
             </section>
 
             <section class="heading-only">
@@ -153,31 +517,16 @@
 
             </section>
 
+
             <section>
-                <h3>Hosting options</h3>
-
-                <p>When your website is <strong>hosted</strong> on a server,
-                    it means other users on the Internet can access it.
-                </p>
-
-                <p>Many possible hosts:
+                <h3>Azure app hosting options</h3>
+            
                 <ul>
-                    <li>A rented computer in a data center
-                    <li>A virtual machine
-                    <li>A PaaS (platform as a service)
-                    </ul>
-
-                <p>Consider:
-                <ul>
-                    <li>How much control do you want?
-                    <li>How much do you enjoy administering systems?
-                    <li>Do you need it to scale up/out?
+                    <li style="line-height:1.0em;">How much control do you want?
+                    <li style="line-height:1.0em;">How much do you enjoy administering systems?
+                    <li style="line-height:1.0em;">Do you need it to scale up/out?
                 </ul>
-            </section>
 
-            <section>
-                <h3>Azure hosting options</h3>
-                
                 <style>
                 table.deploy-stack {
                     border-spacing: 30px; 
@@ -220,62 +569,196 @@
                         <td colspan="4" style="background-color:#ccc;">Azure
                     </tr>
                 </table>
-                <p class="fragment smaller">For Flask/Django, <span style="background-color: #00bc70; color: white; padding-left: 8px; padding-right: 8px; border-radius: 8px;">App Service</span> is easiest way to get started.</p>
+                <p class="fragment smaller">For Django, <span style="background-color: #00bc70; color: white; padding-left: 8px; padding-right: 8px; border-radius: 8px;">App Service</span> is easiest way to get started.</p>
             </section>
 
             <section>
-                <h3>But wait, there's more!</h3>
+                <h3>Running a production server</h3>
 
-                <table>
-                    <tr>
-                        <th>Databases
-                        <td>PostGreSQL, MySQL, CosmosDB, ...
-                    <tr>
-                        <th>Storage
-                        <td>Blob Storage, Files, Archive Storage, ...
-                    <tr>
-                        <th>Networking
-                        <td>DNS Zone, Virtual Network, VPN Gateway, ...
-                    <tr>
-                        <th>Caching
-                        <td>CDN, Front Door, ...
-                    <tr>
-                        <th>Security
-                        <td>Key Vault, Security Center, ...
-                    <tr>
-                        <th>Machine Learning
-                        <td>Translator, Bot Service, Computer Vision, ...
-                    <tr>
-                        <th colspan="2">...and more!
+                <p>⚠️ The Django dev server is not recommended for production use.</p>
+
+
+            <section>
+                <h3>Azure relational database options</h3>
+
+                <p>Considerations:
+                <ul>
+                    <li style="line-height:1.0em;">How much database storage do you need?
+                    <li style="line-height:1.0em;">How many database read/writes do you expect?
+                    <li style="line-height:1.0em;">Availability: Backup policy? Multiple replicas?
+                    <li style="line-height:1.0em;">Data sovereignty: where can your data be stored?
+                </ul>
+
+                <style>
+                .fragment.background-green {
+                    background-color: transparent;
+                }
+                .fragment.background-green.visible {
+                    background-color: #31ffad; color:
+                }
+                </style>
+
+                <table class="smaller" style="margin-top:20px;">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment custom background-green">
+                            <td>Azure Database for PostgreSQL – Flexible Server</td>
+                            <td>Microsoft's most recent PostgreSQL offering. Fully managed service with vertical scaling.
+                            </td>
+                        </tr>
+                        <tr>
+                          <td>Azure Cosmos DB for PostgreSQL</td>
+                          <td>Distributed database using PostgreSQL and the Citus extension. Can scale horizontally.
+                          </td>
+                        <tr>
+                            <td>Azure SQL Database</td>
+                            <td>Microsoft's managed service for SQL Server.
+                                Can be used in Django via <a target="_blank" href="https://github.com/microsoft/mssql-django">microsoft/mssql-django</a>
+                      </tr>
+                    </tbody>
                 </table>
 
             </section>
 
             <section>
-                <h3>Hosting Python + PostgreSQL on Azure</h3>
+                <h3>Securely connecting App Service to PostgreSQL</h3>
+
+                <p>⭐️ In production, use passwordless authentication for the database:</p>
+
+                <ol>
+                    <li style="line-height:1.0em;">Disable password authentication in PostgreSQL
+                    <li style="line-height:1.0em;">Set Microsoft Entra user as PostgreSQL admin
+                    <li style="line-height:1.0em;">Create a service principal for the App Service app and grant it access to the database
+                    <li style="line-height:1.0em;">Fetch a token as the app and use for the PostgreSQL connection password
+                    <li style="line-height:1.0em;">Re-fetch the token periodically to avoid expiration
+                </ol>
+                <p>See <a target="_blank" class="smaller aka" href="https://aka.ms/flask-db-quiz">aka.ms/flask-db-quiz</a>
+
+                <p class="padded fragment">⚠️ If you must use a password, store in Azure KeyVault.<br>
+                    See <a target="_blank" class="smaller aka" href="https://aka.ms/flask-pg-app">aka.ms/flask-pg-app</a>
+                </p>
+            </section>
+
+            <section>
+                <h3>Storing the secret key</h3>
+
+                <p>Django requires a secret key for security, defined in <code>settings.py</code>:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                SECRET_KEY = os.environ.get("SECRET_KEY")
+                </code></pre>
+                
+                <div class="fragment">
+                <p class="padded">For production, store this in a secure location,
+                    such as Azure Key Vault. 🔑</p>
+
+                <p class="padded">To fetch the secret value, use a key vault reference in environment variables:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                SECRET_KEY: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=djangoSecretKey)'
+                </code></pre>
+
+                <p>(Also possible in <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/infra/web.bicep#L84">Container App settings</a>)</p>
+                </div>
+
+            </section>
+
+
+            <section>
+                <h3>Serving static files</h3>
+
+                <p>A few options for efficiently serving static files in production:</p>
+
+                <ol>
+                    <li>Use <a target="_blank" href="https://whitenoise.readthedocs.io/en/latest/">Whitenoise</a>
+                        to serve static files directly from Django, with compression and cache headers.
+                        <p>As shown in <a target="_blank" href="https://aka.ms/django-quiz-app">aka.ms/django-quiz-app</a>.</p>
+                    <li>Use <a target="_blank" href="https://pypi.org/project/django-storages/">Django Storages</a>
+                        to serve static files from cloud storage (like Azure Blob Storage).
+                        <p>As shown in <a target="_blank" href="https://github.com/tonybaloney/django-on-azure">tonybaloney/django-on-azure</a>.</p>
+                </ol>
+
+                <p>Both options could optionally be used with a CDN (Azure Front Door) in front.</p>
+            </section>
+
+            <section>
+                <h3>Hosting Django with PostgreSQL on Azure</h3>
 
                 <p>
-                <img src="flaskdb.drawio.png" alt="Flask app architecture diagram: App Service, App Service Plan, PostGreSQL server, Log Analytics workspace">
+                <img src="djangodb.drawio.png" alt="Django app architecture diagram: App Service, App Service Plan, PostGreSQL server, Log Analytics workspace">
                 </p>
 
-                <p>Using the <a target="_blank" href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview?WT.mc_id=python-79461-pamelafox">Azure Dev CLI</a>:</p>
                 <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
                 azd up
                 </code></pre>
             </section>
 
             <section>
-                <h3>Exercise: Deploying an app</h3>
+                <h3>Exercise: Deploy Django + PG</h3>
+
+                <p>Using this repo:<br>
+                    <a  target="_blank" class="smaller" href="https://https://github.com/pamelafox/flask-db-quiz-example">github.com/pamelafox/flask-db-quiz-example</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/django-quiz-app">aka.ms/django-quiz-app</a>
+                </p>
 
                 <ol>
-                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/free/?WT.mc_id=python-81211-pamelafox">free Azure account</a>
-                    <li>Either open one of the previous projects in Codespaces 
-                        or follow <a target="_blank" href="https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd?WT.mc_id=python-81211-pamelafox">these installation steps for the Azure Developer CLI.</a>
-                    <li>Run <code>azd up</code>. If prompted, login to your Azure account.
-                    <li>If it deploys successfully, share the endpoint URL with your classmates.
-                        If not, let us know what error you get. 🪲
-                    <li>Once you've verified the app is working, run <code> azd down</code> to un-deploy the app (so that you don't waste cloud resources unnecessarily).
+                    <li>Open in GitHub Codespaces or VS Code with Dev Containers extension
+                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/free/">free Azure account</a>
+                    <li>Follow the Deploying instructions in the README
+                    <li>If it deploys successfully, visit the endpoint URL to confirm it's working.
+                    <li>Run <code> azd down</code> to un-deploy the app (so that you don't waste cloud resources unnecessarily).
                 </ol>
+            </section>
+
+
+            <section>
+                <h3>Additional security considerations</h3>
+=
+                <p>Restrict network access:</p>
+                <ul class="smaller">
+                    <li>⭐️ Put the database and app in the same virtual network<br>
+                        See <a target="_blank" class="smaller aka" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app">https://aka.ms/django-restaurants</a>
+                    <li>If you can't use a VNet, use a firewall to restrict access to the database<br>
+                        See <a target="_blank" class="smaller aka" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">aka.ms/django-pgflex-app</a>
+                        <br>
+                        ⚠️ The firewall still allows access from other Azure-hosted apps.
+                </ul>
+
+                <p>Make it harder to access admin:</p>
+
+                <ul class="smaller">
+                    <li>Customize the admin URL
+                        <pre><code data-trim data-noescape class="python">
+                        ADMIN_URL = os.environ.get("ADMIN_URL")
+                        </code></pre>
+                    <li>Use a<a target="_blank" href="https://pypi.org/project/django-admin-honeypot/">django-admin-honeypot</a> to detect unauthorized access
+                </ul>
+            </section>
+
+            <section>
+                <h3>Django on Azure templates</h3>
+
+                <ul>
+                    <li>All variants of the space tourism app:
+                        <ul>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">Django Postgres - Flexible Server Azure App Service</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca">Django Postgres - Flexible Server Azure Container Apps</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-cosmos-postgres-appservice">Django CosmosDB Postgres Adapter Azure App Service</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-cosmos-postgres-aca">Django CosmosDB Postgres Adapter Azure Container Apps</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-addon-aca">Django Azure Container Apps Postgres Addon Azure Container Apps</a>
+                        </ul>
+                    <li>+ Storage: <a target="_blank" href="https://github.com/tonybaloney/django-on-azure">github.com/tonybaloney/django-on-azure</a>
+                    <li>+ VNet: <a target="_blank" href="https://github.com/Azure-samples/msdocs-django-postgresql-sample-app">github.com/Azure-samples/msdocs-django-postgresql-sample-app</a>
+                    <li>+ Redis: <a target="_blank" href="https://github.com/pamelafox/cookiecutter-django-azure">github.com/pamelafox/cookiecutter-django-azure</a>
+                </ul>
+
+                <p>Also check out the <a target="_blank" href="https://docs.djangoproject.com/en/4.2/intro/tutorial01/">Django tutorial</a>.</p>
             </section>
 
             <section>
@@ -305,6 +788,8 @@
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
     <script>
         Reveal.initialize({
+            width: 1280,
+            height: 720,
             hash: true,
             center: false,
             slideNumber: true,
