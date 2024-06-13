@@ -1,6 +1,6 @@
 # Python Web Apps: Teaching Materials
 
-This repository contains the teaching materials for a 5-part Python Web Apps workshop series,
+This repository contains the teaching materials for a 6-part Python Web Apps workshop series,
 as well as additional links and resources that may be useful for students and teachers.
 
 * [Workshops](#workshops)
@@ -18,8 +18,9 @@ The workshop series is designed to be taught in the following order:
 | Title   | Slides | Slide files | Topics |
 | ------- | ------ | ----------- | ------ |
 | Flask, Routing, Templates | [View online](https://pamelafox.github.io/python-web-apps/flask-web-apps-workshop/) | [See in repo](/flask-web-apps-workshop/) | Introduction to HTTP, web apps, setting up a Flask app, routing, and templates |
-| Databases and ORMs | [View online](https://pamelafox.github.io/python-web-apps/db-web-apps-workshop/) | [See in repo](/db-web-apps-workshop/) |  Introduction to databases, SQLAlchemy, and Django |
-| HTTP APIs| [View online](https://pamelafox.github.io/python-web-apps/http-apis-workshop/) | [See in repo](/http-apis-workshop/) | Introduction to HTTP APIs and FastAPI |
+| Databases and ORMs | [View online](https://pamelafox.github.io/python-web-apps/db-web-apps-workshop/) | [See in repo](/db-web-apps-workshop/) |  Introduction to databases, SQLAlchemy, using Flask with SQLAlchemy |
+| Django | [View online](https://pamelafox.github.io/python-web-apps/django-workshop/) | [See in repo](/django-workshop/) | Introduction to Django framework |
+| FastAPI| [View online](https://pamelafox.github.io/python-web-apps/fastapi-workshop/) | [See in repo](/fastapi-workshop/) | Introduction to HTTP APIs and FastAPI |
 | Containerization | [View online](https://pamelafox.github.io/python-web-apps/containers-workshop/) | [See in repo](/containers-workshop/) | Introduction to Docker and containerization for Python web apps |
 | Testing Web Apps | [View online](https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/) | [See in repo](/testing-web-apps-workshop/)  | Testing Python web apps with pytest and Playwright |
 

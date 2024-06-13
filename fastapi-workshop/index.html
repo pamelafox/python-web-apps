@@ -1,0 +1,1057 @@
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Python Web Apps: FastAPI</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reset.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/theme/simple.css" id="theme">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+        <link rel="stylesheet" href="../static/a11y-dark.min.css">
+		<link rel="stylesheet" href="../static/slides.css">
+	</head>
+    <body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1>Python Web Apps:<br>
+                    FastAPI
+                </h1>
+                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%; display: none;">
+                    Tips for navigating the slides:
+                    <ul>
+                        <li>Press O or Escape for overview mode.</li>
+                        <li>Visit <a href="?print-pdf" target="_blank">this link</a> for a nice printable version</li>
+                        <li>Press the copy icon on the upper right of code blocks to copy the code</li>
+                    </ul>
+                </div>
+
+                <aside class="speaker-notes">
+                </aside>
+            </section>
+
+
+            <section>
+                <h3>Meet Pamela</h3>
+                
+                <img src="https://pamelafox.github.io/my-py-talks/configure-vscode/photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Coursera, Khan Academy, Google</p>
+                <br>
+                <p>Find Pamela online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
+            </section>
+
+            <section>
+                <h3>Today's topics</h3>
+
+                <img src="../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:34px; line-height: 1.5em;">
+                    <li>(Review) HTTP 101
+                    <li>What are HTTP APIs?
+                    <li>Making HTTP APIs with FastAPI
+                    <li>Full-stack FastAPI
+                    <li>FastAPI + AI
+                    <li>Productionizing FastAPI
+                    <li>Hosting HTTP APIs on Azure
+                </ul>
+            </section>
+
+            <section>
+                <h3>Environment setup</h3>
+
+                <p>To follow along with the live coding, your options are:</p>
+                <ol>
+                    <li>                                
+                        <div style="display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 1fr;">
+                            <div>
+                                Online development with Codespaces: 
+                                <ul>
+                                    <li><a target="_blank" href="https://github.com/signup">Github account</a>
+                                </ul>
+                            </div>                                
+                            <div style="background-color: #f0f0f0; padding: 10px;">
+                                Repos we'll use:
+                                <ul>
+                                    <li><a target="_blank" href="https://aka.ms/python-playground">aka.ms/python-playground</a>
+                                    <li><a target="_blank" href="https://aka.ms/fastapi-starter">aka.ms/fastapi-starter</a>
+                                    <li><a target="_blank" href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                                    <li><a target="_blank" href="https://aka.ms/fastapi-azure-functions">aka.ms/fastapi-azure-functions</a>
+                                    <li><a target="_blank" href="https://aka.ms/fastapi-functions-apim">aka.ms/fastapi-functions-apim</a>
+                                </ul>
+                            </div>
+                        </div>
+                    <li class="padded">Local development with VS Code:
+                    <ul>
+                        <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                        <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                        <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                    </ul>
+
+                    <li class="padded">Local development with any editor:
+                    <ul>
+                        <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                    </ul>
+                </ol>
+            </section>
+
+            <section class="heading-only">
+                <h2>HTTP 101
+                </h2>
+
+                <img src="../static/images/AROUND_THE_WORLD_BIT.png" alt="Bit (the raccoon) with 1s and 0s" height="300">
+
+           </section>
+
+            <section>
+                <h3>HTTP (HyperText Transfer Protocol)</h3>
+
+                <p>A client sends an HTTP request:</p>
+
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="http">
+                GET /index.html HTTP/1.1
+                Host: www.example.com
+                </code></pre>
+
+                <p class="padded">A server sends back an HTTP response:</p>
+                <pre style="font-size:0.6em; margin-top: 0px;"><code data-trim data-noescape class="http">
+                HTTP/1.1 200 OK
+                Content-Type: text/html; charset=UTF-8
+                Content-Length: 208
+                &lt;!DOCTYPE html&gt;
+                &lt;html&gt;
+                    &lt;head&gt;
+                        &lt;title&gt;Example Domain&lt;/title&gt;
+                    &lt;/head&gt;
+                    &lt;body&gt;
+                        &lt;h1&gt;Example Domain&lt;/h1&gt;
+                        &lt;p&gt;This domain is to be used for illustrative examples in documents.&lt;/p&gt;
+                    &lt;/body&gt;
+                &lt;/html&gt;
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>HTTP Status Codes</h3>
+
+                <p>Commonly used codes:</p>
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>200</td>
+                            <td>OK</td>
+                        </tr>
+                        <tr>
+                            <td>301</td>
+                            <td>Moved Permanently</td>
+                        <tr>
+                            <td>404</td>
+                            <td>Not Found</td>
+                        </tr>
+                        <tr>
+                            <td>500</td>
+                            <td>Server Error</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <p class="smaller">See more codes at <a target="_blank" href="https://httpcats.com/">HTTPcats.com</a>
+                    or <a target="_blank" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">Wikipedia: HTTP status codes</a>.
+                    </p>
+            </section>
+
+            <section>
+                <h3>HTTP Request Methods</h3>
+
+                <ul>
+                    <li><strong>GET</strong>: retrieve data from a server.
+                    <li><strong>POST</strong>: send data to a server.
+                    <li><strong>PUT</strong>: send data to a server, replacing existing data.
+                    <li><strong>PATCH</strong>: send data to a server, updating part of existing data.
+                    <li><strong>DELETE</strong>: delete data from a server.
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>HTTP APIs</h2>
+
+                <img src="../static/images/DATA_BIT.png" alt="Bit (the raccoon) with 1s and 0s" height="300">
+
+           </section>
+
+            <section>
+                <h3>API (Application Programming Interface)</h3>
+
+                <p>A way for one program to talk to another program.</p>
+                </p>
+                
+                <div class="fragment">
+                <p class="padded">Example:</p>
+                <pre style="font-size:1.0em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                from weather import forecast
+
+                todays_forecast = forecast(94702)
+                </code></pre>
+
+                <p>The <code>weather</code> module's API includes a <code>forecast</code> function
+                    that takes a zip code and returns a forecast.</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>HTTP API</h3>
+
+                <p>Any API that uses HTTP as its communication protocol.
+                </p>
+
+                <p class="padded">A client sends an HTTP request:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="http">
+                GET /weather?zip=94530 HTTP/1.1
+                Host: api.example.com
+                </code></pre>
+
+                <p class="padded">The server sends back an HTTP response:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="http">
+                HTTP/1.1 200 OK
+                Content-Type: text/json; charset=UTF-8
+                Content-Length: 30
+                {"temperature": 70, "wind": 5}
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>HTTP API response formats</h3>
+
+                <ul>
+                    <li>JSON <br>
+                    <pre style="font-size:0.8em; margin-top: 0px;" class="no-code-badge"><code data-trim data-noescape class="html">
+                    {"temperature": 70, "wind": 5}
+                    </code></pre>
+                    <li>XML (including RSS/ATOM)
+                    <pre style="font-size:0.8em; margin-top: 0px;" class="no-code-badge"><code data-trim data-noescape class="html">
+                    &lt;weather-response&gt;
+                      &lt;temperature&gt;70&lt;/temperature&gt;
+                      &lt;wind&gt;5&lt;/wind&gt;
+                    &lt;/weather-response&gt;
+                    </code></pre>
+                    <li>Image<br>
+                    <img src="weather-70.png" alt="Weather icon for 70 degrees" height="100" style="border:1px solid grey;">
+                </ul>
+
+            </section>
+
+            <section>
+                <h3>HTTP APIs: GET vs. POST</h3>
+
+                <p><strong>GET</strong>: retrieve data from a server.<br>
+                    Often used with query parameters.
+                </p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="http">
+                GET /weather?zip=94530 HTTP/1.1
+                Host: api.example.com
+                </code></pre>
+            
+                <p class="padded"><strong>POST</strong>: send data to a server.<br>
+                    Data is often in JSON or form-encoded.
+                </p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="http">
+                POST /scores HTTP/1.1
+                Host: api.example.com
+                player=pamela&score=50
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Processing APIs in Python</h3>
+
+                <p>Follow along in your local Python env or in this Codespace:</p>
+                    <a target="_blank" class="aka" href="https://aka.ms/python-playground">aka.ms/python-playground</a>
+                </p>
+
+
+                <p class="padded">Install <a target="_blank" href="https://pypi.org/project/urllib3/">urllib3</a> and make an HTTP request to an API:</p>
+                <pre style="font-size:0.9em;"><code data-trim data-noescape class="shell">
+                pip install urllib3
+                </code></pre>
+
+                <pre style="font-size:0.9em;"><code data-trim data-noescape class="python">
+                import urllib3
+
+                resp = urllib3.request("GET",
+                    "https://api.zippopotam.us/us/94530")
+                result = resp.json()
+                </code></pre>
+
+                <p>Other ways to make requests: <a target="_blank" href="https://docs.python.org/3/library/urllib.request.html#module-urllib.request">urllib</a>, <a target="_blank" href="https://pypi.org/project/requests/">requests</a>,  <a target="_blank" href="https://github.com/encode/httpx">httpx</a></p>
+
+            </section>
+
+            <section>
+                <h3>Exercise: Process more APIs</h3>
+
+                <p>Using your local Python environment or this Codespace:</p>
+                    <p><a  target="_blank" href="https://github.com/pamelafox/python-3.12-playground">https://github.com/pamelafox/python-3.12-playground</a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/python-playground">aka.ms/python-playground</a>
+                </p>
+
+                <ol>
+                    <li>Use pip to install <code>requests</code> or <code>urllib3</code>.
+                    <li>Make a Python file
+                    <li>Make requests to the APIs below, customizing the URLs as suggested:</p>
+                        <ul>
+                            <li><a target="_blank" href="https://api.zippopotam.us/us/90210">Zippopotamus</a>: Find out your latitude/longitude.
+                            <li><a target="_blank" href="https://api.sunrisesunset.io/json?lat=38.907192&lng=-77.036873&timezone=UTC&date=today">Sunrise/Sunset</a>: Try it for your latitude/longitude.
+                            <li><a target="_blank" href="https://www.reddit.com/r/Wallstreetbets/top.json?limit=10&t=year">Reddit</a>: Try it with the Python subreddit or your favorite subreddit.
+                        </ul>
+                        <p>Tip: You can try them in the browser first to see the JSON response.</p>
+                </ol>
+                <aside class="speaker-notes">Install rich, show JSON response</aside>
+            </section>
+
+            <section>
+                <h3>Popular APIs</h3>
+
+                <p>Some examples:
+                <ul>
+                    <li>Social media: 
+                        <a target="_blank" href="https://developer.twitter.com/en/docs/twitter-api">Twitter API</a>, 
+                        <a target="_blank" href="https://developers.facebook.com/docs/graph-api/">Facebook Graph API</a>, 
+                        <a target="_blank" href="https://developers.facebook.com/products/instagram/apis/">Instagram API</a>
+                    </li>
+                    <li>Productivity software: 
+                        <a target="_blank" href="https://developers.google.com/workspace/products">Google Workspace APIs</a>,
+                        <a target="_blank" href="https://learn.microsoft.com/en-us/graph/overview">Microsoft Graph APIs</a>
+                    </li>
+                    <li>Non-user data:
+                        <a target="_blank" href="https://developers.google.com/maps/documentation/geocoding/overview">Google Maps Geocoding API</a>,
+                        <a target="_blank" href="https://developer-docs.amazon.com/amazon-business/docs/product-search-api-v1-reference">Amazon Products API</a>,
+                        <a target="_blank" href="https://www.themoviedb.org/documentation/api">The Movie DB API</a>,
+                        <a target="_blank" href="https://openweathermap.org/api">OpenWeather API</a>
+                    </li>
+                </ul>
+
+                <p>🔑  Most of the popular APIs require you to sign up for a <strong>key</strong>
+                    so that they can track your usage and limit calls based on your payment level.
+                </p>
+
+            </section>
+
+
+            <section>
+                <h3>Internal APIs</h3>
+
+                <p>An API can also be setup solely for use by the company that made it.</p>
+
+                <p>Many websites have a separate codebase for their frontend and backend,
+                    and all the communication happens over internal APIs.
+                </p>
+
+                <p>Internal APIs should <em>still</em> be documented and easy to use.</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Building an HTTP API<br>
+                with FastAPI</h2>
+
+                <img src="../static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) in front of a computer and Python logo" height="300">
+
+            </section>
+
+            <section>
+                <h3>FastAPI</h3>
+
+                <img src="screenshot_fastapidocs.png" alt="Screenshot of FastAPI auto-generated docs" width="400" style="float:right; border: 1px solid #ccc;">
+
+                <p><a target="_blank" href="https://fastapi.tiangolo.com/">FastAPI</a>
+                is a Python framework designed specifically for building HTTP APIs.
+                </p>
+
+                <ul>
+                    <li>Fast to build <em>and</em> fast to execute
+                    <li>Relies on <a target="_blank" href="https://docs.python.org/3/library/typing.html">Python types</a> (via <a target="_blank" href="https://pydantic-docs.helpmanual.io/">Pydantic</a>)
+                    <li>Auto-generated documentation (via <a target="_blank" href="https://github.com/swagger-api/swagger-ui">Swagger-UI</a>)
+                    <li>Based on the <a target="_blank" href="https://github.com/OAI/OpenAPI-Specification"> OpenAPI</a> specification.
+                </ul>
+            </section>
+
+            <section>
+                <h3>A simple API in FastAPI</h3>
+
+                <p>👩🏼‍💻 Follow along with:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/pyday-fastapi-starter">https://github.com/pamelafox/pyday-fastapi-starter</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/fastapi-starter">aka.ms/fastapi-starter</a>
+                </p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name():
+                    names = ["Minnie", "Margaret", "Myrtle", "Noa", "Nadia"]
+                    random_name = random.choice(names)
+                    return {"name": random_name}
+                </code></pre>
+
+            </section>
+
+
+            <section>
+                <h3>Running FastAPI locally</h3>
+
+                <p>1. Put code in <code>api/main.py</code></p>
+
+                <p class="smaller">2. Install requirements</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                pip install fastapi
+                </code></pre>
+
+                <p class="smaller">3. Run the server</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                fastapi dev api/main.py
+                </code></pre>
+
+                <p class="smaller">4. Try the API and docs<br>
+                    http://127.0.0.1:8000/generate_name <br>
+                    http://127.0.0.1:8000/docs
+                </p>
+
+            </section>
+            <section>
+                <h3>Adding query parameters</h3>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name(max_len: int = None):
+                    names = ["Minnie", "Margaret", "Myrtle", "Noa", "Nadia"]
+                    if max_len:
+                        names = [n for n in names if len(n) <= max_len]
+                    random_name = random.choice(names)
+                    return {"name": random_name}
+                </code></pre>
+
+                <p>FastAPI also supports passing parameters in 
+                    <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/path-params/">path</a>,
+                    <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/cookie-params/">cookies</a>,
+                    <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/header-params/">headers</a>,
+                    or <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/body/">body</a>.</p>
+
+                <aside class="speaker-notes">Notice: params type/default
+
+                    Add length to demonstrate type checking
+                </aside>
+            </section>
+
+
+            <section>
+                <h3>Returning errors in FastAPI</h3>
+
+                <pre style="font-size:0.8em; height:480px;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name(max_len:int = None):
+                    names = ["Minnie", "Margaret", "Myrtle", "Noa", "Nadia"]
+                    if max_len:
+                        names = [n for n in names if len(n) <= max_len]
+                    if len(names) == 0:
+                        raise fastapi.HTTPException(status_code=404, detail="No name found")
+                    random_name = random.choice(names)
+                    return {"name": random_name}
+                </code></pre>
+
+
+                <aside class="speaker-notes">Notice: params type/default, async, auto-JSON, docs
+                </aside>
+            </section>
+
+            <!-- Live demo ideas:
+
+                Add more API parameters
+                Move names to file, make startup function
+                Add a new route to generate something else (pet names? sunset of zip?)
+            -->
+
+            <section>
+                <h3>Exercise: Make an API</h3>
+
+                <p>Using this repo:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/pyday-fastapi-starter">https://github.com/pamelafox/pyday-fastapi-starter</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/fastapi-starter">aka.ms/fastapi-starter</a>
+                </p>
+
+                </p>
+
+                <ol>
+                    <li>Follow the readme steps to get the FastAPI app running.
+                    <li>Add more names to the list.
+                    <li>Add a new API parameter, like <code>ends_with</code>,
+                        <code>includes</code>, or <code>length</code>.
+                    <li>Add a new route to generate something else,
+                        like pet names.
+                </ol>
+            </section>
+
+
+
+            <section class="heading-only">
+                <h2>Productionizing<br>
+                    FastAPI apps</h2>
+
+                <img src="../static/images/AROUND_THE_WORLD_BIT.png" alt="Bit (the raccoon) traveling" width="400">
+
+            </section>
+
+            <section>
+                <h3>Production-level app servers</h3>
+
+                <p>For production, you'll need a server that can handle:</p>
+                    
+                <ul>
+                    <li>handle ASGI (async) apps
+                    <li>process multiple requests concurrently
+                </ul>
+
+                <p>Options:</p>
+                <ul>
+                    <li><a target="_blank" href="https://gunicorn.org/">Gunicorn</a> (WSGI + ASGI*)
+                    <li><a target="_blank" href="https://www.uvicorn.org/">Uvicorn</a> (ASGI only)
+                    <li><a target="_blank" href="https://hypercorn.io/">Hypercorn</a> (ASGI only)
+                </ul>
+            </section>
+
+            <section>
+                <h3>Uvicorn</h3>
+
+                <p>Uvicorn is a production-level server specifically for ASGI apps.</p>
+                
+                <p>As of <a target="_blank" href="https://www.uvicorn.org/release-notes/#0300-2024-05-28">version 0.30.0</a>, uvicorn can handle multiple workers.</p>
+
+                <p>Add <code>uvicorn</code> to <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                fastapi
+                uvicorn[standard]
+                </code></pre>
+
+                <p class="padded">Use <code>uvicorn</code> to run FastAPI app:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                uvicorn api.main:app --workers 4 --port 8000
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Gunicorn</h3>
+
+                <p>Gunicorn is a production-level server
+                    that can run multiple worker processes.</p>
+
+                <p>Add <code>gunicorn</code> to <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                fastapi
+                uvicorn[standard]
+                gunicorn
+                </code></pre>
+
+                <p class="padded">Use <code>gunicorn</code> to run FastAPI app using <code>Uvicorn</code> worker:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn api.main:app --workers 4 \
+                   --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Configuring gunicorn</h3>
+
+                <p>Gunicorn can be configured with a <code>gunicorn.conf.py</code> file
+                to adjust worker count based on CPU cores.</p>
+
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="python">
+                import multiprocessing
+
+                max_requests = 1000
+                max_requests_jitter = 50
+                log_file = "-"
+                bind = "0.0.0.0:8000"
+                worker_class = "uvicorn.workers.UvicornWorker"
+                workers = (multiprocessing.cpu_count() * 2) + 1
+                </code></pre>
+
+                <p class="smaller">The run command can be simplified to:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn main:app
+                </code></pre>
+
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Full-stack FastAPI</h2>
+
+                <img src="../static/images/BIT_DEV.svg" alt="Bit (the raccoon) with computer and code" height="300">
+            </section>
+
+            <section>
+                <h3>FastAPI + Jinja2</h3>
+
+                <p class="smaller">From this repo:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice">
+                        github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                </p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                app = FastAPI()
+                parent_path = pathlib.Path(__file__).parent.parent
+                app.mount("/mount", StaticFiles(directory=parent_path / "static"), name="static")
+                templates = Jinja2Templates(directory=parent_path / "templates")
+
+                @app.get("/", response_class=HTMLResponse)
+                def index(request: Request):
+                    return templates.TemplateResponse("index.html", {"request": request})
+
+                @app.get("/about", response_class=HTMLResponse)
+                def about(request: Request):
+                    return templates.TemplateResponse("about.html", {"request": request})
+                </code></pre>
+                
+            </section>
+
+            <section>
+                <h3>FastAPI + Database</h3>
+
+                <p class="smaller">From this repo:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice">
+                        github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                </p>
+
+                <p class="padded"><a target="_blank" href="https://sqlmodel.tiangolo.com/">SQLModel</a> is built specifically with FastAPI in mind:</p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                # models.py
+                class Destination(SQLModel, table=True):
+                    id: typing.Optional[int] = Field(default=None, primary_key=True)
+                    name: str = Field(index=True)
+                    description: typing.Optional[str]
+                    cruises: typing.List["Cruise"] = Relationship(back_populates="destinations",
+                        link_model=CruiseDestinationLink)
+                
+                # app.py
+                @app.get("/destination/{pk}", response_class=HTMLResponse)
+                def destination_detail(request: Request, pk: int):
+                    with Session(engine) as session:
+                        destination = session.exec(select(Destination).where(Destination.id == pk)).first()
+                        return templates.TemplateResponse(
+                            "destination_detail.html", {"request": request, "destination": destination, "cruises": destination.cruises}
+                        )
+                </code></pre>
+
+            </section>
+
+
+            <section class="heading-only">
+                <h2>FastAPI + AI</h2>
+
+                <img src="../static/images/BIT_AI.svg" alt="Bit (the raccoon) with a brain" height="300">
+            </section>
+
+            <section>
+                <h3>FastAPI + scikit-learn</h3>
+
+                <p class="smaller">From this repo:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/scikitlearn-model-to-fastapi-app">
+                        github.com/pamelafox/scikitlearn-model-to-fastapi-app
+                    </a>
+                </p>
+
+                <p>An API based on a <code>sklearn</code> regression model:</p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                model = joblib.load(f"{os.path.dirname(os.path.realpath(__file__))}/model.pkl")
+
+                @app.get("/model_predict")
+                async def model_predict(
+                    years_code: int,
+                    years_code_pro: int,
+                    ed_level: categories.EdLevel,
+                    main_branch: categories.MainBranch,
+                    country: categories.Country):
+                    X_new = numpy.array([[years_code, years_code_pro, ed_level.value, main_branch.value, country.value]])
+                    result = model.predict(X_new)
+                    return {"prediction": result[0]}
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h2>FastAPI + OpenAI</h2>
+
+                <p class="smaller">From this repo:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/openai-chat-backend-fastapi">
+                        github.com/Azure-Samples/openai-chat-backend-fastapi
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/fastapi-openai">aka.ms/fastapi-openai</a>
+                </p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                @router.post("/chat/stream")
+                async def chat_stream_handler(chat_request: ChatRequest) -> fastapi.responses.StreamingResponse:
+
+                    async def response_stream():
+                        chat_coroutine = clients["openai"].chat.completions.create(
+                            model=os.getenv("AZURE_OPENAI_CHATGPT_DEPLOYMENT", "chatgpt"),
+                            messages=[{"role": "system", "content": SYSTEM_PROMPT}] + chat_request.messages,
+                            stream=True,
+                        )
+                        async for event in await chat_coroutine:
+                            if event.choices:
+                                first_choice = event.model_dump()["choices"][0]
+                                yield json.dumps({"delta": first_choice["delta"]}, ensure_ascii=False) + "\n"
+                
+                    return fastapi.responses.StreamingResponse(response_stream())
+                </code></pre>
+
+                <p>API request/response conforms to <a target="_blank" href="https://aka.ms/chatprotocol">Microsoft AI Chat Protocol</a>.</p>
+            </section>
+
+            <section>
+                <h2>FastAPI + Postgres + OpenAI</h2>
+
+                <p class="smaller">From this repo:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/rag-postgres-openai-python">
+                        github.com/Azure-Samples/rag-postgres-openai-python
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/rag-postgres">aka.ms/rag-postgres</a>
+                </p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                @router.post("/chat")
+                async def chat_handler(chat_request: ChatRequest):
+                    messages = [message.model_dump() for message in chat_request.messages]
+                    searcher = PostgresSearcher(
+                        engine,
+                        openai_embed_client=openai_embed_client,
+                        embed_deployment=openai_embed_deployment,
+                        embed_model=openai_embed_model,
+                    )
+                    ragchat = AdvancedRAGChat(
+                        searcher=searcher,
+                        openai_chat_client=openai_chat_client,
+                        chat_model=openai_chat_model,
+                        chat_deployment=openai_chat_deployment,
+                    )
+                    return (await ragchat.run(messages))
+                </code></pre>
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Hosting FastAPI<br>
+                ...on Azure!</h2>
+
+                <img src="../static/images/BIT_AZURE.png" alt="Bit (the raccoon) in the clouds next to Azure logo" width="400">
+
+            </section>
+
+            <section>
+                <h3>Hosting considerations</h3>
+
+                <ul>
+                    <li>How much traffic do you expect?
+                    <li>How variable will the traffic be?
+                    <li>Do you need scale-to-zero?
+                    <li>What's your budget?
+                    <li>Is it public facing?
+                    <li>How will you manage API use?
+                </ul>
+            </section>
+
+
+            <section>
+                <h3>Azure hosting options</h3>
+                
+                <style>
+                table.deploy-stack {
+                    border-spacing: 30px; 
+                    border-collapse: separate;
+                    border: 0px;
+                }
+
+                table.deploy-stack th, table.deploy-stack td {
+                    font-size: 20px;
+                    border-bottom: 0px none;
+                    border-radius: 12px;
+                    text-align: center;
+                    vertical-align: middle;
+                    padding: 8px;
+                }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>Cloud
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                    <tr>
+                        <th>Environment
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Containers
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Container Management
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+                        
+                    </tr>
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr> 
+                </table>
+                <p class="fragment smaller">
+                    None of the platforms natively "know" about FastAPI, but they can all run Python apps.
+                    <br>
+                    For today, we'll try
+                    <span style="background-color: #00bc70; color: white; padding: 3px 6px; border-radius: 6px;">Functions</span>.</p>
+            </section>
+
+            <section>
+                <h3>Hosting a FastAPI on Azure Functions</h3>
+
+                <p>
+                <img src="fastapi_diagram.png" alt="FastAPI API architecture diagram: Azure Functions, App Service Plan, Storage account, App Insights, Log Analytics Workspace">
+                </p>
+            </section>
+            
+            <section>
+                <h3>Local emulation of FastAPI on Azure Functions</h3>
+
+                <p>Using this repo:<br>
+                    <a  target="_blank" href="https://github.com/Azure-Samples/fastapi-on-azure-functions">github.com/Azure-Samples/fastapi-on-azure-functions</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/fastapi-azure-functions">aka.ms/fastapi-azure-functions</a>
+                </p>
+
+                <ol>
+                    <li>Wait for the Python virtual environment in .venv to be fully activated
+                    <li>Install the requirements:
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    python -m pip install -r requirements.txt
+                    </code></pre>
+                    <li>
+                    <li>Use "Run & Debug" from VS Code or run the command:
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    func host start
+                    </code></pre>
+                </ol>
+
+            </section>
+
+            <section>
+                <h3>Deploying a FastAPI to Azure Functions</h3>
+
+                <p>Using this repo:<br>
+                    <a  target="_blank" href="https://github.com/Azure-Samples/fastapi-on-azure-functions">github.com/Azure-Samples/fastapi-on-azure-functions</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/fastapi-azure-functions">aka.ms/fastapi-azure-functions</a>
+                </p>
+
+                <ol>
+                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/free/">free Azure account</a> and create a subscription.
+                    <li>If not in Codespace, install the <a target="_blank" href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview">Azure Developer CLI</a></p>
+                    <li>Login to your Azure account:
+
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd auth login
+                    </code></pre>
+
+                    <li>Deploy the app:
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd up
+                    </code></pre>
+                </ol>
+
+            </section>
+
+            <section>
+                <h3>What's the hosted API missing?</h3>
+
+                <ul>
+                    <li>CORS handling
+                    <li>Subscription keys
+                    <li>Quotas/Rate limiting
+                    <li>IP blocking
+                    <li>Caching
+                </ul>
+            </section>
+
+            <section>
+                <h3>Azure API Management</h3>
+
+                <p>An <a target="_blank" href="https://learn.microsoft.com/azure/api-management/">Azure API Management Policy</a>
+                    provides all the additional features of a public API.
+                <p>
+
+                <img src="fastapi_apim_diagram.png" width="800" alt="FastAPI API architecture diagram: Azure Functions, Storage account, API Management policy">
+                </p>
+            </section>
+
+
+            <section>
+                <h3>Deploying FastAPI to Functions + APIM</h3>
+
+                <p class="smaller">Using this repo:<br>
+                    <a  target="_blank" href="https://github.com/pamelafox/fastapi-azure-function-apim">github.com/pamelafox/fastapi-azure-function-apim</a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/fastapi-functions-apim">aka.ms/fastapi-functions-apim</a>
+                </p>
+
+                <ol style="line-height:1.0em;">
+                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/free/">free Azure account</a> and create a subscription.
+                    <li>If not in Codespace, install the <a target="_blank" href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview">Azure Developer CLI</a></p>
+                    <li>Login to your Azure account:
+
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd auth login
+                    </code></pre>
+
+                    <li>Deploy the app:
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd up
+                    </code></pre>
+
+                    <li>Once you've verified the API is working, take it down:
+
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd down
+                    </code></pre>
+                </ol>
+
+            </section>
+
+            <section>
+                <h3>Adding Azure CDN</h3>
+
+                <p><a target="_blank" href="https://azure.microsoft.com/en-us/products/cdn/">Azure CDN</a>
+                    provides a global network of servers to cache API responses.</p>
+
+                <img src="fastapi_cdn_diagram.png" alt="FastAPI API architecture diagram: Functions, CDN, Monitoring" height="300">
+                </p>
+
+            </section>
+            
+            <section>
+                <h3>Deploying FastAPI to Functions + Azure CDN</h3>
+
+                <p class="smaller">Using this repo:<br>
+                    <a  target="_blank" href="https://github.com/pamelafox/staticmaps-function">github.com/pamelafox/staticmaps-function</a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/fastapi-functions-cdn">aka.ms/fastapi-functions-cdn</a>
+                </p>
+
+                <ol style="line-height:1.0em;">
+                    <li>Sign up for a <a target="_blank" href="https://azure.microsoft.com/free/">free Azure account</a> and create a subscription.
+                    <li>If not in Codespace, install the <a target="_blank" href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview">Azure Developer CLI</a></p>
+                    <li>Login to your Azure account:
+
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd auth login
+                    </code></pre>
+
+                    <li>Deploy the app:
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd up
+                    </code></pre>
+
+                    <li>Once you've verified the API is working, take it down:
+
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd down
+                    </code></pre>
+                </ol>
+
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Any questions?</h2>
+                <img src="../static/images/BIT_STUDENTS.svg" alt="A bunch of raccoon students with computers" width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        const srcUrlPrefix = "https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/";
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            plugins: [ RevealHighlight, RevealMenu ],
+            pdfSeparateFragments: true
+        });
+
+        window.highlightJsBadge();
+    </script>
+    </body>
+</html>

@@ -391,13 +391,13 @@
                 <img src="../static/images/BIT_STUDENTS.svg" alt="Bit (the raccoon) with raccoon friends" width="400">
             </section>
 
+
             <section>
                 <h3>Django extensions</h3>
 
                 <p>Django is designed to be extensible. Some popular extensions:</p>
 
                 <ul>
-                    <li><a target="_blank" href="https://www.django-rest-framework.org/">Django REST framework</a> for APIs
                     <li><a target="_blank" href="https://django-debug-toolbar.readthedocs.io/en/latest/">Django Debug Toolbar</a> for debugging
                     <li><a target="_blank" href="https://django-crispy-forms.readthedocs.io/en/latest/">Django Crispy Forms</a> for form styling
                     <li><a target="_blank" href="https://django-allauth.readthedocs.io/en/latest/">Django Allauth</a> for authentication
@@ -408,6 +408,38 @@
                 <p>🔗 Read more: <a target="_blank" href="https://learndjango.com/tutorials/20-django-packages-i-use-every-project">
                     20 Django Packages I Use in Every Project</a></p>
             </section>
+            
+            <section>
+                <h3>APIs with Django REST</h3>
+
+                <p>The <a target="_blank" href="https://www.django-rest-framework.org/">Django REST framework</a>
+                    can be used to create CRUD APIs:</p>
+
+                <pre style="font-size:0.5em;"><code data-trim data-noescape class="python">
+                from django.urls import path, include
+                from django.contrib.auth.models import User
+                from rest_framework import routers, serializers, viewsets
+
+                class UserSerializer(serializers.HyperlinkedModelSerializer):
+                    class Meta:
+                        model = User
+                        fields = ['url', 'username', 'email', 'is_staff']
+
+                class UserViewSet(viewsets.ModelViewSet):
+                    queryset = User.objects.all()
+                    serializer_class = UserSerializer
+
+                router = routers.DefaultRouter()
+                router.register(r'users', UserViewSet)
+
+                urlpatterns = [
+                    path('', include(router.urls)),
+                    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+                ]
+                </code></pre>
+            </section>
+
+
 
             <section>
                 <h3>Wagtail CMS</h3>
