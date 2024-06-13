@@ -1,0 +1,803 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aplicaciones Web con Python</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/a11y-light.min.css">
+    <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/slides.css">
+    <link rel="icon" href="https://pamelafox.github.io/python-web-apps/static/images/BIT_ICON.png">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1>Aplicaciones Web<br>Python</h1>
+
+                <div style="text-align: left; margin-top: 100px; font-size: 70%; display:none;">
+                    Consejos para navegar por las diapositivas:<br>
+                    <ul>
+                        <li>Press O or Escape for overview mode.</li>
+                        <li>Visit <a href="?print-pdf" target="_blank">this link</a> for a nice printable version</li>
+                        <li>Press the copy icon on the upper right of code blocks to copy the code</li>
+                    </ul>
+                </div>
+
+                <aside class="speaker-notes">
+                </aside>
+            </section>
+
+
+            <section>
+                <h3>Conoce a Víctor Vázquez</h3>
+
+                <img src="https://avatars.githubusercontent.com/u/24213737"
+                    alt="Foto de Víctor junto a Jessica, su esposa, en Queretaro Mx" style="float:right; height:400px;">
+                <p>Desarrollador en Microsoft (<a target="_blank" href="https://aka.ms/azd">azd</a>)</p>
+                <br>
+                <p>Redes sociales:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/vhvb1989">@vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/vhvb1989">/vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/vhvb1989/">in/vhvb1989</a></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section>
+                <h3>Agenda</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PUBLIC_SPEAKING.svg"
+                    alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:44px; line-height: 1.2em; width: 600px;">
+                    <li>Cómo funciona la web
+                    <li>Web framework: Flask
+                        <ul class="smaller">
+                            <li>👩🏾‍💻 Ejercicio #1: Aplicación Flask
+                            <li>👩🏼‍💻 Ejercicio #2: Herencia en plantillas
+                        </ul>
+                    <li>Web framework: Quart
+                    <li>Alojamiento de aplicaciones web
+                        <ul class="smaller">
+                            <li>👩🏻‍💻 Ejercicio #3: Desplegar una aplicación
+                        </ul>
+                </ul>
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Cómo funciona la web</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_DEV.svg"
+                    alt="Bit (the raccoon) in front of monitors with browsers and analytics" width="400">
+
+            </section>
+
+            <section>
+                <h3>Cliente y Servidor</h3>
+
+                <img src="client_servidor_HTTP.png"
+                    alt="Diagrama de un navegador enviando una solicitud HTTP al servidor y recibiendo una respuesta HTTP" />
+            </section>
+
+            <section>
+                <h3>¿Qué es una petición?</h3>
+
+                Clientes envían peticiones a una ruta en el servidor...
+
+                <p><strong>GET:</strong></p>
+                <ul>
+                    <li>HTML, CSS, and JavaScript para el sitio Web</li>
+                    <li>Archivos para descargar</li>
+                    <li>Texto</li>
+                </ul>
+
+                </br>
+
+                <p><strong>POST:</strong></p>
+                <ul>
+                    <li>Formularios</li>
+                    <li>Archivos para subir</li>
+                </ul>
+                </ul>
+
+            </section>
+
+            <section>
+                <h3 style="font-size:48px;">petición HTTP</h3>
+
+                <p>Ejemplo de petición HTTP:</p>
+
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="text">
+                GET /index.html HTTP/1.1
+                Host: www.example.com
+                </code></pre>
+
+                <p>Ejemplo de respuesta HTTP:</p>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="text">
+                HTTP/1.1 200 OK
+                Content-Type: text/html; charset=UTF-8
+                Content-Length: 208
+                &lt;!DOCTYPE html&gt;
+                    &lt;html&gt;
+                    &lt;head&gt;
+                        &lt;title&gt;Ejemplo&lt;/title&gt;
+                    &lt;/head&gt;
+                    &lt;body&gt;
+                    &lt;h1&gt;Hola Mundo&lt;/h1&gt;
+                    &lt;p&gt;Ejemplo de una respuesta de tipo text/html&lt;/p&gt;
+                    &lt;/body&gt;
+                &lt;/html&gt;
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Respuestas - Código de estado HTTP</h3>
+
+                <p>Códigos populares:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Significado</th>
+                            <th>Segmento </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>100</td>
+                            <td>Continuar</td>
+                            <td>Informativos</td>
+                        </tr>
+                        <tr>
+                            <td>200</td>
+                            <td>OK</td>
+                            <td>Exitosos</td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>301</td>
+                            <td>Migrado a otro sitio</td>
+                            <td>Exitosos</td>
+                        <tr>
+                            <td>404</td>
+                            <td>No encontrado</td>
+                            <td>Errores de cliente</td>
+                        </tr>
+                        <tr>
+                            <td>500</td>
+                            <td>Error en el servidor</td>
+                            <td>Errores del servidor</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <p class="smaller">Ver todos los
+                    <a target="_blank"
+                        href="https://es.wikipedia.org/wiki/Anexo:C%C3%B3digos_de_estado_HTTP">códigos</a>.
+                </p>
+            </section>
+
+            <section>
+                <h3>Que hay en una página Web?</h3>
+
+                <p>Tres tipos de archivos y/o lenguajes:</p>
+
+                <ul>
+                    <li><strong>HTML</strong>: Contenido y estructura de la página</li>
+                    <li><strong>CSS</strong>: Estilos y diseño</li>
+                    <li><strong>JavaScript</strong>: Código</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Ejemplos HTML</h3>
+
+                <p>HTML contiene el contenido y la estructura de una página web utilizando etiquetas como estas:</p>
+
+                <strong>Encabezados</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;h1&gt;Desarrollo Web - Capítulo 1&lt;/h1&gt;
+                </code></pre>
+
+                <strong>Párrafos</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;p&gt;Hoy estoy aprendiendo sobre desarrollo web.&lt;/p&gt;
+                </code></pre>
+
+                <strong>Listas</strong>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                    &lt;ul&gt;
+                        &lt;li&gt;Tema 1 - ¿Qué es la Web?&lt;/li&gt;
+                        &lt;li&gt;Tema 2 - Frameworks de Desarrollo Web&lt;/li&gt;
+                        &lt;li&gt;Tema 3 - Implementación en Azure&lt;/li&gt;
+                    &lt;/ul&gt;
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Ejemplo CSS</h3>
+
+                <p><strong>CSS utiliza reglas para aplicar formas y diseño a los elementos de la página</strong></p>
+
+                Las reglas se pueden aplicar de varias maneras:
+                <ul>
+                    <li>Por tipo de elemento. <em>ejem. Todos los elementos H2</em></li>
+                    <li>Según la estructura. <em>ejem. Vínculos dentro de un encabezado</em></li>
+                    <li>Por reglas especificas mediante clases e identificadores</li>
+                </ul>
+
+                <p><strong>Ejemplo de reglas para encabezados y párrafos de la página:</strong></p>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="CSS">
+                    h1 {
+                        font-family: "Roboto", sans-serif;
+                        color: rgb(240, 50, 132);
+                      }
+
+                    p {
+                        background-color: yellow;
+                      }
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>JavaScript</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/flask-web-apps-workshop/haiku.gif"
+                    alt="Captura de pantalla de una solicitud de chat para escribir un haiku"
+                    style="float:right; height:280px; border: 1px solid #ccc;">
+
+                <p>JavaScript es código que puede ejecutar un navegador Web para aplicar cambios en la página
+                    localmente.</p>
+
+                <p style="clear:right">Ejemplos:</p>
+
+                <ul>
+                    <li>Ejecutar scripts al hacer clic en botones o al escribir</li>
+                    <li>Hacer peticiones y procesar respuestas</li>
+                    <li>Administrar cookies</li>
+                </ul>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Tecnologías para la Web</h3>
+
+                <img height="300" src="client_servidor_HTTP.png">
+                <div style="display:grid; grid-template-columns: 1fr 1fr">
+                    <div>
+                        <p>En el cliente (frontend):</p>
+
+                        <ul style="line-height:1em">
+                            <li>HTML, CSS</li>
+                            <li>JavaScript or TypeScript</li>
+                            <li>Frameworks: React, Vue, Svelte, Lit, Web Components, etc</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <p>En el servidor (backend):</p>
+
+                        <ul style="line-height:1em; column-count: 2">
+                            <li>Python</li>
+                            <li>Node.js</li>
+                            <li>Java</li>
+                            <li>C#</li>
+                            <li>Go</li>
+                            <li>PHP</li>
+                            <li>etc</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Python en el servidor</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PYTHON.svg"
+                    alt="Bit (el mapache) frente a una computadora y el logo de Python" width="400">
+
+            </section>
+
+            <section>
+                <h3>¿Qué es un framework web?</h3>
+
+                <p><strong>¡No reinventes la rueda!</strong></p>
+                <p>Las personas hacen sitios web todo el tiempo, por lo que tenemos herramientas que lo hacen más
+                    simple.</p>
+
+                <strong>Los frameworks web tienen características como:</strong>
+                <ul>
+                    <li>Administrar las rutas URL hacia funciones</li>
+                    <li>Permitirte ejecutar un servidor</li>
+                    <li>Plantillas para tus páginas web</li>
+                </ul>
+
+                <p><em>Diferentes frameworks ofrecen diferentes características y niveles de complejidad.</em></p>
+            </section>
+
+
+            <section>
+                <h3>Python web frameworks</h3>
+
+                <figure style="float:right; width: 40%; border-left: 1px solid grey; padding-left: 12px;">
+                    <img src="graph_frameworks.png" alt="Graph of Python web framework popularity" style="width: 100%;">
+                    <figcaption style="font-size:0.5em">Fuente: <a target="_blank"
+                            href="https://www.jetbrains.com/lp/devecosystem-2023/python/">JetBrains Developers Survey
+                            2023</a></figcaption>
+                </figure>
+
+                <p>Python tiene algunos frameworks web modernos que son populares:</p>
+
+
+                <ul style="width: 55%">
+                    <li><a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/">Flask</a> / <a
+                            target="_blank" href="https://quart.palletsprojects.com/en/latest/">Quart</a>: Ligero,
+                        flexible</li>
+                    <li><a target="_blank" href="https://fastapi.tiangolo.com/">FastAPI</a>: Ligero, popular para el
+                        desarrollo basado en API</li>
+                    <li><a target="_blank" href="https://www.djangoproject.com/">Django</a>: Opinado, incluye
+                        funcionalidad de base de datos</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Flask framework</h3>
+
+                <p><a target="_blank" href="https://flask.palletsprojects.com/en/2.3.x/">Flask</a>, un paquete externo,
+                    es una librería ligera para peticiones y respuestas del servidor.</p>
+
+                <p>Aplicaciones escritas en Flask:</p>
+                <ul>
+                    <li>Reddit
+                    <li>Netflix
+                </ul>
+            </section>
+
+            <section>
+                <h3>Ejemplo: Flask website simple</h3>
+
+                <p class="padded">👩🏼‍💻 Repo: <a target="_blank" class="smaller"
+                        href="https://github.com/Azure-Samples/simple-flask-server-appservice">github.com/Azure-Samples/simple-flask-server-appservice</a>
+                </p>
+
+                <p>El código del servidor está en: <a target="_blank"
+                        href="https://github.com/Azure-Samples/simple-flask-server-appservice/blob/main/app.py">app.py</a>.
+                    Utiliza Flask para generar respuestas para cada ruta.
+                </p>
+
+                <p class="padded">Ejecutar el servidor:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 -m flask run --port 50505 --debug
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Rutas</h3>
+
+                <p>Petición GET en la ruta "/about":</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.get("/about")
+                def index():
+                    return 'About Us'
+                </code></pre>
+
+                <p class="smaller">Parámetros de URL:</p>
+
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.get("/search?query=Hola")
+                def hello():
+                    query = request.args.get("query")
+                    return f"Searching for: {query}!"
+                </code></pre>
+
+                <p class="smaller">Variables de URL:</p>
+
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.get("/book/&lt;id&gt;")
+                def hello(name):
+                    return f"Valor de ID en la ruta: {id}!"
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Rutas</h3>
+
+                <p>Petición POST:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.post("/submit")
+                def submit():
+                    return "¡Gracias!"
+                </code></pre>
+
+                <p class="smaller">Recibir formulario:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.post("/submit")
+                def submit():
+                    name = request.form.get("name")
+                    return f"Gracias, {name}!"
+                </code></pre>
+
+                <p class="smaller">Recibir JSON:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="python">
+                @app.post("/submit")
+                def submit():
+                    data = request.get_json()
+                    name = data.get("name")
+                    return f"Gracias, {name}!"
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Plantillas</h3>
+
+                <p>Flask utiliza plantillas <a target="_blank" href="https://pypi.org/project/Jinja2/">Jinja2</a>.</p>
+
+                <p class="smaller">Variables:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="html">
+                &lt;h1&gt;{{ title }}&lt;/h1&gt;
+                </code></pre>
+
+                <p class="smaller">Condiciones:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="html">
+                {% if user %}
+                    &lt;p&gt;{{ user.name }}&lt;/p&gt;
+                {% else %}
+                    &lt;p&gt;Session no iniciada&lt;/p&gt;
+                {% endif %}
+                </code></pre>
+
+                <p class="smaller">Ciclos:</p>
+                <pre style="margin-top:-15px; font-size:0.8em;"><code data-trim data-noescape class="html">
+                &lt;ul&gt;
+                {% for item in items %}
+                    &lt;li&gt;{{ item }}&lt;/li&gt;
+                {% endfor %}
+                &lt;/ul&gt;
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h3>Pre-requisitos para Ejercicio</h3>
+
+                <p><a target="_blank" href="https://github.com/signup">Github account</a></p>
+
+            </section>
+
+            <section>
+                <h3>Ejercicio: Aplicación Flask</h3>
+
+                <p>Repositorio:<br>
+                    <a target="_blank" class="smaller"
+                        href="https://github.com/Azure-Samples/simple-flask-server-appservice">Azure-Samples/simple-flask-server-appservice</a>
+                    <br>
+                </p>
+                <ol>
+                    <li>Ejecuta la aplicación.
+                    <li>Agrega una nueva ruta para "/about" que utilice una nueva plantilla "about.html".
+                    <li>Verifica que la nueva ruta funcione correctamente.
+                    <li>Agrega un parámetro "location" para la nueva ruta y muestra el valor en la página.
+                </ol>
+                <div style="margin-top: 8rem;">
+                    <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Preguntas? 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+                </div>
+            </section>
+
+            <section>
+                <h3>Herencia en plantillas</h3>
+
+                <p>Jinja2 ofrece <a target="_blank"
+                        href="https://flask.palletsprojects.com/en/2.2.x/patterns/templateinheritance/">herencia en
+                        plantillas</a>.</p>
+
+                <p class="smaller">Plantilla base:</p>
+                <pre style="margin-top:-15px"><code data-trim data-noescape class="html">
+                &lt;html&gt;
+                &lt;head&gt;
+                    &lt;title&gt;{{ title }}&lt;/title&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    {% block content %}{% endblock %}
+                &lt;/body&gt;
+                &lt;/html&gt;
+                </code></pre>
+
+                <p class="smaller">Plantilla hija:</p>
+                <pre style="margin-top:-15px"><code data-trim data-noescape class="html">
+                {% extends "base.html" %}
+                {% block content %}
+                    &lt;h1&gt;About Us&lt;/h1&gt;
+                {% endblock %}
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Ejercicio: Herencia en plantillas</h3>
+
+                <p style="display: none;">Mismo repositorio:<br>
+                    <a target="_blank" class="smaller"
+                        href="https://github.com/Azure-Samples/simple-flask-server-appservice">Azure-Samples/simple-flask-server-appservice</a>
+                    <br>
+                    (Continuar desde el ejercicio anterior).
+                </p>
+                <ol>
+                    <li>Crea una plantilla base basada en lo que es común en las otras páginas.
+                    <li>Actualiza las otras plantillas para que extiendan la plantilla base.
+                    <li>Cambia el error 404 para que use una plantilla que extienda la plantilla base.
+                </ol>
+                <div style="margin-top: 8rem;">
+                    <p>🙋🏼‍♀️🙋🏾‍♀️🙋🏽‍♀️ Preguntas? 🙋🏻‍♀️🙋🏽‍♂️🙋🏿‍♀️</p>
+                </div>
+                </p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Quart & Async</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PYTHON.svg"
+                    alt="Bit (the raccoon) in front of a computer and Python logo" width="400">
+            </section>
+
+            <section>
+                <h3>Quart</h3>
+
+                <p><a target="_blank" href="https://quart.palletsprojects.com/">Quart</a> es la version asíncrona de
+                    Flask.</p>
+
+                <pre><code data-trim data-noescape class="python">
+                @app.get("/")
+                async def index():
+                    return await render_template("index.html")
+                </code></pre>
+
+                <br>
+                <p class="padded">Quart es útil cuando las aplicaciones tienen llamadas de E/S lentas:</p>
+
+                <pre><code data-trim data-noescape class="python">
+                @app.route('/')
+                async def chat():
+                    return await openai_client.chat.completions.create(
+                        messages=[{"role": "user", "content": "Write a haiku"}]
+                    )
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>La importancia de async</h3>
+
+                <p>Necesitamos async para construir aplicaciones web modernas que admitan concurrencia.</p>
+
+                <p>Una aplicación web sin async:</p>
+
+                <img src="https://pamelafox.github.io/python-web-apps/flask-web-apps-workshop/diagram_sync.png"
+                    alt="Diagram of a synchronous web app" style="width: 40%;">
+
+                <p>Una aplicación web con async puede manejar nuevas solicitudes mientras espera una operación de E/S:
+                </p>
+
+                <img src="https://pamelafox.github.io/python-web-apps/flask-web-apps-workshop/diagram_async.png"
+                    alt="Diagram of an asynchronous web app" style="width: 40%;">
+
+                <p>Cualquier aplicación con solicitudes de red lentas, consultas a la base de datos o lecturas de
+                    archivos puede beneficiarse.</p>
+
+                </p>
+            </section>
+
+            <section>
+                <h3>De Flask a Quart</h3>
+
+                <p>Instalar Quart:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                pip install quart
+                </code></pre>
+
+                <p>Actualiza la app :</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                from quart import Quart
+
+                app = Quart(__name__)
+                </code></pre>
+
+                <p>Usar rutas async:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                @app.route('/')
+                async def index():
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Ejemplos con Quart</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Repositorio
+                            <th>Descripción
+                    <tbody>
+                        <tr>
+                            <td><a target="_blank" href="https://github.com/Azure-Samples/azure-search-openai-demo/">
+                                    azure-search-openai-demo</a>
+                            <td>Aplicación de chat con OpenAI / RAG
+                        <tr>
+                            <td><a target="_blank" href="https://github.com/Azure-Samples/openai-chat-app-quickstart">
+                                    openai-chat-app-quickstart</a>
+                            <td>Chat simple con OpenAI
+                        <tr>
+                            <td><a target="_blank"
+                                    href="https://github.com/Azure-Samples/openai-chat-app-entra-auth-local">
+                                    openai-chat-app-entra-auth-local</a>
+                            <td>Chat simple con OpenAI y autenticación con Quart-Session
+                </table>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Alojamiento de aplicaciones web</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_AZURE.png"
+                    alt="Bit (the raccoon) on a cloud with the Azure logo" width="400">
+
+            </section>
+
+            <section>
+                <h3>Opciones de alojamiento</h3>
+
+                <p>Cuando tu sitio web está <strong>alojado</strong> en un servidor,
+                    significa que otros usuarios en Internet pueden acceder a él.
+                </p>
+
+                <p>Hay muchas opciones de alojamiento:
+                <ul>
+                    <li>Una computadora alquilada en un centro de datos
+                    <li>Una máquina virtual
+                    <li>Un PaaS (plataforma como servicio)
+                </ul>
+
+                <p>Considera:
+                <ul>
+                    <li>¿Cuánto control deseas tener?
+                    <li>¿Disfrutas administrar sistemas?
+                    <li>¿Necesitas que pueda escalar?
+                </ul>
+            </section>
+
+            <section>
+                <h3>Opciones de alojamiento en Azure</h3>
+
+                <style>
+                    table.deploy-stack {
+                        border-spacing: 30px;
+                        border-collapse: separate;
+                        border: 0px;
+                    }
+
+                    table.deploy-stack th,
+                    table.deploy-stack td {
+                        font-size: 20px;
+                        border-bottom: 0px none;
+                        border-radius: 12px;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 8px;
+                    }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr>
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Container Management
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+
+                    </tr>
+                    <tr>
+                        <th>Entorno
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Containers
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>Nube
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                </table>
+                <p class="fragment smaller">Para Flask, <span
+                        style="background-color: #00bc70; color: white; padding-left: 8px; padding-right: 8px; border-radius: 8px;">App
+                        Service</span> es la forma más fácil de comenzar.</p>
+            </section>
+
+            <section>
+                <h3>Alojamiento de aplicación Flask en Azure</h3>
+
+                <p>
+                    <img src="https://pamelafox.github.io/python-web-apps/flask-web-apps-workshop/flask_diagram.png"
+                        alt="Flask app architecture diagram: App Service, App Service Plan, Log Analytics workspace"
+                        height="375">
+                </p>
+
+                <p>Utilizando <a target="_blank"
+                        href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview?WT.mc_id=python-79461-pamelafox">Azure
+                        Developer CLI</a>:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                azd up
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Desplegar aplicación web en Azure</h3>
+
+                <ol>
+                    <li>Obtén una <a target="_blank"
+                            href="https://azure.microsoft.com/free/?WT.mc_id=python-81211-pamelafox">cuenta gratuita de
+                            Azure</a>
+                    <li>Utiliza el Codespaces de los ejercicios anteriores o
+                        <a target="_blank"
+                            href="https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd?WT.mc_id=python-81211-pamelafox">
+                            instala Azure Developer CLI.</a>
+                    <li>Ejecuta <code>azd up</code>. Si es la primera vez, tendrás que usar <code>azd auth login</code> primero.
+                    <li>Si se despliega correctamente, comparte la URL en el chat!!.
+                        Si no, qué error obtienes??. 🪲
+                    <li>Una vez que hayas verificado que la aplicación funciona, ejecuta <code>azd down</code> para remover la aplicación (para no desperdiciar recursos en la nube innecesariamente).
+                </ol>
+            </section>
+            
+            <section class="heading-only">
+                <h2>¿Alguna pregunta?</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg" alt="A bunch of raccoon students with computers"
+                    width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            autoPlayMedia: true,
+            plugins: [RevealHighlight, RevealMenu],
+            pdfSeparateFragments: true
+        });
+        window.highlightJsBadge();
+    </script>
+</body>
+
+</html>
