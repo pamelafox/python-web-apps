@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>Testing Web Apps in Python</title>
+		<title>Python Web Apps: Testing</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reset.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/theme/simple.css" id="theme">
@@ -17,10 +17,15 @@
         <div class="slides">
 
             <section class="heading-only" style="padding-top:5%">
-                <h1 style="font-size:3.3em;">Testing Web Apps<br>
-                    in Python
+                <h1 style="font-size:3.3em;">Python Web Apps:<br>
+                    Testing
                 </h1>
-                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%;">
+
+                <h2><a target="_blank" class="aka" style="font-size:0.8em;" href="https://aka.ms/python-web-apps-testing">
+                    aka.ms/python-web-apps-testing</a>
+                </h2>
+
+                <div class="no-print" style="text-align: left; margin-top: 100px; font-size: 70%; display: none;">
                     Tips for navigating the slides:
                     <ul>
                         <li>Press O or Escape for overview mode.</li>
@@ -30,39 +35,41 @@
                 </div>
             </section>
 
+            
             <section>
-                <h3>Welcome!</h3>
-
-                <p>Classroom "rules":</p>
-                <ul>
-                    <li>I am here for you!</li>
-                    <li>Every question is important</li>
-                    <li>Help each other</li>
-                </ul>
+                <h3>Meet Pamela</h3>
+                
+                <img src="https://pamelafox.github.io/my-py-talks/configure-vscode/photo_pamela_olaf.jpg" alt="Photo of Pamela smiling with an Olaf statue" style="float:right; height:400px;">
+                <p>Python Cloud Advocate at Microsoft</p>
+                <p>Formerly: UC Berkeley, Coursera, Khan Academy, Google</p>
+                <br>
+                <p>Find Pamela online at:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                      <td>Mastodon
+                      <td><a target="_blank" href="https://fosstodon.org/@pamelafox">@pamelafox@fosstodon.org</a></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/pamelafox">@pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/pamelafox">www.github.com/pamelafox</a></td>
+                      </tr>
+                    <tr>
+                        <td>Website
+                        <td><a target="_blank" href="https://www.pamelafox.org">pamelafox.org</a></td>
+                      </tr>
+                  </table>
             </section>
 
-            <section>
-                <h3>Introductions</h3>
-                <p>Tell us about yourself:</p>
-                <ul>
-                    <li>Name
-                    <li>Pronouns
-                    <li>Location
-                    <li>Programming experience 
-                    <li>What interests you about testing?
-                    <li>What's a yummy under-appreciated fruit? 🍍
-                </ul>
-                <p>
-                    <a target="_blank" href="https://flasksurveys-xvmcme-containerapp.redcoast-67e33cd1.eastus.azurecontainerapps.io/surveys/3">Take the survey!</a>
-                </p>
-            </section>
             
             <section>
                 <h3>Today's topics</h3>
 
                 <img src="../static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="300" style="float:right;">
                 <ul style="margin-top:20px; line-height: 1.2em;">
-                    <li>Testing overview
                     <li>Unittest framework
                     <li>Pytest framework
                     <li>Coverage
@@ -74,21 +81,42 @@
             </section>
 
 
-            <section class="heading-only">
-                <h2>Testing overview</h2>
-
-            </section>
-
             <section>
-                <h3>Test types</h3>
+                <h3>Environment setup</h3>
+                <p>To follow along with the live coding, your options are:</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr;">
+                    <div>
 
+                <ol>
+                    <li>            
+                        Online dev with Codespaces: 
+                        <ul>
+                            <li><a target="_blank" href="https://github.com/signup">Github account</a>
+                        </ul> 
+                    <li class="padded">Local development with VS Code:
+                    <ul>
+                        <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                        <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                        <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                    </ul>
+
+                    <li class="padded">Local development with any editor:
+                    <ul>
+                        <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                    </ul>
+                </ol>
+            </div>
+
+            <div style="background-color: #f0f0f0; padding: 10px;">
+                Repos we'll use:
                 <ul>
-                    <li><strong>unit tests</strong>: checks small units (e.g. functions)</li>
-                    <li><strong>integration tests</strong>: checks across parts of the program</li>
-                    <li><strong>end-to-end tests</strong>: checks user flows through program</li>
-                    <li><strong>manual testing</strong>: same, but not automated 😢</li>
+                    <li><a target="_blank" href="https://aka.ms/pytest-exercise">aka.ms/pytest-exercise</a>
+                    <li><a target="_blank" href="https://aka.ms/pytest-fastapi">aka.ms/pytest-fastapi</a>
+                    <li><a target="_blank" href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
                 </ul>
-            </section>
+            </div>
+        </div>
+    </section>
 
             <section>
                 <h3>Testing pyramid</h3>
@@ -96,21 +124,6 @@
                 <img src="software_testing_pyramid.png" alt="Software testing pyramid" height="550"/>
             </section>
 
-            <section>
-                <h3>Testing philosophies</h3>
-
-                <ul>
-                <li><strong>Test-First Development (TFD)</strong>: Write tests first, then write the code.</li>
-                <li><strong>Test-Driven Development (TDD)</strong>: A much stricter version of TFD
-                    which involves the "red-green-refactor".</li>
-                </ul>
-
-                <p class="fragment">For most people, the philosophy is that "tests are good", since
-                they give you more confidence in the correctness of your code.
-                Their main drawback is the time required to write and run them.
-                </p>
-
-            </section>
 
             <section class="heading-only">
                 <h2>unittest</h2>
@@ -164,13 +177,13 @@
 
                 <p>Run a single file:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
-                python3 -m unittest test_sum_scores.py
+                python -m unittest test_sum_scores.py
                 </code></pre>
 
                 <br>
                 <p>Run all <a target="_blank" href="https://docs.python.org/3/library/unittest.html#unittest-test-discovery">discoverable</a> tests:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
-                python3 -m unittest
+                python -m unittest
                 </code></pre>
                 <br>
                 <p>For more options, <a target="_blank" href="https://docs.python.org/3/library/unittest.html#command-line-interface">read the docs</a>.</p>
@@ -215,13 +228,13 @@
                 <br>
                 <p>Run a single file:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
-                python3 -m pytest sum_scores_test.py
+                python -m pytest sum_scores_test.py
                 </code></pre>
 
                 <br>
                 <p>Run all <a target="_blank" href="https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#test-discovery">discoverable</a> tests:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
-                python3 -m pytest
+                python -m pytest
                 </code></pre>
             </section>
 
@@ -247,13 +260,16 @@
                 <p>Starting from this repo:<br>
                     <a target="_blank" href="https://github.com/pamelafox/testing-workshop-starter">
                         github.com/pamelafox/testing-workshop-starter
+                    </a><br>
+                    <a target="_blank" class="aka" href="https://aka.ms/pytest-exercise">
+                        aka.ms/pytest-exercise
                     </a>
                 </p>
-                <ul>
-                    <li>Follow the README instructions to open the project.
+                <ol>
+                    <li>Open the project in GitHub Codespaces.
                     <li>Inside <code>tests/texter_test.py</code>, add tests for the <code>src/texter.py</code> functions.
                     <li>Run the tests using pytest and make sure they pass.
-                </ul>
+                </ol>
             </section>
 
             <section class="heading-only">
@@ -357,17 +373,25 @@
             <section>
                 <h3>Exercise: Test coverage</h3>
 
-                <p>Returning to the previous repo:</p>
-                <ul>
+                <p>Using the previous repo:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/testing-workshop-starter">
+                        github.com/pamelafox/testing-workshop-starter
+                    </a><br>
+                    <a target="_blank" class="aka" href="https://aka.ms/pytest-exercise">
+                        aka.ms/pytest-exercise
+                    </a>
+                </p>
+
+                <ol>
                     <li>In <code>pyproject.toml</code>, add the following to <code>addopts</code>:
                         <br>
                         <code> --cov src --cov-report term-missing</code>
                     <li>Run pytest and check the coverage report.
-                    <li>Add the <a target="_blank" href="https://gist.github.com/pamelafox/bbec123e8970e0e41d74cfb726c91e14">conditionals.py</a> file
+                    <li>Move <code>extras/conditionals.py</code>
                         to the <code>src/</code> directory.
                     <li>Add tests for the functions in <code>conditionals.py</code>.
                     <li>Keep adding tests until you get to 100% coverage.
-                </ul>
+                </ol>
             </section>
 
             <section class="heading-only">
@@ -470,11 +494,17 @@
             <section>
                 <h3>FastAPI: Example app</h3>
 
+                <p>Using this repo:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/simple-fastapi-container/">
+                    github.com/pamelafox/simple-fastapi-container/
+                    </a>
+                    <br>
+                   <a class="aka" target="_blank" href="https://aka.ms/pytest-fastapi">aka.ms/pytest-fastapi</a>
+                </p>
+
                 <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
                 import random
-
                 import fastapi
-
                 from .data import names
 
                 app = fastapi.FastAPI()
@@ -489,10 +519,6 @@
                     return {"name": random_name}
                 </code></pre>
                 
-                <p>From <a target="_blank" href="https://github.com/pamelafox/simple-fastapi-container/">
-                    github.com/pamelafox/simple-fastapi-container/
-                    </a>
-                </p>
             </section>
 
             <section>
@@ -533,10 +559,13 @@
                 </p>
                 <ul>
                     <li>Open repo in Codespaces or locally.
-                    <li>Run <code>python3 -m pytest</code> to run current tests.</li>
-                    <li>Add a new route to generate random pet names.</li>
-                    <li>Add tests for the new route.</li>
-                    <li>Run <code>python3 -m pytest</code> to run all tests, ensure 100% coverage.</li>
+                    <li>Run current tests:<br>
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                        python -m pytest
+                        </code></pre>
+                    <li>Add a new route in <code>main.py</code> to generate random pet names.</li>
+                    <li>Add tests to <code>api_test.py</code> for the new route.</li>
+                    <li>Run <code>python -m pytest</code> to run all tests, ensure 100% coverage.</li>
                 </ul>
             </section>
 
@@ -564,16 +593,24 @@
 
 
             <section>
-                <h3>Writing a Playwright test</h3>
+                <h3>Getting started with Playwright</h3>
+        
+                <p class="smaller">Using this repo:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice/">
+                        github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a><br>
+                    <a class="aka" target="_blank" href="https://aka.ms/fastapi-postgres-app">
+                        aka.ms/fastapi-postgres-app
+                    </a>
+                </p>
 
                 <p>Install playwright, pytest plugin, and browsers:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
-                pip3 install playwright
-                pip3 install pytest-playwright
-                playwright install --with-deps
+                pip3 install playwright pytest-playwright
+                playwright install chromium --with-deps
                 </code></pre>
 
-                <p>Write a test:</p>
+                <p>Write a basic test:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
                 import pytest
                 from playwright.sync_api import Page, expect
@@ -585,7 +622,7 @@
             </section>
 
             <section>
-                <h3>Setting up a live server</h3>
+                <h3>Setting up a live_server fixture</h3>
 
                 <pre style="font-size:0.7em; height:550px;"><code data-trim data-noescape class="python">
                 from multiprocessing import Process
@@ -610,23 +647,110 @@
                 </code></pre>
             </section>
 
+
+            <section>
+                <h3>Writing tests</h3>
+
+                <p>Use the codegen tool to generate Playwright calls with <a target="_blank" href="https://playwright.dev/python/docs/locators">locators</a>:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                playwright codegen https://localhost:8000
+                </code></pre>
+
+                <p class="padded">Then copy the generated test into your test file and add 
+                    <a target="_blank" href="https://playwright.dev/python/docs/test-assertions">assertions</a>.</p>
+
+                <p class="padded">
+                    Learn more in the <a target="_blank" href="https://playwright.dev/python/">Playwright Python docs</a>.
+                </p>
+            </section>
+
+            <section>
+                <h3>Running Playwright tests</h3>
+
+                <p>Run the tests:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                python3 -m pytest
+                </code></pre>
+
+                <div class="fragment">
+                <p class="padded">Run the tests in headed mode:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                python3 -m pytest --headed
+                </code></pre>
+                <p>⚠️ This won't work in GitHub Codespaces.</p>
+                </div>
+
+                <div class="fragment">
+                <p class="padded">Run the tests with tracing on:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                python3 -m pytest --tracing=on
+                </code></pre>
+                <p>View traces locally or with <a target="_blank" href="https://trace.playwright.dev/">Playwright trace viewer</a>.</p>
+
+                <p class="padded">For more options, see the <a target="_blank" href="https://playwright.dev/python/docs/test-runners">pytest playwright plugin reference</a>.</p>
+                </div>
+
+            </section>
+            
+
+            <section>
+                <h3>Accessibility testing</h3>
+
+                <p>Use the axe library to run accessibility tests,
+                 via <a target="_blank" href="https://pypi.org/project/axe-playwright-python/">axe-playwright-python</a>
+                 or <a target="_blank" href="https://github.com/pamelafox/pytest-axe-playwright-snapshot">pytest-axe-playwright-snapshot</a>.</p>
+
+                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                def test_a11y(app, live_server, page: Page):
+                    page.goto(url_for("home_page", _external=True))
+                    results = Axe().run(page)
+                    assert results.violations_count == 0, results.generate_report()
+                </code></pre>
+
+                 <ul>
+                    <li>
+                        <a target="_blank" href="https://blog.pamelafox.org/2023/07/automated-accessibility-audits-for.html">
+                            Automated accessibility audits for Python web apps
+                        </a>
+                    <li><a target="_blank" href="https://blog.pamelafox.org/2023/08/accessibility-snapshot-testing-for.html">
+                        Accessibility snapshot testing for Playwright
+                    </a>
+                </ul>
+            </section>
+
             <section>
                 <h3>Exercise: Playwright tests</h3>
 
-                
-                <p>Starting from this repo:<br>
+                <p>Using this repo:<br>
                     <a target="_blank" href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice/">
                         github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a><br>
+                    <a class="aka" target="_blank" href="https://aka.ms/fastapi-postgres-app">
+                        aka.ms/fastapi-postgres-app
                     </a>
                 </p>
                 <ul>
-                    <li>Open repo in Codespaces or locally.
-                    <li>Follow the <a target="_blank" href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice/tree/main#running-tests">README instructions to run the tests</a>.
+                    <li>Open repo in Codespaces.
+                    <li>Install the testing dependencies:
+
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                            python3 -m pip install -r requirements-dev.txt
+                            python3 -m playwright install chromium --with-deps
+                        </code></pre>
+                    <li>Run the tests:
+
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                            python3 -m pytest
+                        </code></pre>
                     <li>Add a new test that checks the footer contains 2023.
                     <li>Re-run the tests and confirm the new test passes.
                 </ul>
             </section>
-                
+
+        
             <section class="heading-only">
                 <h2>Testing workflow</h2>
             </section>
@@ -721,6 +845,8 @@
     <script>
         const srcUrlPrefix = "https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/";
         Reveal.initialize({
+            width: 1280,
+            height: 720,
             hash: true,
             center: false,
             slideNumber: true,
