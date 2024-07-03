@@ -1,0 +1,787 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Databases & ORMS</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+        <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/a11y-dark.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500|Work+Sans:400,700">
+        <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/slides.css">
+        <link rel="icon" href="https://pamelafox.github.io/python-web-apps/static/images/BIT_ICON.png">
+	</head>
+    <body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1 style="font-size:120px">Aplicaciones Web<br>
+                    Con bases de datos</h1>
+            </section>
+
+            <section>
+                <h3>Conoce a Víctor Vázquez</h3>
+
+                <img src="https://avatars.githubusercontent.com/u/24213737"
+                    alt="Foto de Víctor junto a Jessica, su esposa, en Queretaro Mx" style="float:right; height:400px;">
+                <p>Desarrollador en Microsoft (<a target="_blank" href="https://aka.ms/azd">azd</a>)</p>
+                <br>
+                <p>Redes sociales:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/vhvb1989">@vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/vhvb1989">/vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/vhvb1989/">in/vhvb1989</a></td>
+                    </tr>
+                </table>
+            </section>
+        
+            <section>
+                <h3>Agenda</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (the raccoon) lecturing" width="200" style="float:right;">
+                <ul style="margin-top:20px; font-size:44px; line-height: 1.5em; float:left; width:800px;">
+                    <li>Bases de datos
+                        <ul style="font-size:0.6em">
+                            <li style="line-height:1em;">👩🏾‍💻 Ejercicio: PostgreSQL Playground
+                        </ul>
+                    <li>Bases de datos en Python
+                        <ul style="font-size:0.6em">
+                            <li style="line-height:1em;">👩🏼‍💻 Ejercicio: PostgreSQL Playground Parte II
+                        </ul>
+                    <li>Flask con bases de datos
+                        <ul style="font-size:0.6em">
+                            <li style="line-height:1em;">👩🏻‍💻 Ejercicio: Example Flask + Base de datos
+                        </ul>
+                    <li>Desplegando aplicaciones web y bases de datos
+                        <ul style="font-size:0.6em">
+                            <li style="line-height:1em;">🧑🏿‍💻 Ejercicio: Desplegar PostgreSQL
+                            <li style="line-height:1em;">👨🏻‍💻 Ejercicio: Desplegar Aplicación Flask+PG
+                        </ul>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Herramientas</h3>
+
+                <p>Opciones para realizar los ejercicios:</p>
+                <ol>
+                    <li>Codespaces: 
+                        <ul>
+                            <li><a target="_blank" href="https://github.com/signup">Github account</a>
+                            </ul>
+                    <li class="padded">VS Code local + devContainer:
+                    <ul>
+                        <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                        <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers extension</a></li>
+                        <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                    </ul>
+
+                    <li class="padded">Local sin VS Code:
+                    <ul>
+                        <li>Editor de texto</li>
+                        <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                        <li><a target="_blank" href="https://www.postgresql.org/download/">PostgreSQL</a></li>
+                    </ul>
+                </ol>
+            </section>
+
+            <section class="heading-only">
+                <h2>Bases de datos y ORMs</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/DATA_BIT.svg" alt="Bit (the raccoon) with 0s and 1s behind" width="400">
+            </section>
+
+            <section>
+                <h3>Tipos de base de datos</h3>
+
+                <figure style="float:right;" style="width:30%;">
+                    <img src="graph_databases.png" alt="Graph of  database popularity">
+                    <figcaption style="font-size:0.5em;">Fuente: <a target="_blank" href="https://www.jetbrains.com/lp/devecosystem-2023/databases/">JetBrains Developers Survey 2023</a></figcaption>
+                </figure>
+
+                <div style="float:left; width: 60%;">
+                <ul>
+                    <li><strong>No relacionales</strong>
+                        <ul>
+                            <li>MongoDB
+                            <li>Redis
+                            <li>Cosmos DB for NoSQL
+                        </ul>
+                    </li>
+                    <li><strong>Relacionales</strong>
+                        <ul>
+                            <li>PostgreSQL
+                            <li>MySQL
+                            <li>SQLite
+                            <li>MS SQL server
+                    </li>
+                </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Bases de datos no relacionales</h3>
+
+                <p>Almacena los datos de manera flexible, a menudo como documentos JSON o como almacenes de llave-valor.</p>
+                                
+                <p>Ejemplo de documento en una colección de <strong>MongoDB</strong>:</p>
+                <pre><code data-trim data-noescape class="json">
+                {
+                    "username": "Pamela Fox",
+                    "email": "pamelafox@microsoft.com"
+                }
+                </code></pre>
+
+                <p class="padded">Ejemplo de par llave-valor en <strong>Redis</strong>:</p>
+                <pre><code data-trim data-noescape class="shell">
+                usersession1234: { "username": "Pamela Fox", "email": "pamelafox@microsoft.com" }
+                </code></pre>
+            </section>
+            
+            <section>
+                <h3>Bases de datos relacionales</h3>
+
+                <p>Una <strong>base de datos relacional</strong> contiene <strong>tablas</strong>. <br>
+                    Cada tabla tiene <strong>columnas</strong> y <strong>filas</strong>.</p>
+                
+                <p>Ejemplo de tabla llamada <code>expositores</code>:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>nombre</th>
+                            <th>titulo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Pamela Fox</td>
+                            <td>Python Cloud Advocate</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Renee Noble</td>
+                            <td>Python Cloud Advocate</td> 
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Victor Vazquez</td>
+                            <td>Software Developer</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Dawn Wages</td>
+                            <td>Python Community Advocate</td>
+                        </tr>
+                </table>
+            </section>
+
+            <section>
+                <h3>SQL</h3>
+
+                <p><strong>SQL (Structured Query Language)</strong> es un lenguaje para consultar y modificar bases de datos relacionales.</p>
+
+                <p>Comandos SQL:</p>
+                <ul>
+                    <li><code>SELECT</code> - obtener datos
+                    <li><code>INSERT</code> - agregar datos
+                    <li><code>UPDATE</code> - modificar datos
+                    <li><code>DELETE</code> - eliminar datos
+                </ul>
+
+                <p>Aprende SQL de forma gratuita en Khan Academy:
+                    <a target="_blank" href="https://www.khanacademy.org/computing/computer-programming/sql">khanacademy.org/computing/computer-programming/sql</a>
+                </p>
+
+                <aside class="notes">
+                    Show book challenge
+                </aside>
+            </section>
+
+            <section>
+                <h3>PostgreSQL</h3>
+
+                <p><a target="_blank" href="https://www.postgresql.org/">PostgreSQL</a> es una popular base de datos relacional de código abierto que admite JSON, XML y otros tipos de datos.</p>
+
+                <pre><code data-trim data-noescape class="sql">
+                CREATE TABLE cities (
+                    name            varchar(80),
+                    location        point
+                );
+                INSERT INTO cities VALUES ('San Francisco', '(-194.0, 53.0)');
+                SELECT name FROM cities WHERE location <@ circle '((0,0), 300)';
+                </code></pre>
+
+                <p>Existen muchas extensiones populares para PostgreSQL, como
+                    <a target="_blank" href="https://postgis.net/">PostGIS</a> para datos geoespaciales y
+                    <a target="_blank" href="https://github.com/pgvector/pgvector">pgvector</a> para búsqueda de similitud vectorial.</p>
+
+                <p>Bibliotecas de Python para PostgreSQL:
+                    <a target="_blank" href="https://www.psycopg.org/">psycopg (controlador)</a>,
+                    <a target="_blank" href="https://www.sqlalchemy.org/">SQLAlchemy (ORM)</a>
+                </p>
+                <p>Playgrounds: <a target="_blank" href="https://github.com/pamelafox/postgresql-playground">PostgreSQL playground</a>,
+                    <a target="_blank" href="https://github.com/pamelafox/pgvector-playground">pgvector playground</a></p>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Juega con PostgreSQL</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a  target="_blank" class="smaller" href="https://github.com/pamelafox/postgresql-playground">github.com/pamelafox/postgresql-playground</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/postgres-playground">aka.ms/postgres-playground</a>
+                </p>
+
+                <ol>
+                    <li>Abre en GitHub Codespaces o en VS Code con la extensión Dev Containers
+                    <li>Copia el archivo <code>.env.devcontainer</code> en un archivo <code>.env</code>
+                    <li>Abre la extensión SQLTools desde la barra lateral y selecciona 'Base de datos local'
+                    <li>Ingresa estas sentencias SQL y selecciona 'Ejecutar en la conexión activa':
+
+                    <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="sql">
+                        CREATE TABLE restaurants (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL);
+                        INSERT INTO restaurants (name) VALUES ('Casa Latina');
+                        SELECT * FROM restaurants;
+                    </code></pre>
+
+                    <li>Explora los resultados en la extensión
+                </ol>
+            
+            </section>
+                        
+
+            <section class="heading-only">
+                <h2>Accediendo a bases de datos desde Python</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PYTHON.svg" alt="Bit (the raccoon) programando" width="400">
+            </section>
+            
+            <section>
+                <h3>Accediendo a bases de datos desde Python: SQL</h3>
+
+                <p>Una opción es llamar directamente a SQL desde un controlador de base de datos.</p>
+
+                <pre style="height:480px;"><code data-trim data-noescape class="python">
+                import psycopg2
+
+                conn = psycopg2.connect(
+                    host=os.environ["PGHOST"],
+                    database=os.environ["PGDATABASE"],
+                    user=os.environ["PGUSSER"],
+                    password=os.environ["PGPASS"],
+                )
+                cur = conn.cursor()
+                cur.execute("CREATE TABLE restaurants (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL)")
+                conn.commit()
+                cur.close()
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Riesgos de usar SQL directamente</h3>
+
+                <p>⚠️ Ejecutar SQL sin procesar hace que tu aplicación sea vulnerable a ataques de inyección de SQL.
+                </p>
+
+                <p>Lo que esperas:</p>
+                <pre style="font-size: 0.8em;" class="no-code-badge"><code data-trim data-noescape class="python ">
+                user_input = "Bobby"
+                query = "SELECT name, id FROM users where name = " + user_input
+                </code></pre>
+
+                <div class="fragment">
+                <p>Lo que un hacker podría hacer:</p>
+                <pre style="font-size: 0.8em;" class="no-code-badge"><code data-trim data-noescape class="python">
+                user_input = "Bobby); DROP TABLE students;"
+                query = "SELECT name, title id users where name = " + user_input
+                </code></pre>
+
+                <a target="_blank" href="https://xkcd.com/327/">
+                De: xkcd.com/327</a>
+                </p>
+                
+                </div>
+            </section>
+
+            <section>
+                <h3>Accediendo a bases de datos desde Python: ORM</h3>
+
+                <p>Un enfoque más seguro es utilizar un <strong>ORM (Mapeador Objeto-Relacional)</strong> para interactuar con la base de datos.</p>
+
+                <p>Un ORM representa las filas de una tabla como objetos de Python y proporciona métodos para consultar y modificar datos.</p>
+
+                <p>Un ejemplo con <a target="_blank" href="https://www.sqlalchemy.org/">SQLAlchemy</a>:</p>
+                <pre><code data-trim data-noescape class="python">
+                class Restaurant(Base):
+                    __tablename__ = "restaurants"
+                    id: Mapped[int] = mapped_column(primary_key=True)
+                    name: Mapped[str]
+                    rating: Mapped[int]
+                
+                query = select(Restaurant).where(Restaurant.title == "Casa Latina")
+                results = session.execute(query)
+                </code></pre>
+            
+            </section>
+
+            <section>
+                <h3>SQLAlchemy 2.0</h3>
+
+                <p class="padded">Obtener por clave primaria:</p>
+                <pre style="margin-top:-10px;"><code data-trim data-noescape class="python">
+                session.get(Restaurant, 42)
+                </code></pre>
+
+                <p class="padded">Obtener todas las filas de la tabla:</p>
+                <pre style="margin-top:-10px;"><code data-trim data-noescape class="python">
+                session.execute(select(Restaurant)).scalars().all()
+                </code></pre>
+                
+                <p class="padded">Encontrar filas por valor de columna:</p>
+                <pre style="margin-top:-10px;"><code data-trim data-noescape class="python">
+                session.execute(select(Restaurant).where(
+                    Restaurant.name == "Casa Latina")).scalars().all()
+                </code></pre>
+
+                <p class="padded">Juega con las consultas en 
+                <a target="_blank" href="https://github.com/pamelafox/postgresql-playground">PostgreSQL Playground</a>
+                <br>
+                <a target="_blank" class="smaller aka" href="https://aka.ms/postgres-playground">aka.ms/postgres-playground</a>
+                </p>
+            </section>
+
+            <section class="heading-only">
+                <h2>Flask + bases de datos</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_DEV.svg" alt="Bit (the raccoon) with a laptop" width="400">
+            </section>
+
+            <section>
+                <h3>Usando Flask con SQLAlchemy</h3>
+
+                <p><a target="_blank" href="https://flask.palletsprojects.com/">Flask</a> es un framework web ligero para Python,
+                    que <strong>no</strong> incluye funcionalidad de base de datos incorporada.
+                </p>
+
+                <p>Una forma común de usar Flask con SQLAlchemy:</p>
+
+                <ul>
+                    <li>Instalar la extensión <a target="_blank" href="https://github.com/pallets-eco/flask-sqlalchemy">Flask-SQLAlchemy</a>
+                    <li>Instalar la extensión <a target="_blank" href="https://flask-migrate.readthedocs.io/en/latest/index.html">Flask-Migrate</a>
+                    <li>Definir modelos utilizando clases de Python
+                    <li>Ejecutar migraciones de la base de datos
+                    <li>Utilizar consultas de SQLAlchemy en las rutas
+                </ul>
+            </section>
+
+            <section>
+                <h3>Ejemplo: Flask + PostgreSQL</h3>
+
+                <p><a  target="_blank" href="https://github.com/Azure-Samples/azure-flask-postgres-flexible-appservice">github.com/Azure-Samples/azure-flask-postgres-flexible-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/flask-pg-app">aka.ms/flask-pg-app</a>
+                </p>
+
+                <UL>
+                    <li>La configuración de la aplicación se encuentra en <a target="_blank" href="https://github.com/Azure-Samples/azure-flask-postgres-flexible-appservice/blob/main/src/flaskapp/__init__.py">__init__.py</a>.
+                    <li>Las rutas se encuentran en <a target="_blank" href="https://github.com/Azure-Samples/azure-flask-postgres-flexible-appservice/blob/main/src/flaskapp/pages.py">pages.py</a>.
+                    <li>Los modelos se encuentran en <a target="_blank" href="https://github.com/Azure-Samples/azure-flask-postgres-flexible-appservice/blob/main/src/flaskapp/models.py">models.py</a> y utilizan <a target="_blank" href="https://www.sqlalchemy.org/">SQLAlchemy 2.0</a>.
+                </ul>
+
+                <p class="padded">Ejecutar el servidor de la aplicación:</p>
+                <pre style="font-size:0.7em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 -m flask --app src.flaskapp run --debug --reload --port=8000
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Migraciones de base de datos</h3>
+
+                <p>Las migraciones son una forma de realizar un seguimiento de los cambios en el esquema de la base de datos.</p>
+
+                <ol>
+                    <li>Cuando realices un cambio en el esquema de la base de datos, crea un archivo de migración.</p>
+
+                <p class="smaller">Usando Flask-Migrate:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 -m flask --app src.flaskapp db migrate --directory src/flaskapp/migrations
+                </code></pre>
+
+                <li>Ejecuta el archivo de migración para actualizar la base de datos.</p>
+
+                <p class="smaller">Usando Flask-Migrate:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                python3 -m flask --app src.flaskapp db upgrade --directory src/flaskapp/migrations
+                </code></pre>
+                </ol>
+            </section>
+            <section>
+                <h3>Ejercicio: Aplicación Flask</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a  target="_blank" href="https://github.com/Azure-Samples/azure-flask-postgres-flexible-appservice">github.com/Azure-Samples/azure-flask-postgres-flexible-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/flask-pg-app">aka.ms/flask-pg-app</a>
+                </p>
+                <ol>
+                    <li>Sigue los pasos del archivo README para ejecutar la aplicación.
+                    <li>Inspecciona las tablas de la base de datos local utilizando la extensión SQLTools.
+                    <li>Envía una solicitud de información y encuentra una nueva fila en SQLTools.
+                    <li>Cambia la ruta de destinos para devolver los destinos ordenados por nombre, utilizando
+                        <a target="_blank" href="https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#order-by">order_by</a>.
+                    <li>Recarga la página y confirma que los destinos aparecen ordenados.
+                </ol>
+            </section>
+
+            <section>
+                <h3>Más ejemplos de Flask + DB</h3>
+
+
+                <ul>
+                    <li><a  target="_blank" href="https://github.com/pamelafox/flask-db-quiz-example/">github.com/pamelafox/flask-db-quiz-example</a>
+                    <li><a target="_blank" href="https://github.com/pamelafox/translation-telephone">github.com/pamelafox/translation-telephone</a>
+                    <li><a target="_blank" href="https://github.com/pamelafox/flask-surveys-container-app">github.com/pamelafox/flask-surveys-container-app</a>
+                </ul>
+
+                <p>También puedes consultar el <a target="_blank" href="https://flask.palletsprojects.com/en/3.0.x/tutorial/">tutorial de Flask</a>.</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>IA Generativa + Bases de Datos</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_AI.svg" alt="Bit (the raccoon) with a robot" width="400">
+            </section>
+
+            <section>
+                <h3>Búsqueda vectorial</h3>
+
+                <p>La búsqueda vectorial es una forma de encontrar elementos similares en una base de datos,
+                    y se utiliza en sistemas de recomendación, motores de búsqueda y chatbots.</p>
+
+                <p>SQL:</p>
+                <pre><code data-trim data-noescape class="sql">
+                SELECT * FROM items ORDER BY embedding &lt;=> '[3,1,2]' LIMIT 5;
+                </code></pre>
+                <p class="padded">SQLAlchemy:</p>
+                <pre><code data-trim data-noescape class="python">
+                  closest = session.scalars(
+                    select(Item).order_by(Item.embedding.cosine_distance(target_embedding)).limit(5)
+                  )
+                  for item in closest:
+                      print(item.title)
+                </code></pre>
+  
+                <p>Pruébalo en: <a target="_blank" href="https://github.com/pamelafox/pgvector-playground">github.com/pamelafox/pgvector-playground</a></p>
+            </section>
+
+            <section>
+                <h3>RAG con PostgreSQL</h3>
+
+                <p>Podemos usar LLMs para responder preguntas sobre tablas de PostgreSQL.</p>
+
+                <p>Ejemplo: <a target="_blank" href="https://github.com/Azure-Samples/rag-postgres-openai-python/"></a>
+                    Azure-Samples/rag-postgres-openai-python</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/rag-postgres">aka.ms/rag-postgres</a>
+                </p>
+                
+                <img src="screenshot_ragpostgres.png" alt="Captura de pantalla de un chatbot respondiendo preguntas sobre una base de datos PostgreSQL" style="height:300px;">
+
+                <p class="smaller">Ese ejemplo utiliza FastAPI, pero también podría usar Flask/Quart.</p>
+
+                <aside class="notes">
+                    https://ragpostgres-ndj764e-ca.whiteglacier-476a7757.eastus2.azurecontainerapps.io/
+                </aside>
+            </section>
+
+            <section class="heading-only">
+                <h2>Alojamiento de aplicaciones web + bases de datos</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_AZURE.png" alt="Bit (the raccoon) on a cloud with the Azure logo" width="400">
+            </section>
+
+            <section>
+                <h3>Opciones de alojamiento de bases de datos</h3>
+
+                <p>Ten en cuenta:</p>
+                <ul>
+                    <li>¿Cuánto almacenamiento de base de datos necesitas?
+                    <li>¿Cuántas lecturas/escrituras de base de datos esperas?
+                    <li>¿Cuánta latencia puedes tolerar entre la aplicación y la base de datos?
+                    <li>¿Qué tipo de política de respaldo necesitas?
+                    <li>Soberanía de datos: ¿dónde se puede almacenar tus datos?
+                    <li>¿Necesitas múltiples réplicas para alta disponibilidad?
+                </ul>
+            </section>
+
+
+            <section>
+                <h3>Servicios administrados para PostgreSQL en Azure</h3>
+
+                <style>
+                .fragment.background-green {
+                    background-color: transparent;
+                }
+                .fragment.background-green.visible {
+                    background-color: aquamarine;
+                }
+                </style>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opción</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Azure Database for PostgreSQL - Single Server</td>
+                            <td>Oferta original de Microsoft. Ya no se recomienda para nuevas aplicaciones.</td>
+                        </tr>
+                        <tr class="fragment custom background-green">
+                            <td>Azure Database for PostgreSQL - Flexible Server</td>
+                            <td>La oferta más reciente de PostgreSQL de Microsoft. Servicio completamente administrado con escalado vertical.
+                            </td>
+                        </tr>
+                        <tr>
+                          <td>Azure Cosmos DB for PostgreSQL</td>
+                          <td>Base de datos distribuida que utiliza PostgreSQL y la extensión Citus. Puede escalar horizontalmente.
+                          </td>
+                        <tr>
+                            <td>Servicio Azure Container Apps PostgresQL
+                            <td>Servicio auxiliar que se ejecuta junto con tu aplicación en contenedor.
+                      </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Desplegar un Servidor Flexible de PostgreSQL</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a  target="_blank" class="smaller" href="https://github.com/Azure-Samples/azure-postgres-pgvector-python">github.com/Azure-Samples/azure-postgres-pgvector-python</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/azure-postgres-pgvector">aka.ms/azure-postgres-pgvector</a>
+                </p>
+
+                <ol>
+                    <li>Abre en GitHub Codespaces o en VS Code con la extensión Dev Containers
+                    <li>Regístrate en una <a target="_blank" href="https://azure.microsoft.com/free/">cuenta gratuita de Azure</a>
+                    <li>Sigue las instrucciones de despliegue en el archivo README
+                    <li>Ejecuta un script para confirmar que la base de datos está funcionando
+                </ol>
+            </section>
+
+            <section>
+                <h3>Opciones de alojamiento de aplicaciones web</h3>
+
+                <p>La aplicación web puede alojarse en el mismo servidor que la base de datos o en un servidor separado.
+                </p>
+
+                <p>Hay muchas opciones de alojamiento:
+                <ul>
+                    <li>Un ordenador alquilado en un centro de datos
+                    <li>Una máquina virtual
+                    <li>Un PaaS (plataforma como servicio)
+                </ul>
+
+                <p>Considera:
+                <ul>
+                    <li>¿Cuánto control deseas tener?
+                    <li>¿Disfrutas administrar sistemas?
+                    <li>¿Necesitas que tu aplicación pueda escalar vertical u horizontalmente?
+                </ul>
+            </section>
+
+            <section>
+                <h3>Opciones de alojamiento de aplicaciones web en Azure</h3>
+                
+                <style>
+                table.deploy-stack {
+                    border-spacing: 30px; 
+                    border-collapse: separate;
+                    border: 0px;
+                }
+
+                table.deploy-stack th, table.deploy-stack td {
+                    font-size: 20px;
+                    border-bottom: 0px none;
+                    border-radius: 12px;
+                    text-align: center;
+                    vertical-align: middle;
+                    padding: 8px;
+                }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr> 
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Gestión de Contenedores
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+                        
+                    </tr>
+                    <tr>
+                        <th>Entorno
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Contenedores
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>Nube
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                </table>
+                <p class="fragment smaller">Para Flask, <span style="background-color: #00bc70; color: white; padding-left: 8px; padding-right: 8px; border-radius: 8px;">App Service</span> es una forma fácil de comenzar.</p>
+            </section>
+
+
+            <section>
+                <h3>¡Pero espera, hay más!</h3>
+
+                <p>Tu aplicación puede necesitar más que solo un servidor web y una base de datos.</p>
+
+                <table>
+                    <tr>
+                        <th>Redes
+                        <td>Zona DNS, Red Virtual, Puerta de enlace VPN, ...
+                    <tr>
+                        <th>Seguridad
+                        <td>Almacén de claves, Centro de seguridad, ...
+                    <tr>
+                        <th>Almacenamiento
+                        <td>Almacenamiento de blobs, Archivos, Almacenamiento de archivo, ...
+                    <tr>
+                        <th>Caché
+                        <td>CDN, Puerta de enlace frontal, ...
+                    <tr>
+                        <th>Aprendizaje automático
+                        <td>Traductor, Servicio de bots, Visión por computadora, ...
+                    <tr>
+                        <th colspan="2">...¡y más!
+                </table>
+
+            </section>
+
+            <section>
+                <h3>Alojamiento de Python + PostgreSQL en Azure</h3>
+
+                <p>
+                <img src="flaskdb.drawio.png" alt="Diagrama de arquitectura de la aplicación Flask: App Service, App Service Plan, servidor PostGreSQL, espacio de trabajo de Log Analytics">
+                </p>
+
+                <p>Usando la <a target="_blank" href=https://learn.microsoft.com/es-es/azure/developer/azure-developer-cli/overview?WT.mc_id=python-79461-pamelafox">CLI de Azure Dev</a>:</p>
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                azd up
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Desplegar Flask + PG</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a  target="_blank" class="smaller" href="https://https://github.com/pamelafox/flask-db-quiz-example">github.com/pamelafox/flask-db-quiz-example</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/flask-db-quiz">aka.ms/flask-db-quiz</a>
+                </p>
+
+                <ol>
+                    <li>Abre en GitHub Codespaces o en VS Code con la extensión Dev Containers
+                    <li>Regístrate en una <a target="_blank" href="https://azure.microsoft.com/free/">cuenta gratuita de Azure</a>
+                    <li>Sigue las instrucciones de despliegue en el archivo README
+                    <li>Si se despliega correctamente, visita la URL del punto final para confirmar que funciona.
+                    <li>Ejecuta <code> azd down</code> para deshacer el despliegue de la aplicación (para no desperdiciar recursos en la nube innecesariamente).
+                </ol>
+            </section>
+
+            <section>
+                <h3>Consideraciones de seguridad</h3>
+
+                <p>Cuando te conectas a una base de datos desde una aplicación web, considera...</p>
+
+                <p>Restringir la autenticación:</p>
+                <ul class="smaller">
+                    <li>⭐️ Utiliza autenticación sin contraseña para la base de datos
+                        <br>
+                        Consulta <a target="_blank" class="smaller aka" href="https://aka.ms/azure-postgres-pgvector">aka.ms/azure-postgres-pgvector</a>
+                        y <a target="_blank" class="smaller aka" href="https://aka.ms/flask-db-quiz">aka.ms/flask-db-quiz</a>
+                    <li>Si tienes que usar contraseñas, almacénalas en Azure KeyVault<br>
+                        Consulta <a target="_blank" class="smaller aka" href="https://aka.ms/flask-pg-app">aka.ms/flask-pg-app</a>
+                </ul>
+                <div class="fragment">
+                <p>Restringir el acceso a la red:</p>
+                <ul class="smaller">
+                    <li>⭐️ Coloca la base de datos y la aplicación en la misma red virtual<br>
+                        Consulta <a target="_blank" class="smaller aka" href="https://github.com/Azure-Samples/msdocs-flask-postgresql-sample-app">aka.ms/flask-pg-vnet</a>
+                    <li>Si no puedes usar una red virtual, utiliza un firewall para restringir el acceso a la base de datos<br>
+                        Consulta <a target="_blank" class="smaller aka" href="https://aka.ms/flask-pg-app">aka.ms/flask-pg-app</a>
+                        <br>
+                        ⚠️ El firewall aún permite el acceso desde otras aplicaciones alojadas en Azure.
+                </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Más recursos de Azure</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_COWORKING.png" alt="Mapaches con laptops" width="35%" style="float:right;">
+
+                <ul style="float:left; width: 60%; display: grid; gap: 18px;">
+                    <li><a target="_blank" href="https://learn.microsoft.com/es-es/azure/app-service/quickstart-python?WT.mc_id=python-81211-pamelafox">Implementar una aplicación web Python (Django o Flask) en Azure App Service</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/es-es/azure/app-service/tutorial-python-postgresql-app?WT.mc_id=python-81211-pamelafox">Implementar una aplicación web Python (Django o Flask) con PostgreSQL en Azure</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/es-es/azure/developer/python/quickstarts-app-hosting?WT.mc_id=python-81211-pamelafox">Hospedar aplicaciones Python en Azure</a>
+                    <li><a target="_blank" href="https://code.visualstudio.com/docs/python/python-tutorial">Primeros pasos con Python en VS Code</a>
+                    <li><a target="_blank" href="https://aka.ms/python-discord">MS Python Discord: aka.ms/python-discord</a>
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>¿Alguna pregunta?</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg" alt="Un grupo de estudiantes mapaches con computadoras" width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            autoPlayMedia: true,
+            plugins: [ RevealHighlight, RevealMenu ],
+            pdfSeparateFragments: true
+        });
+        window.highlightJsBadge();
+
+    </script>
+    </body>
+</html>
