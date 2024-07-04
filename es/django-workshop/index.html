@@ -1,0 +1,721 @@
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Aplicaciones web de Python: Django</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+        <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/a11y-dark.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500|Work+Sans:400,700">
+        <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/slides.css">
+        <link rel="icon" href="https://pamelafox.github.io/python-web-apps/static/images/BIT_ICON.png">
+	</head>
+    <body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1 style="font-size:120px">Aplicaciones web en Python:<br>
+                    Django</h1>
+            </section>
+
+            <section>
+                <h3>Conoce a Víctor Vázquez</h3>
+
+                <img src="https://avatars.githubusercontent.com/u/24213737"
+                    alt="Foto de Víctor junto a Jessica, su esposa, en Queretaro Mx" style="float:right; height:400px;">
+                <p>Desarrollador en Microsoft (<a target="_blank" href="https://aka.ms/azd">azd</a>)</p>
+                <br>
+                <p>Redes sociales:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/vhvb1989">@vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/vhvb1989">/vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/vhvb1989/">in/vhvb1989</a></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section>
+                <h3>Temas de hoy</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PUBLIC_SPEAKING.svg" alt="Bit (el mapache) dando una conferencia" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:44px; line-height: 1.5em; float:left; width:750px;">
+                    <li>Django 101
+                        <ul class="smaller">
+                            <li>👩🏾‍💻 Ejercicio #1: Aplicación Django
+                        </ul>
+                    <li>Depuración de Django
+                    <li>Más sobre Django
+                    <li>Django en Producción
+                    <li>Alojamiento de Django
+                        <ul class="smaller">
+                            <li>👩🏻‍💻 Ejercicio #2: Implementación de Django
+                        </ul>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Configuración para ejercicios</h3>
+
+                        <p>Para seguir los ejercicios, tienes las siguientes opciones:</p>
+                        <ol>
+                            <li>                                
+                                <div style="display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 1fr;">
+                                    <div>
+                                        Desarrollo en línea con Codespaces: 
+                                        <ul>
+                                            <li><a target="_blank" href="https://github.com/signup">Cuenta de GitHub</a>
+                                        </ul>
+                                    </div>                                
+                                    <div style="background-color: #f0f0f0; padding: 10px;">
+                                        Repositorios que utilizaremos:
+                                        <ul>
+                                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">aka.ms/django-pgflex-app</a></li>
+                                            <li><a target="_blank" href="https://github.com/pamelafox/django-quiz-app">aka.ms/django-quiz-app</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <li class="padded">Desarrollo local con VS Code:
+                            <ul>
+                                <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio Code</a></li>
+                                <li><a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Extensión Dev Containers</a></li>
+                                <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a></li>
+                            </ul>
+        
+                            <li class="padded">Desarrollo local con cualquier editor:
+                            <ul>
+                                <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                                <li><a target="_blank" href="https://www.postgresql.org/download/">PostgreSQL</a></li>
+                            </ul>
+                        </ol>
+
+            </section>
+
+            <section>
+                <h3>Framework Django</h3>
+
+                <img src="coursera_django.png" alt="Captura de pantalla del administrador de Coursera" width="600" style="float:right; margin-left:10px">
+                <p><a target="_blank" href="https://www.djangoproject.com/">Django</a>, una biblioteca externa, es un framework con opiniones para el código del lado del servidor. Incluye un ORM para la interacción con la base de datos.</p>
+                
+                <p>Algunas aplicaciones escritas en Django:</p>
+                <ul>
+                    <li>Instagram
+                    <li>Eventbrite
+                    <li>Coursera (originalmente, ahora Scala+Play)
+                    <li>Pinterest (originalmente, ahora Flask)
+                </ul>
+            </section>
+
+            <section>
+                <h3>Ejemplo: Django + PostgreSQL</h3>
+
+                <p>
+                    <a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/django-pgflex-app">aka.ms/django-pgflex-app</a>
+                </p>
+
+                <p class="padded">Ejecutar migraciones de la base de datos:</p>
+                <pre style="font-size:0.9em; margin-top: -5px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py migrate
+                </code></pre>
+
+                <p class="padded">Cargar datos de prueba:</p>
+                <pre style="font-size:0.9em; margin-top: -5px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py loaddata src/seed_data.json
+                </code></pre>
+
+                <p class="padded">Ejecutar el servidor:</p>
+                <pre style="font-size:0.9em; margin-top: -5px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py runserver 8000
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Estructura del proyecto Django</h3>
+
+                <p>Esta aplicación sigue una estructura de proyecto Django típica:</p>
+
+                <pre style="font-size:0.6em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                src/
+                    manage.py
+                    project/
+                        __init__.py
+                        asgi.py
+                        settings.py
+                        urls.py
+                        wsgi.py
+                    relecloud/
+                        __init__.py
+                        admin.py
+                        apps.py
+                        models.py
+                        urls.py
+                        views.py
+                    templates/
+                </code></pre>
+
+                <p>La carpeta <code>relecloud</code> representa una "app" de Django. 
+                    Podemos agregar más "app"s al proyecto, cada una con sus propios modelos, vistas, urls, etc.</p>
+            </section>
+
+            <section>
+                <h3>Modelos de Django</h3>
+
+                <p>Los modelos son clases de Python que representan tablas de la base de datos.</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                from django.db import models
+
+                class Destination(models.Model):
+                    name = models.CharField(unique=True, max_length=50, null=False, blank=False)
+                    subtitle = models.CharField(unique=False, max_length=240, null=False, blank=True)
+                    description = models.TextField(max_length=2000, null=False, blank=False)
+                </code></pre>
+
+                <p>🔗 Desde <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/models.py">models.py</a></p>
+
+                <p>Para crear una migración:</p>
+                <pre style="font-size:0.8em; margin-top: -10px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py makemigrations
+                </code></pre>
+
+                <p>Para aplicar la migración:</p>
+                <pre style="font-size:0.8em; margin-top: -10px;"><code data-trim data-noescape class="shell">
+                python3 src/manage.py migrate
+                </code></pre>
+
+                <aside class="notes">
+                    agregar temperatura, migrar, instalar sqltools, actualizar
+                </aside>
+            </section>
+
+            <section>
+                <h3>Vistas de Django</h3>
+
+                <p>Las vistas pueden ser funciones simples de Python:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                def index(request):
+                    return render(request, "index.html")
+                </code></pre>
+
+                <p>O subclases de las <a target="_blank" href="https://docs.djangoproject.com/en/5.0/topics/class-based-views/generic-display/">vistas genéricas</a> de Django:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                class CruiseDetailView(generic.DetailView):
+                    template_name = "cruise_detail.html"
+                    model = models.Cruise
+                </code></pre>
+
+                <p>🔗 Desde <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/views.py">views.py</a>
+                </p>
+
+            </section>
+
+            <section>
+                <h3>Plantillas de Django</h3>
+
+                <p>Las plantillas son archivos HTML escritos en <a target="_blank" href="https://docs.djangoproject.com/5.0/ref/templates/language/">lenguaje de plantillas de Django</a> (similar a Jinja2):</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="html">
+                &lt;p&gt;Este crucero visita los siguientes destinos:&lt;/p&gt;
+                {% for destination in cruise.destinations.all %}
+                &lt;a class="list-group-item list-group-item-action" href="{% url 'destination_detail' destination.id %}"&gt;{{ destination }}&lt;/a&gt;
+                {% endfor %}
+                </code></pre>
+
+                <p>🔗 Desde <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/tree/main/src/templates">templates/destination_detail.html</a>
+                </p>
+            </section>
+
+            <section>
+                <h3>URLs de Django</h3>
+
+                <p>Las URLs mapean rutas a vistas:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                urlpatterns = [
+                    path("", views.index, name="index"),
+                    path("about", views.about, name="about"),
+                    path("destinations/", views.destinations, name="destinations"),
+                    path(
+                        "destination/&lt;int:pk&gt;",
+                        views.DestinationDetailView.as_view(),
+                        name="destination_detail",
+                    ),
+                    path("cruise/&lt;int:pk&gt;", views.CruiseDetailView.as_view(), name="cruise_detail"),
+                    path("info_request", views.InfoRequestCreate.as_view(), name="info_request"),
+                ]
+                </code></pre>
+
+                <p>🔗 Desde <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/urls.py">urls.py</a>
+                </p>
+
+            </section>
+
+            <section>
+                <h3>Administrador de Django</h3>
+
+                <p>Django incluye una interfaz de administrador incorporada para gestionar datos.</p>
+
+                <pre><code data-trim data-noescape class="python">
+                admin.site.register(models.Cruise)
+                admin.site.register(models.Destination)
+                admin.site.register(models.InfoRequest)
+                </code></pre>
+
+                <p>🔗 Desde <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/src/relecloud/admin.py">admin.py</a></p>
+
+                <p class="padded">Para iniciar sesión en la interfaz de administrador:</p>
+                <ul>
+                    <li>Crea un superusuario:
+
+                    <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                    python3 src/manage.py createsuperuser
+                    </code></pre>
+
+                    <li>Reinicia el servidor y navega a "/admin"
+                    <li>Inicia sesión con las credenciales del superusuario.
+                </ul>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Aplicación Django</h3>
+
+                <p>Usando este repositorio:<br>
+                    <p class="smaller"><a  target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">github.com/Azure-Samples/azure-django-postgres-flexible-appservice</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/django-pgflex-app">aka.ms/django-pgflex-app</a>
+                </p>
+                
+                <ol>
+                    <li>Sigue los pasos del archivo README para ejecutar la aplicación.
+                    <li>Inspecciona las tablas de la base de datos local utilizando la extensión SQLTools.
+                    <li>Sigue los pasos del archivo README para acceder al administrador de Django.
+                    <li>Agrega un nuevo destino utilizando el administrador de Django.
+                    <li>Cambia la ruta de los destinos para ordenarlos por nombre, utilizando <a target="_blank" href="https://docs.djangoproject.com/en/4.2/ref/models/querysets/#order-by">order_by</a>.
+                </ol>
+            </section>
+
+            <section class="heading-only">
+                <h2>Depuración en VS Code</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_DEV.svg" alt="Bit (el mapache) con una computadora y el logotipo de VS Code" width="400">
+            </section>
+
+            <section>
+                <h3>Depuración de código Python</h3>
+
+                <p style="margin-bottom:0px">.vscode/launch.json:</p>
+                <pre style="font-size:0.55em; margin-top:6px;"><code data-trim data-noescape class="json">
+                {
+                  "version": "0.2.0",
+                  "configurations": [{
+                        "name": "Python: Django",
+                        "type": "debugpy",
+                        "request": "launch",
+                        "program": "${workspaceFolder}/src/manage.py",
+                        "args": [
+                            "runserver"
+                        ],
+                        "django": true,
+                        "justMyCode": true
+                    }]}
+                </code></pre>
+
+                <p class="padded" style="margin-bottom:0px">En settings.py:</p>
+                <pre style="font-size:0.55em; margin-top:6px;"><code data-trim data-noescape class="json">
+                DEBUG_PROPAGATE_EXCEPTIONS = env("DEBUG") # True localmente
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>Depuración de plantillas</h3>
+
+                <p style="margin-bottom:0px">Agrega al archivo .vscode/launch.json:</p>
+                <pre style="font-size:0.55em; margin-top:6px;"><code data-trim data-noescape class="json">
+                {
+                    "version": "0.2.0",
+                    "configurations": [{
+                        "name": "Python: Django",
+                        "type": "debugpy",
+                        "request": "launch",
+                        "program": "${workspaceFolder}/src/manage.py",
+                        "args": [
+                            "runserver"
+                        ],
+                        "django": true,
+                        "justMyCode": true,
+                        "jinja": true // Agrega esta línea
+                }]}
+                </code></pre>
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Más sobre Django</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg" alt="Bit (el mapache) con amigos mapaches" width="400">
+            </section>
+
+
+            <section class="heading-only"  data-background-image="background_headingonly.png">
+                <h2>Aplicaciones Django<br>
+                    en Producción</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PYTHON.svg" alt="Bit (el mapache) frente a una computadora y el logotipo de Python" width="400">
+            </section>
+            
+            <section>
+                <h3>Ejecutando la aplicación Django localmente</h3>
+
+                <p>Usando el servidor integrado de Django:</p>
+                <pre style="font-size:0.9em;"><code data-trim data-noescape class="bash">
+                python3 -m src/manage.py runserver 8000
+                </code></pre>
+
+                <p>⚠️ Pero el servidor de desarrollo no se recomienda para uso en producción.</p>
+
+            </section>
+
+            <section>
+                <h3>Ejecutando Django con gunicorn</h3>
+
+                <p>Gunicorn es un servidor de nivel de producción
+                    que puede ejecutar múltiples procesos de trabajo.</p>
+
+                <p>Agrega <code>gunicorn</code> a <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                gunicorn==22.0.0
+                </code></pre>
+
+                <p class="padded">Usa <code>gunicorn</code> para ejecutar la aplicación Django con múltiples procesos de trabajo:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn project.wsgi --workers 4 --bind 0.0.0.0:8555
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Configurando gunicorn</h3>
+
+                <p>Gunicorn se puede configurar con un archivo <code>gunicorn.conf.py</code>:</p>
+
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="python">
+                import multiprocessing
+
+                max_requests = 1000
+                max_requests_jitter = 50
+                log_file = "-"
+                bind = "0.0.0.0:8000"
+                workers = (multiprocessing.cpu_count() * 2) + 1
+                
+                threads = workers
+                
+                timeout = 600
+                </code></pre>
+
+                <p>El comando de ejecución se puede simplificar a:</p>
+                <pre style="font-size:0.7em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn project.wsgi
+                </code></pre>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Alojamiento de Django</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_AZURE.png" alt="Bit (el mapache) en una nube con el logotipo de Azure" width="400">
+
+            </section>
+
+
+            <section>
+                <h3>Opciones de alojamiento de aplicaciones en Azure</h3>
+            
+                <ul>
+                    <li style="line-height:1.0em;">¿Cuánto control deseas tener?
+                    <li style="line-height:1.0em;">¿Cuánto disfrutas administrar sistemas?
+                    <li style="line-height:1.0em;">¿Necesitas que la aplicación pueda escalar vertical u horizontalmente?
+                </ul>
+
+                <style>
+                table.deploy-stack {
+                    border-spacing: 30px; 
+                    border-collapse: separate;
+                    border: 0px;
+                }
+
+                table.deploy-stack th, table.deploy-stack td {
+                    font-size: 20px;
+                    border-bottom: 0px none;
+                    border-radius: 12px;
+                    text-align: center;
+                    vertical-align: middle;
+                    padding: 8px;
+                }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr> 
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Administración de contenedores
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+                        
+                    </tr>
+                    <tr>
+                        <th>Entorno
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Contenedores
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>Nube
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                </table>
+                <p class="fragment smaller">Para Django, la forma más sencilla de comenzar es utilizar <span style="background-color: #00bc70; color: white; padding-left: 8px; padding-right: 8px; border-radius: 8px;">App Service</span>.</p>
+            </section>
+
+            <section>
+                <h3>Opciones de base de datos relacional en Azure</h3>
+
+                <p>Consideraciones:
+                <ul>
+                    <li style="line-height:1.0em;">¿Cuánto almacenamiento de base de datos necesitas?
+                    <li style="line-height:1.0em;">¿Cuántas lecturas/escrituras de base de datos esperas?
+                    <li style="line-height:1.0em;">Disponibilidad: ¿Política de respaldo? ¿Múltiples réplicas?
+                    <li style="line-height:1.0em;">Soberanía de datos: ¿Dónde se puede almacenar tus datos?
+                </ul>
+
+                <style>
+                .fragment.background-green {
+                    background-color: transparent;
+                }
+                .fragment.background-green.visible {
+                    background-color: #31ffad;
+                }
+                </style>
+
+                <table class="smaller" style="margin-top:20px;">
+                    <thead>
+                        <tr>
+                            <th>Opción</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment custom background-green">
+                            <td>Azure Database for PostgreSQL - Flexible Server</td>
+                            <td>La oferta más reciente de Microsoft para PostgreSQL. Servicio completamente administrado con escalado vertical.
+                            </td>
+                        </tr>
+                        <tr>
+                          <td>Azure Cosmos DB para PostgreSQL</td>
+                          <td>Base de datos distribuida que utiliza PostgreSQL y la extensión Citus. Puede escalar horizontalmente.
+                          </td>
+                        <tr>
+                            <td>Azure SQL Database</td>
+                            <td>Servicio administrado de Microsoft para SQL Server.
+                                Se puede utilizar en Django a través de <a target="_blank" href="https://github.com/microsoft/mssql-django">microsoft/mssql-django</a>
+                      </tr>
+                    </tbody>
+                </table>
+
+            </section>
+
+            <section>
+                <h3>Conexión segura de App Service a PostgreSQL</h3>
+
+                <p>⭐️ En producción, utiliza autenticación sin contraseña para la base de datos:</p>
+
+                <ol>
+                    <li style="line-height:1.0em;">Deshabilita la autenticación por contraseña en PostgreSQL
+                    <li style="line-height:1.0em;">Establece el usuario de Microsoft Entra como administrador de PostgreSQL
+                    <li style="line-height:1.0em;">Crea un service principal para la aplicación de App Service y otórgale acceso a la base de datos
+                    <li style="line-height:1.0em;">Obtén un token como la aplicación y úsalo como contraseña de conexión a PostgreSQL
+                    <li style="line-height:1.0em;">Obtén periódicamente un nuevo token para evitar la expiración
+                </ol>
+                <p>Consulta <a target="_blank" class="smaller aka" href="https://aka.ms/django-quiz-app">aka.ms/django-quiz-app</a></p>
+
+                <p class="padded fragment">⚠️ Si es necesario utilizar una contraseña, almacénala en Azure KeyVault.<br>
+                    Consulta <a target="_blank" class="smaller aka" href="https://aka.ms/django-quiz-app">aka.ms/django-quiz-app</a></p>
+                </p>
+            </section>
+
+            <section>
+                <h3>Almacenamiento de la clave secreta</h3>
+
+                <p>Django requiere una clave secreta para la seguridad, definida en <code>settings.py</code>:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="python">
+                SECRET_KEY = os.environ.get("SECRET_KEY")
+                </code></pre>
+                
+                <div class="fragment">
+                <p class="padded">Para producción, almacena esto en un lugar seguro,
+                    como Azure Key Vault. 🔑</p>
+
+                <p class="padded">Para obtener el valor secreto, utiliza una referencia de Azure Key Vault en las variables de entorno:</p>
+
+                <pre style="font-size:0.8em; margin-top: 0px;"><code data-trim data-noescape class="shell">
+                SECRET_KEY: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=djangoSecretKey)'
+                </code></pre>
+
+                <p>(También es posible en <a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca/blob/main/infra/web.bicep#L84">Configuración de la aplicación de contenedor</a>)</p>
+                </div>
+
+            </section>
+
+
+            <section>
+                <h3>Servir archivos estáticos</h3>
+
+                <p>Algunas opciones para servir archivos estáticos de manera eficiente en producción:</p>
+
+                <ol>
+                    <li>Usar <a target="_blank" href="https://whitenoise.readthedocs.io/en/latest/">Whitenoise</a>
+                        para servir archivos estáticos directamente desde Django, con compresión y encabezados de caché.
+                        <p>Como se muestra en <a target="_blank" href="https://aka.ms/django-quiz-app">aka.ms/django-quiz-app</a>.</p>
+                    <li>Usar <a target="_blank" href="https://pypi.org/project/django-storages/">Django Storages</a>
+                        para servir archivos estáticos desde almacenamiento en la nube (como Azure Blob Storage).
+                        <p>Como se muestra en <a target="_blank" href="https://github.com/tonybaloney/django-on-azure">tonybaloney/django-on-azure</a>.</p>
+                </ol>
+
+                <p>Ambas opciones podrían ser utilizadas opcionalmente con un CDN (Azure Front Door) al frente.</p>
+            </section>
+
+            <section>
+                <h3>Arquitectura de Azure para Django + PostgreSQL</h3>
+
+                <p>Una posible arquitectura:<br>
+                <img src="architecture.png" alt="Diagrama de arquitectura de la aplicación Django: App Service, App Service Plan, servidor PostGreSQL, espacio de trabajo de Log Analytics" style="width: 700px;">
+                </p>
+
+            </section>
+
+            <section>
+                <h3>Ejercicio: Implementar Django + PG</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a  target="_blank" class="smaller" href="https://github.com/pamelafox/django-quiz-app">github.com/pamelafox/django-quiz-app</a>
+                    <br>
+                    <a target="_blank" class="smaller aka" href="https://aka.ms/django-quiz-app">aka.ms/django-quiz-app</a>
+                </p>
+
+                <ol>
+                    <li>Abre en GitHub Codespaces o en VS Code con la extensión Dev Containers.
+                    <li>Regístrate en una <a target="_blank" href="https://azure.microsoft.com/free/">cuenta gratuita de Azure</a>.
+                    <li>Sigue las instrucciones de implementación en el archivo README.
+                    <li>Si se implementa correctamente, visita la URL del punto de conexión para confirmar que funciona.
+                    <li>Ejecuta <code>azd down</code> para desimplementar la aplicación (para no desperdiciar recursos en la nube innecesariamente).
+                </ol>
+            </section>
+
+
+            <section>
+                <h3>Consideraciones adicionales de seguridad</h3>
+                <p>Restringir el acceso a la red:</p>
+                <ul class="smaller">
+                    <li>⭐️ Coloca la base de datos y la aplicación en la misma red virtual<br>
+                        Consulta <a target="_blank" class="smaller aka" href="https://github.com/Azure-Samples/msdocs-django-postgresql-sample-app">https://aka.ms/django-restaurants</a>
+                    <li>Si no puedes usar una red virtual, utiliza un firewall para restringir el acceso a la base de datos<br>
+                        Consulta <a target="_blank" class="smaller aka" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">aka.ms/django-pgflex-app</a>
+                        <br>
+                        ⚠️ El firewall aún permite el acceso desde otras aplicaciones alojadas en Azure.
+                </ul>
+
+                <p>Dificulta el acceso al administrador:</p>
+
+                <ul class="smaller">
+                    <li>Personaliza la URL del administrador
+                        <pre><code data-trim data-noescape class="python">
+                        ADMIN_URL = os.environ.get("ADMIN_URL")
+                        </code></pre>
+                    <li>Utiliza <a target="_blank" href="https://pypi.org/project/django-admin-honeypot/">django-admin-honeypot</a> para detectar accesos no autorizados
+                </ul>
+            </section>
+
+            <section>
+                <h3>Plantillas de Django en Azure</h3>
+
+                <ul>
+                    <li>Todas las variantes de la aplicación de turismo espacial:
+                        <ul>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-appservice">Django Postgres - Azure App Service con servidor flexible</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-flexible-aca">Django Postgres - Azure Container Apps con servidor flexible</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-cosmos-postgres-appservice">Django CosmosDB Postgres Adapter - Azure App Service</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-cosmos-postgres-aca">Django CosmosDB Postgres Adapter - Azure Container Apps</a>
+                            <li><a target="_blank" href="https://github.com/Azure-Samples/azure-django-postgres-addon-aca">Django Azure Container Apps Postgres Addon - Azure Container Apps</a>
+                        </ul>
+                    <li>+ Almacenamiento: <a target="_blank" href="https://github.com/tonybaloney/django-on-azure">github.com/tonybaloney/django-on-azure</a>
+                    <li>+ VNet: <a target="_blank" href="https://github.com/Azure-samples/msdocs-django-postgresql-sample-app">github.com/Azure-samples/msdocs-django-postgresql-sample-app</a>
+                    <li>+ Redis: <a target="_blank" href="https://github.com/pamelafox/cookiecutter-django-azure">github.com/pamelafox/cookiecutter-django-azure</a>
+                </ul>
+
+                <p>También puedes consultar el <a target="_blank" href="https://docs.djangoproject.com/en/4.2/intro/tutorial01/">tutorial de Django</a>.</p>
+            </section>
+
+            <section>
+                <h3>Más recursos de Azure</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_COWORKING.png" alt="Mapaches con laptops" width="35%" style="float:right;">
+
+                <ul style="float:left; width: 60%; display: grid; gap: 18px;">
+                    <li><a target="_blank" href="https://learn.microsoft.com/es-es/azure/app-service/quickstart-python?WT.mc_id=python-81211-pamelafox">Implementar una aplicación web Python (Django o Flask) en Azure App Service</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/es-es/azure/app-service/tutorial-python-postgresql-app?WT.mc_id=python-81211-pamelafox">Implementar una aplicación web Python (Django o Flask) con PostgreSQL en Azure</a>
+                    <li><a target="_blank" href="https://learn.microsoft.com/es-es/azure/developer/python/quickstarts-app-hosting?WT.mc_id=python-81211-pamelafox">Hospedar aplicaciones Python en Azure</a>
+                    <li><a target="_blank" href="https://code.visualstudio.com/docs/python/python-tutorial">Primeros pasos con Python en VS Code</a>
+                    <li><a target="_blank" href="https://aka.ms/python-discord">MS Python Discord: aka.ms/python-discord</a>
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>¿Alguna pregunta?</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg" alt="A bunch of raccoon students with computers" width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            autoPlayMedia: true,
+            plugins: [ RevealHighlight, RevealMenu ],
+            pdfSeparateFragments: true
+        });
+        window.highlightJsBadge();
+
+    </script>
+    </body>
+</html>
