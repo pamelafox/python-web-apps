@@ -1,0 +1,681 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aplicaciones web de Python: FastAPI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/a11y-dark.min.css">
+    <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/slides.css">
+    <link rel="icon" href="https://pamelafox.github.io/python-web-apps/static/images/BIT_ICON.png">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1>Aplicaciones web en Python:<br>
+                    FastAPI
+                </h1>
+            </section>
+
+            <section>
+                <h3>Conoce a Víctor Vázquez</h3>
+
+                <img src="https://avatars.githubusercontent.com/u/24213737"
+                    alt="Foto de Víctor junto a Jessica, su esposa, en Queretaro Mx" style="float:right; height:400px;">
+                <p>Desarrollador en Microsoft (<a target="_blank" href="https://aka.ms/azd">azd</a>)</p>
+                <br>
+                <p>Redes sociales:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/vhvb1989">@vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/vhvb1989">/vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/vhvb1989/">in/vhvb1989</a></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section>
+                <h3>Temas de hoy</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PUBLIC_SPEAKING.svg"
+                    alt="Bit (el mapache) dando una conferencia" width="300" style="float:right;">
+                <ul style="margin-top:20px; font-size:34px; line-height: 1.5em;">
+                    <li>Creando API de HTTP con FastAPI
+                    <li>Producción de FastAPI
+                    <li>Full-stack FastAPI
+                    <li>FastAPI + IA
+                    <li>Alojamiento de API de HTTP en Azure
+                </ul>
+            </section>
+
+            <section>
+                <h3>Configuración del entorno</h3>
+                <p>Para seguir el código en vivo, tienes las siguientes opciones:</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr;">
+                    <div>
+
+                        <ol>
+                            <li>
+                                Desarrollo en línea con Codespaces:
+                                <ul>
+                                    <li><a target="_blank" href="https://github.com/signup">Cuenta de GitHub</a></li>
+                                </ul>
+                            </li>
+                            <li class="padded">Desarrollo local con VS Code:
+                                <ul>
+                                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio
+                                            Code</a></li>
+                                    <li><a target="_blank"
+                                            href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Extensión
+                                            Dev Containers</a></li>
+                                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker
+                                            Desktop</a></li>
+                                </ul>
+                            </li>
+                            <li class="padded">Desarrollo local con cualquier editor:
+                                <ul>
+                                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div style="background-color: #f0f0f0; padding: 10px;">
+                        Repositorios que utilizaremos:
+                        <ul>
+                            <li><a target="_blank" href="https://aka.ms/fastapi-starter">aka.ms/fastapi-starter</a>
+                            <li><a target="_blank"
+                                    href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                            <li><a target="_blank"
+                                    href="https://aka.ms/fastapi-azure-functions">aka.ms/fastapi-azure-functions</a>
+                            <li><a target="_blank"
+                                    href="https://aka.ms/fastapi-functions-apim">aka.ms/fastapi-functions-apim</a>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="heading-only">
+                <h2>Construyendo una API HTTP<br>
+                    con FastAPI</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PYTHON.svg"
+                    alt="Bit (el mapache) frente a una computadora y el logo de Python" height="300">
+
+            </section>
+
+            <section>
+                <h3>FastAPI</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/fastapi-workshop/screenshot_fastapidocs.png"
+                    alt="Captura de pantalla de la documentación generada automáticamente de FastAPI" width="400"
+                    style="float:right; border: 1px solid #ccc;">
+
+                <p><a target="_blank" href="https://fastapi.tiangolo.com/">FastAPI</a>
+                    es un framework de Python diseñado específicamente para construir APIs HTTP.
+                </p>
+
+                <ul>
+                    <li>Rápido de construir <em>y</em> rápido de ejecutar
+                    <li>Se basa en <a target="_blank" href="https://docs.python.org/3/library/typing.html">tipos de
+                            Python</a> (a través de
+                        <a target="_blank" href="https://pydantic-docs.helpmanual.io/">Pydantic</a>)
+                    <li>Documentación generada automáticamente (a través de <a target="_blank"
+                            href="https://github.com/swagger-api/swagger-ui">Swagger-UI</a>)
+                    <li>Basado en la especificación de <a target="_blank"
+                            href="https://github.com/OAI/OpenAPI-Specification">OpenAPI</a>.
+                </ul>
+            </section>
+
+            <section>
+                <h3>Una API simple en FastAPI</h3>
+
+                <p>👩🏼‍💻 Sigue el tutorial en:<br>
+                    <a target="_blank"
+                        href="https://github.com/pamelafox/pyday-fastapi-starter">https://github.com/pamelafox/pyday-fastapi-starter</a>
+                    <br>
+                    <a target="_blank" class="smaller aka"
+                        href="https://aka.ms/fastapi-starter">aka.ms/fastapi-starter</a>
+                </p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name():
+                    names = ["Minnie", "Margaret", "Myrtle", "Noa", "Nadia"]
+                    random_name = random.choice(names)
+                    return {"name": random_name}
+                </code></pre>
+
+            </section>
+
+
+            <section>
+                <h3>Ejecutando FastAPI localmente</h3>
+
+                <p>1. Coloca el código en <code>api/main.py</code></p>
+
+                <p class="smaller">2. Instala los requisitos</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                pip install fastapi
+                </code></pre>
+
+                <p class="smaller">3. Ejecuta el servidor</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                fastapi dev api/main.py
+                </code></pre>
+
+                <p class="smaller">4. Prueba la API y la documentación<br>
+                    http://127.0.0.1:8000/generate_name <br>
+                    http://127.0.0.1:8000/docs
+                </p>
+
+            </section>
+
+
+            <section>
+                <h3>Agregando parámetros de consulta</h3>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name(max_len: int = None):
+                    names = ["Minnie", "Margaret", "Myrtle", "Noa", "Nadia"]
+                    if max_len:
+                        names = [n for n in names if len(n) <= max_len]
+                    random_name = random.choice(names)
+                    return {"name": random_name}
+                </code></pre>
+
+                <p>FastAPI también admite pasar parámetros en
+                    <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/path-params/">ruta</a>,
+                    <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/cookie-params/">cookies</a>,
+                    <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/header-params/">encabezados</a>,
+                    o <a target="_blank" href="https://fastapi.tiangolo.com/tutorial/body/">cuerpo</a>.
+                </p>
+            </section>
+
+
+            <section>
+                <h3>Retornando errores en FastAPI</h3>
+
+                <pre style="font-size:0.8em; height:480px;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name(max_len:int = None):
+                    names = ["Minnie", "Margaret", "Myrtle", "Noa", "Nadia"]
+                    if max_len:
+                        names = [n for n in names if len(n) <= max_len]
+                    if len(names) == 0:
+                        raise fastapi.HTTPException(status_code=404, detail="No se encontró ningún nombre")
+                    random_name = random.choice(names)
+                    return {"name": random_name}
+                </code></pre>
+
+
+                <aside class="speaker-notes">Aviso: tipo/valor predeterminado de los parámetros, async, auto-JSON, documentación
+                </aside>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Crea una API</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a target="_blank"
+                        href="https://github.com/pamelafox/pyday-fastapi-starter">https://github.com/pamelafox/pyday-fastapi-starter</a>
+                    <br>
+                    <a target="_blank" class="smaller aka"
+                        href="https://aka.ms/fastapi-starter">aka.ms/fastapi-starter</a>
+                </p>
+
+                </p>
+
+                <ol>
+                    <li>Sigue los pasos del archivo README para ejecutar la aplicación FastAPI.
+                    <li>Agrega más nombres a la lista.
+                    <li>Agrega un nuevo parámetro a la API, como <code>ends_with</code>,
+                        <code>includes</code> o <code>length</code>.
+                    <li>Agrega una nueva ruta para generar algo más,
+                        como nombres de mascotas.
+                </ol>
+            </section>
+
+            <section class="heading-only">
+                <h2>Producción de<br>
+                    aplicaciones FastAPI</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/AROUND_THE_WORLD_BIT.png"
+                    alt="Bit (el mapache) viajando" width="400">
+
+            </section>
+
+            <section>
+                <h3>Servidores de aplicaciones de nivel de producción</h3>
+
+                <p>Para producción, necesitarás un servidor que pueda manejar:</p>
+
+                <ul>
+                    <li>aplicaciones ASGI (asincrónicas)
+                    <li>procesar múltiples solicitudes de forma concurrente
+                </ul>
+
+                <p>Opciones:</p>
+                <ul>
+                    <li><a target="_blank" href="https://gunicorn.org/">Gunicorn</a> (WSGI + ASGI*)
+                    <li><a target="_blank" href="https://www.uvicorn.org/">Uvicorn</a> (solo ASGI)
+                    <li><a target="_blank" href="https://hypercorn.io/">Hypercorn</a> (solo ASGI)
+                </ul>
+            </section>
+
+            <section>
+                <h3>Uvicorn</h3>
+
+                <p>Uvicorn es un servidor de nivel de producción específicamente para aplicaciones ASGI.</p>
+
+                <p>A partir de la <a target="_blank" href="https://www.uvicorn.org/release-notes/#0300-2024-05-28">versión 0.30.0</a>,
+                    uvicorn puede manejar múltiples workers.</p>
+
+                <p>Agrega <code>uvicorn</code> a <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                fastapi
+                uvicorn[standard]
+                </code></pre>
+
+                <p class="padded">Usa <code>uvicorn</code> para ejecutar la aplicación FastAPI:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                uvicorn api.main:app --workers 4 --port 8000
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Gunicorn</h3>
+
+                <p>Gunicorn es un servidor de nivel de producción
+                    que puede ejecutar múltiples procesos de trabajo.</p>
+
+                <p>Agrega <code>gunicorn</code> a <code>requirements.txt</code>:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                fastapi
+                uvicorn[standard]
+                gunicorn
+                </code></pre>
+
+                <p class="padded">Usa <code>gunicorn</code> para ejecutar la aplicación FastAPI con el worker <code>Uvicorn</code>:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn api.main:app --workers 4 \
+                   --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Configurando gunicorn</h3>
+
+                <p>Gunicorn se puede configurar con un archivo <code>gunicorn.conf.py</code>
+                    para ajustar el número de workers en función de los núcleos de la CPU.</p>
+
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="python">
+                import multiprocessing
+
+                max_requests = 1000
+                max_requests_jitter = 50
+                log_file = "-"
+                bind = "0.0.0.0:8000"
+                worker_class = "uvicorn.workers.UvicornWorker"
+                workers = (multiprocessing.cpu_count() * 2) + 1
+                </code></pre>
+
+                <p class="smaller">El comando de ejecución se puede simplificar a:</p>
+                <pre style="font-size:0.8em; margin-top:0px;"><code data-trim data-noescape class="shell">
+                python3 -m gunicorn main:app
+                </code></pre>
+
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Full-stack FastAPI</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_DEV.svg"
+                    alt="Bit (el mapache) con computadora y código" height="300">
+            </section>
+
+            <section>
+                <h3>FastAPI + Jinja2</h3>
+
+                <p class="smaller">Desde este repositorio:<br>
+                    <a target="_blank"
+                        href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice">
+                        github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka"
+                        href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                </p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                app = FastAPI()
+                parent_path = pathlib.Path(__file__).parent.parent
+                app.mount("/mount", StaticFiles(directory=parent_path / "static"), name="static")
+                templates = Jinja2Templates(directory=parent_path / "templates")
+
+                @app.get("/", response_class=HTMLResponse)
+                def index(request: Request):
+                    return templates.TemplateResponse("index.html", {"request": request})
+
+                @app.get("/about", response_class=HTMLResponse)
+                def about(request: Request):
+                    return templates.TemplateResponse("about.html", {"request": request})
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>FastAPI + Base de datos</h3>
+
+                <p class="smaller">Desde este repositorio:<br>
+                    <a target="_blank"
+                        href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice">
+                        github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka"
+                        href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                </p>
+
+                <p class="padded"><a target="_blank" href="https://sqlmodel.tiangolo.com/">SQLModel</a> está diseñado
+                    específicamente para FastAPI:</p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                # models.py
+                class Destination(SQLModel, table=True):
+                    id: typing.Optional[int] = Field(default=None, primary_key=True)
+                    name: str = Field(index=True)
+                    description: typing.Optional[str]
+                    cruises: typing.List["Cruise"] = Relationship(back_populates="destinations",
+                        link_model=CruiseDestinationLink)
+                
+                # app.py
+                @app.get("/destination/{pk}", response_class=HTMLResponse)
+                def destination_detail(request: Request, pk: int):
+                    with Session(engine) as session:
+                        destination = session.exec(select(Destination).where(Destination.id == pk)).first()
+                        return templates.TemplateResponse(
+                            "destination_detail.html", {"request": request, "destination": destination, "cruises": destination.cruises}
+                        )
+                </code></pre>
+
+            </section>
+
+
+            <section class="heading-only">
+                <h2>FastAPI + AI</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_AI.svg"
+                    alt="Bit (the raccoon) with a brain" height="300">
+            </section>
+
+            <section>
+                <h2>FastAPI + OpenAI</h2>
+
+                <p class="smaller">Desde este repositorio:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/openai-chat-backend-fastapi">
+                        github.com/Azure-Samples/openai-chat-backend-fastapi
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/fastapi-openai">aka.ms/fastapi-openai</a>
+                </p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                @router.post("/chat/stream")
+                async def chat_stream_handler(chat_request: ChatRequest) -> fastapi.responses.StreamingResponse:
+
+                    async def response_stream():
+                        chat_coroutine = clients["openai"].chat.completions.create(
+                            model=os.getenv("AZURE_OPENAI_CHATGPT_DEPLOYMENT", "chatgpt"),
+                            messages=[{"role": "system", "content": SYSTEM_PROMPT}] + chat_request.messages,
+                            stream=True,
+                        )
+                        async for event in await chat_coroutine:
+                            if event.choices:
+                                first_choice = event.model_dump()["choices"][0]
+                                yield json.dumps({"delta": first_choice["delta"]}, ensure_ascii=False) + "\n"
+                
+                    return fastapi.responses.StreamingResponse(response_stream())
+                </code></pre>
+
+                <p>La solicitud y respuesta de la API se ajustan al <a target="_blank" href="https://aka.ms/chatprotocol">Protocolo de Chat de IA de Microsoft</a>.</p>
+            </section>
+
+            <section>
+                <h2>FastAPI + Postgres + OpenAI</h2>
+
+                <p class="smaller">Desde este repositorio:<br>
+                    <a target="_blank" href="https://github.com/Azure-Samples/rag-postgres-openai-python">
+                        github.com/Azure-Samples/rag-postgres-openai-python
+                    </a>
+                    <br>
+                    <a target="_blank" class="aka" href="https://aka.ms/rag-postgres">aka.ms/rag-postgres</a>
+                </p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                @router.post("/chat")
+                async def chat_handler(chat_request: ChatRequest):
+                    messages = [message.model_dump() for message in chat_request.messages]
+                    searcher = PostgresSearcher(
+                        engine,
+                        openai_embed_client=openai_embed_client,
+                        embed_deployment=openai_embed_deployment,
+                        embed_model=openai_embed_model,
+                    )
+                    ragchat = AdvancedRAGChat(
+                        searcher=searcher,
+                        openai_chat_client=openai_chat_client,
+                        chat_model=openai_chat_model,
+                        chat_deployment=openai_chat_deployment,
+                    )
+                    return (await ragchat.run(messages))
+                </code></pre>
+            </section>
+
+            <section class="heading-only">
+                <h2>Alojando FastAPI<br>
+                    ...en Azure!</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_AZURE.png"
+                    alt="Bit (el mapache) en las nubes junto al logo de Azure" width="400">
+
+            </section>
+
+            <section>
+                <h3>Consideraciones de alojamiento</h3>
+
+                <ul>
+                    <li>¿Cuánto tráfico esperas?
+                    <li>¿Qué tan variable será el tráfico?
+                    <li>¿Necesitas escalar a cero?
+                    <li>¿Cuál es tu presupuesto?
+                    <li>¿Es de cara al público?
+                    <li>¿Cómo administrarás el uso de la API?
+                </ul>
+            </section>
+
+            <section>
+                <h3>Opciones de alojamiento en Azure</h3>
+
+                <style>
+                    table.deploy-stack {
+                        border-spacing: 30px;
+                        border-collapse: separate;
+                        border: 0px;
+                    }
+
+                    table.deploy-stack th,
+                    table.deploy-stack td {
+                        font-size: 20px;
+                        border-bottom: 0px none;
+                        border-radius: 12px;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding: 8px;
+                    }
+                </style>
+                <table class="deploy-stack">
+                    <tr>
+                        <th>Nube
+                        <td colspan="4" style="background-color:#ccc;">Azure
+                    </tr>
+                    <tr>
+                        <th>Entorno
+                        <td colspan="2" style="background-color:#0070c0; color: white;">Contenedores
+                        <td colspan="2" style="background-color:#0070c0; color: white;">PaaS
+                    </tr>
+                    <tr>
+                        <th>
+                        <td style="background-color: #00bc70; color: white;">Azure Kubernetes Service
+                        <td style="background-color: #0070c0; color: white;">Administración de Contenedores
+                        <td style="background-color: #00bc70; color: white;">Azure App Service
+                        <td style="background-color: #0070c0; color: white;">Serverless
+
+                    </tr>
+                    <tr>
+                        <th>
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Container Apps
+                        <td>
+                        <td style="background-color: #00bc70; color: white;">Azure Functions
+                    </tr>
+                </table>
+                <p class="fragment smaller">
+                    Ninguna de las plataformas "conoce" nativamente a FastAPI, pero todas pueden ejecutar aplicaciones Python.
+                    <br>
+                    Para hoy, probaremos
+                    <span
+                        style="background-color: #00bc70; color: white; padding: 3px 6px; border-radius: 6px;">Functions</span>.
+                </p>
+            </section>
+
+            <section>
+                <h3>Alojando FastAPI en Azure Functions</h3>
+
+                <p>
+                    <img src="https://pamelafox.github.io/python-web-apps/fastapi-workshop/fastapi_diagram.png"
+                        alt="Diagrama de arquitectura de la API de FastAPI: Azure Functions, App Service Plan, cuenta de almacenamiento, App Insights, Log Analytics Workspace">
+                </p>
+            </section>
+
+            <section>
+                <h3>Emulación local de FastAPI en Azure Functions</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a target="_blank"
+                        href="https://github.com/Azure-Samples/fastapi-on-azure-functions">github.com/Azure-Samples/fastapi-on-azure-functions</a>
+                    <br>
+                    <a target="_blank" class="smaller aka"
+                        href="https://aka.ms/fastapi-azure-functions">aka.ms/fastapi-azure-functions</a>
+                </p>
+
+                <ol>
+                    <li>Espera a que el entorno virtual de Python en .venv se active completamente.
+                    <li>Instala los requisitos:
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    python -m pip install -r requirements.txt
+                    </code></pre>
+                    <li>
+                    <li>Usa "Run & Debug" desde VS Code o ejecuta el comando:
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    func host start
+                    </code></pre>
+                </ol>
+
+            </section>
+
+            <section>
+                <h3>Implementando FastAPI en Azure Functions</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a target="_blank"
+                        href="https://github.com/Azure-Samples/fastapi-on-azure-functions">github.com/Azure-Samples/fastapi-on-azure-functions</a>
+                    <br>
+                    <a target="_blank" class="smaller aka"
+                        href="https://aka.ms/fastapi-azure-functions">aka.ms/fastapi-azure-functions</a>
+                </p>
+
+                <ol>
+                    <li>Regístrate en una <a target="_blank" href="https://azure.microsoft.com/free/">cuenta gratuita de Azure</a>
+                        y
+                        crea una suscripción.
+                    <li>Si no estás en Codespace, instala la <a target="_blank"
+                            href=https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview">CLI de Desarrollador de Azure</a></p>
+                    <li>Inicia sesión en tu cuenta de Azure:
+
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd auth login
+                    </code></pre>
+
+                    <li>Implementa la aplicación:
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                    azd up
+                    </code></pre>
+                </ol>
+
+            </section>
+
+            <section class="heading-only">
+                <h2>Any questions?</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg"
+                    alt="A bunch of raccoon students with computers" width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        const srcUrlPrefix = "https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/";
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            plugins: [RevealHighlight, RevealMenu],
+            pdfSeparateFragments: true
+        });
+
+        window.highlightJsBadge();
+    </script>
+</body>
+
+</html>
