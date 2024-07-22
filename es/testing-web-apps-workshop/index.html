@@ -1,0 +1,798 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Python Web Apps: Testing</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/theme/simple.css" id="theme">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Inconsolata|Roboto:300,400,500|Work+Sans:400,700">
+    <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/a11y-dark.min.css">
+    <link rel="stylesheet" href="https://pamelafox.github.io/python-web-apps/static/slides.css">
+    <link rel="icon" href="https://pamelafox.github.io/python-web-apps/static/images/BIT_ICON.png">
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section class="heading-only" style="padding-top:5%">
+                <h1 style="font-size:3.3em;">Aplicaciones Web en Python:<br>
+                    Pruebas
+                </h1>
+            </section>
+
+            <section>
+                <h3>Conoce a Víctor Vázquez</h3>
+
+                <img src="https://avatars.githubusercontent.com/u/24213737"
+                    alt="Foto de Víctor junto a Jessica, su esposa, en Queretaro Mx" style="float:right; height:400px;">
+                <p>Desarrollador en Microsoft (<a target="_blank" href="https://aka.ms/azd">azd</a>)</p>
+                <br>
+                <p>Redes sociales:</p>
+                <table style="width:40%; float: left; font-size:28px;">
+                    <tr>
+                        <td>Twitter
+                        <td><a target="_blank" href="https://twitter.com/vhvb1989">@vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>GitHub
+                        <td><a target="_blank" href="https://www.github.com/vhvb1989">/vhvb1989</a></td>
+                    </tr>
+                    <tr>
+                        <td>LinkedIn
+                        <td><a target="_blank" href="https://www.linkedin.com/in/vhvb1989/">in/vhvb1989</a></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section>
+                <h3>Temas de hoy</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_PUBLIC_SPEAKING.svg"
+                    alt="Bit (el mapache) dando una conferencia" width="300" style="float:right;">
+                <ul style="margin-top:20px; line-height: 1.2em;">
+                    <li>Framework Unittest
+                    <li>Framework Pytest
+                    <li>Cobertura
+                    <li>Funcionalidades avanzadas de Pytest
+                    <li>Pruebas de integración para aplicaciones web
+                    <li>Pruebas de extremo a extremo con Playwright
+                    <li>Flujo de trabajo de pruebas
+                </ul>
+            </section>
+
+            <section>
+                <h3>Configuración del entorno</h3>
+                <p>Para seguir el código en vivo, tienes las siguientes opciones:</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr;">
+                    <div>
+
+                        <ol>
+                            <li>
+                                Desarrollo en línea con Codespaces:
+                                <ul>
+                                    <li><a target="_blank" href="https://github.com/signup">Cuenta de GitHub</a>
+                                </ul>
+                            <li class="padded">Desarrollo local con VS Code:
+                                <ul>
+                                    <li><a target="_blank" href="https://code.visualstudio.com/Download">Visual Studio
+                                            Code</a></li>
+                                    <li><a target="_blank"
+                                            href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Extensión de Dev Containers</a></li>
+                                    <li><a target="_blank" href="https://www.docker.com/products/docker-desktop/">Docker
+                                            Desktop</a></li>
+                                </ul>
+
+                            <li class="padded">Desarrollo local con cualquier editor:
+                                <ul>
+                                    <li><a target="_blank" href="https://www.python.org/downloads/">Python 3</a></li>
+                                </ul>
+                        </ol>
+                    </div>
+
+                    <div style="background-color: #f0f0f0; padding: 10px;">
+                        Repositorios que utilizaremos:
+                        <ul>
+                            <li><a target="_blank" href="https://aka.ms/pytest-exercise">aka.ms/pytest-exercise</a>
+                            <li><a target="_blank" href="https://aka.ms/pytest-fastapi">aka.ms/pytest-fastapi</a>
+                            <li><a target="_blank"
+                                    href="https://aka.ms/fastapi-postgres-app">aka.ms/fastapi-postgres-app</a>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Pirámide de pruebas</h3>
+
+                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid.png"
+                    alt="Pirámide de pruebas de software" height="550" />
+            </section>
+
+
+            <section class="heading-only">
+                <h2>unittest</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_unit.png"
+                    alt="Pirámide de pruebas de software, con pruebas unitarias resaltadas" height="350" />
+
+            </section>
+
+            <section>
+                <h3>Ejemplo de función para pruebas</h3>
+
+                <p>Dentro de un archivo <code>summer.py</code>:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                def sum_scores(scores):
+                    """ Calcula la puntuación total basada en una lista de puntuaciones.
+                    """
+                    total = 0
+                    for score in scores:
+                        total += score
+                    return total
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>unittest</h3>
+
+                <p>El módulo <a target="_blank" href="https://docs.python.org/3/library/unittest.html">unittest</a> se puede utilizar para escribir grandes cantidades de pruebas en archivos fuera del código probado.
+                </p>
+
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
+                    import unittest
+
+                    from summer import sum_scores
+
+                    class TestSumScores(unittest.TestCase):
+
+                        def test_sum_empty(self):
+                            self.assertEqual(sum_scores([]), 0)
+
+                        def test_sum_numbers(self):
+                            self.assertEqual(sum_scores([8, 9, 7]), 24)
+                </code></pre>
+
+                <p>Las pruebas son métodos dentro de una clase que utilizan una serie de métodos especiales <a target="_blank" href="https://docs.python.org/3/library/unittest.html#unittest.TestCase.debug">assert*</a>.</p>
+            </section>
+
+            <section>
+                <h3>Ejecución de pruebas con unittest</h3>
+
+                <p>Ejecutar un solo archivo:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                python -m unittest test_sum_scores.py
+                </code></pre>
+
+                <br>
+                <p>Ejecutar todas las pruebas <a target="_blank" href="https://docs.python.org/3/library/unittest.html#unittest-test-discovery">descubribles</a>:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                python -m unittest
+                </code></pre>
+                <br>
+                <p>Para más opciones, <a target="_blank" href="https://docs.python.org/3/library/unittest.html#command-line-interface">consulta la documentación</a>.</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>pytest</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_unit.png"
+                    alt="Pirámide de pruebas de software, con pruebas unitarias resaltadas" height="350" />
+
+            </section>
+
+            <section>
+                <h3>pytest</h3>
+
+                <p>El paquete <a target="_blank" href="https://pytest.org">pytest</a> es una alternativa popular de terceros para escribir pruebas.</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                from summer import sum_scores
+
+                def test_sum_empty():
+                    assert sum_scores([]) == 0
+
+                def test_sum_numbers():
+                    assert sum_scores([8, 9, 7]) == 24
+                </code></pre>
+
+                <p>Las pruebas son funciones simples que utilizan la declaración <a target="_blank" href="https://realpython.com/python-assert-statement/">assert de Python</a>.</p>
+            </section>
+
+            <section>
+                <h3>Ejecución de pruebas con pytest</h3>
+
+                <p>Instala el paquete:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                pip3 install pytest
+                </code></pre>
+
+                <br>
+                <p>Ejecuta un solo archivo:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                python -m pytest sum_scores_test.py
+                </code></pre>
+
+                <br>
+                <p>Ejecuta todas las pruebas <a target="_blank"
+                        href="https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#test-discovery">descubribles</a>:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                python -m pytest
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Configuración de pytest</h3>
+
+                <p>Pytest se puede configurar en <code>pyproject.toml</code>:</p>
+
+                <pre style="font-size:0.8em"><code data-trim data-noescape class="toml">
+                [tool.pytest.ini_options]
+                addopts = "-ra"
+                pythonpath = ['.']
+                </code></pre>
+
+                <a target="_blank" href="https://docs.pytest.org/en/7.1.x/reference/reference.html#ini-options-ref">
+                    🔗 Ver todas las opciones
+                </a>
+            </section>
+
+            <section>
+                <h3>Ejercicio #1: Funciones de prueba</h3>
+
+                <p>Comenzando desde este repositorio:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/testing-workshop-starter">
+                        github.com/pamelafox/testing-workshop-starter
+                    </a><br>
+                    <a target="_blank" class="aka" href="https://aka.ms/pytest-exercise">
+                        aka.ms/pytest-exercise
+                    </a>
+                </p>
+                <ol>
+                    <li>Abre el proyecto en GitHub Codespaces.
+                    <li>Dentro de <code>tests/texter_test.py</code>, agrega pruebas para las funciones de <code>src/texter.py</code>.
+                    <li>Ejecuta las pruebas utilizando pytest y asegúrate de que pasen.
+                </ol>
+            </section>
+
+            <section class="heading-only">
+                <h2>Cobertura</h2>
+            </section>
+
+            <section>
+                <h3>Cobertura de pruebas</h3>
+
+                <p>La cobertura de pruebas mide el porcentaje de código que está cubierto por las pruebas en un conjunto de pruebas.</p>
+
+                <p>Hay dos formas de medir la cobertura:</p>
+                <ul>
+                    <li><strong>Cobertura de líneas</strong>: Si una línea de código fue ejecutada.
+                    <li><strong>Cobertura de ramas</strong>: Si se siguió un camino de código posible (es decir, en condiciones <code>if</code>).
+                </ul>
+
+            </section>
+
+            <section>
+                <h3>coverage.py</h3>
+
+                <p><a href="https://coverage.readthedocs.io/" target="_blank">coverage.py</a> es la herramienta más popular para medir la cobertura en programas de Python.</p>
+                <p class="smaller padded">Ejemplo de informe de cobertura para una aplicación web de Python:</p>
+                <pre style="font-size:0.55em;"><code data-trim data-noescape class="text">
+                tests/test_routes.py .................                                   [ 89%]
+                tests/test_translations.py ..                                            [100%]
+
+                ---------- coverage: platform linux, python 3.9.13-final-0 -----------
+                Name                         Stmts   Miss  Cover   Missing
+                ----------------------------------------------------------
+                src/__init__.py                 17      0   100%
+                src/database.py                  4      0   100%
+                src/models.py                   20      0   100%
+                src/routes.py                   74      0   100%
+                src/translations.py             14      0   100%
+                tests/conftest.py               35      0   100%
+                tests/test_routes.py           110      0   100%
+                tests/test_translations.py      16      0   100%
+                ----------------------------------------------------------
+                TOTAL                          290      0   100%
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Ejecución de coverage.py</h3>
+
+                <p>Instala el paquete:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                pip3 install coverage
+                </code></pre>
+                <br>
+                <p>Ejecuta con unittest:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                coverage run -m unittest test_sum_scores.py
+                </code></pre>
+                <p>Ejecuta con pytest:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                coverage run -m pytest sum_scores_test.py
+                </code></pre>
+                <br>
+                <p>También puedes ejecutarlo con <a target="_blank"
+                        href="https://coverage.readthedocs.io/en/6.4.4/branch.html">cobertura de ramas</a>.</p>
+            </section>
+
+            <section>
+                <h3>Ver informe de cobertura</h3>
+
+                <p>Para un informe en la línea de comandos:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                coverage report
+                </code></pre>
+                <br>
+                <p>Para un informe HTML:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                coverage html
+                </code></pre>
+                <br>
+                <p>También están disponibles otros tipos de informes.</p>
+            </section>
+
+            <section>
+                <h3>Usar coverage con pytest</h3>
+
+                <p>El complemento <a target="_blank" href="https://pypi.org/project/pytest-cov/">pytest-cov</a>
+                    facilita aún más la ejecución de coverage con pytest.</p>
+
+                <p>Instala el paquete:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                pip3 install pytest-cov
+                </code></pre>
+
+                <p>Ejecuta con pytest:</p>
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                pytest --cov=myproj tests/
+                </code></pre>
+
+                <p>Consulta la <a target="_blank" href="https://pytest-cov.readthedocs.io/en/latest/config.html">documentación de pytest-cov</a> para obtener más opciones.</p>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Cobertura de pruebas</h3>
+
+                <p>Usando el repositorio anterior:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/testing-workshop-starter">
+                        github.com/pamelafox/testing-workshop-starter
+                    </a><br>
+                    <a target="_blank" class="aka" href="https://aka.ms/pytest-exercise">
+                        aka.ms/pytest-exercise
+                    </a>
+                </p>
+
+                <ol>
+                    <li>En <code>pyproject.toml</code>, agrega lo siguiente a <code>addopts</code>:
+                        <br>
+                        <code> --cov src --cov-report term-missing</code>
+                    <li>Ejecuta pytest y verifica el informe de cobertura.
+                    <li>Mueve <code>extras/conditionals.py</code>
+                        al directorio <code>src/</code>.
+                    <li>Agrega pruebas para las funciones en <code>conditionals.py</code>.
+                    <li>Sigue agregando pruebas hasta alcanzar una cobertura del 100%.
+                </ol>
+            </section>
+
+            <section class="heading-only">
+                <h2>Pruebas avanzadas con pytest</h2>
+            </section>
+
+            <section>
+                <h3>Mocks y monkeypatches</h3>
+
+                <p>Si el código utiliza funcionalidades que son difíciles de replicar en entornos de prueba, puedes utilizar el método de <strong>monkeypatch</strong> para simular esa funcionalidad.</p>
+
+                <p class="smaller">Considera esta función:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
+                def input_number(message):
+                    user_input = int(input(message))
+                    return user_input
+                </code></pre>
+
+                <div class="fragment">
+                    <p class="smaller">Podemos utilizar monkeypatch para simular la función <code>input()</code>:</p>
+                    <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
+                def fake_input(msg):
+                    return '5'
+
+                def test_input_int(monkeypatch):
+                    monkeypatch.setattr('builtins.input', fake_input)
+                    assert input_number('Ingresa un número') == 5
+                </code></pre>
+                </div>
+            </section>
+
+
+            <section>
+                <h3>Fixtures de pytest</h3>
+
+                <p>Las <a target="_blank" href="https://docs.pytest.org/en/6.2.x/fixture.html">fixtures</a> de pytest son funciones que se ejecutan antes de cada prueba. Las fixtures son útiles para funcionalidades repetitivas.</p>
+
+                <p>Ejemplo de fixture:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                import pytest
+
+                @pytest.fixture
+                def mock_input(monkeypatch):
+                    def fake_input(msg):
+                        return '5'
+                    monkeypatch.setattr('builtins.input', fake_input)
+
+                def test_input_number(mock_input):
+                    assert input_number('Ingresa un número') == 5
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Aprende más sobre pytest</h3>
+
+                <img src="https://pythontest.com/img/pytest_book_2.jpg" alt="Portada del libro de pytest" style="float:right">
+                <ul style="float:left; width:70%">
+                    <li><a target="_blank" href="https://docs.pytest.org/en/latest/contents.html">Documentación de pytest</a>
+                    <li><a target="_blank" href="https://pythontest.com/pytest-book/">Libro: Python Testing with pytest</a>, por Brian Okken
+                    <li><a target="_blank" href="https://www.obeythetestinggoat.com/">Desarrollo guiado por pruebas con Python</a>, por Harry Percival
+                    <li><a target="_blank" href="https://training.talkpython.fm/courses/getting-started-with-testing-in-python-using-pytest">Curso: Getting started with pytest</a>, por Brian Okken
+                    <li><a target="_blank" href="https://testandcode.com/">Podcast Test & Code</a>, por Brian Okken
+                </ul>
+            </section>
+
+            <section class="heading-only">
+                <h2>Pruebas de aplicaciones web</h2>
+
+                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_integration.png"
+                    alt="Pirámide de pruebas de software, con pruebas de integración resaltadas" height="350" />
+
+            </section>
+
+
+            <section>
+                <h3>Clientes de prueba</h3>
+
+                <p>La mayoría de los frameworks de aplicaciones web proporcionan algún tipo de objeto cliente de prueba.</p>
+                <ul>
+                    <li>Flask: <code>app.test_client()</code>
+                    <li>FastAPI: <code>fastapi.testclient.TestClient(app)</code>
+                    <li>Django: <code>django.test.Client()</code>
+                </ul>
+
+                <p>Ejemplo de pruebas en Flask:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                from flaskapp import app
+
+                def test_homepage():
+                    response = app.test_client().get("/")
+                    assert response.status_code == 200
+                    assert b"Soy humano" in response.data
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>FastAPI: Aplicación de ejemplo</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/simple-fastapi-container/">
+                        github.com/pamelafox/simple-fastapi-container/
+                    </a>
+                    <br>
+                    <a class="aka" target="_blank" href="https://aka.ms/pytest-fastapi">aka.ms/pytest-fastapi</a>
+                </p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                import random
+                import fastapi
+                from .data import names
+
+                app = fastapi.FastAPI()
+
+                @app.get("/generate_name")
+                async def generate_name(starts_with: str = None):
+                    name_choices = ["Hassan", "Maria", "Sofia", "Yusuf", "Aisha", "Fatima", "Ahmed"]
+                    if starts_with:
+                        name_choices = [name for name in names if name.lower().startswith(
+                            starts_with.lower())]
+                    random_name = random.choice(name_choices)
+                    return {"name": random_name}
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h3>FastAPI: Pruebas de ejemplo</h3>
+
+                <p>Para acceder al <code>TestClient</code>, instala el módulo <code>httpx</code>:</p>
+
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="shell">
+                pip install httpx
+                </code></pre>
+
+                <p>Escribe pruebas para cada ruta de la API:</p>
+                <pre style="font-size:0.6em;"><code data-trim data-noescape class="python">
+                from fastapi.testclient import TestClient
+
+                from .main import app
+
+                client = TestClient(app)
+
+                def test_generate_name_params():
+                    random.seed(1)
+                    response = client.get("/generate_name?starts_with=n")
+                    assert response.status_code == 200
+                    assert response.json()["name"] == "Nancy"
+                </code></pre>
+
+                <p><a href="https://fastapi.tiangolo.com/tutorial/testing/">📖 Guía del usuario de FastAPI: Pruebas</a></p>
+
+            </section>
+
+            <section>
+                <h3>Ejercicio: Pruebas de FastAPI</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a target="_blank" href="https://github.com/pamelafox/simple-fastapi-container/">
+                        github.com/pamelafox/simple-fastapi-container/
+                    </a>
+                </p>
+                <ul>
+                    <li>Abre el repositorio en Codespaces o localmente.
+                    <li>Ejecuta las pruebas actuales:<br>
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                        python -m pytest
+                        </code></pre>
+                    <li>Agrega una nueva ruta en <code>main.py</code> para generar nombres de mascotas aleatorios.</li>
+                    <li>Agrega pruebas en <code>api_test.py</code> para la nueva ruta.</li>
+                    <li>Ejecuta <code>python -m pytest</code> para ejecutar todas las pruebas y asegurarte de tener una cobertura del 100%.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Configuración de un fixture live_server</h3>
+
+                <pre style="font-size:0.7em; height:550px;"><code data-trim data-noescape class="python">
+                from multiprocessing import Process
+
+                import pytest
+                import uvicorn
+
+                from fastapi_app import seed_data
+                from fastapi_app.app import app
+
+                def run_server():
+                    uvicorn.run(app)
+
+                @pytest.fixture(scope="session")
+                def live_server():
+                    seed_data.load_from_json()
+                    proc = Process(target=run_server, daemon=True)
+                    proc.start()
+                    yield
+                    proc.kill()
+                    seed_data.drop_all()
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h3>Escritura de pruebas</h3>
+
+                <p>Utiliza la herramienta codegen para generar llamadas de Playwright con <a target="_blank"
+                        href="https://playwright.dev/python/docs/locators">localizadores</a>:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                playwright codegen https://localhost:8000
+                </code></pre>
+
+                <p class="padded">Luego copia la prueba generada en tu archivo de pruebas y agrega
+                    <a target="_blank" href="https://playwright.dev/python/docs/test-assertions">aserciones</a>.
+                </p>
+
+                <p class="padded">
+                    Obtén más información en la <a target="_blank" href="https://playwright.dev/python/">documentación de Playwright Python</a>.
+                </p>
+            </section>
+
+            <section>
+                <h3>Ejecución de pruebas de Playwright</h3>
+
+                <p>Ejecuta las pruebas:</p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                python3 -m pytest
+                </code></pre>
+
+                <div class="fragment">
+                    <p class="padded">Ejecuta las pruebas en modo con interfaz gráfica:</p>
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                python3 -m pytest --headed
+                </code></pre>
+                    <p>⚠️ Esto no funcionará en GitHub Codespaces.</p>
+                </div>
+
+                <div class="fragment">
+                    <p class="padded">Ejecuta las pruebas con trazado:</p>
+
+                    <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                python3 -m pytest --tracing=on
+                </code></pre>
+                    <p>Visualiza los trazados localmente o con <a target="_blank" href="https://trace.playwright.dev/">Playwright trace viewer</a>.</p>
+
+                    <p class="padded">Para más opciones, consulta la <a target="_blank"
+                            href="https://playwright.dev/python/docs/test-runners">referencia del complemento pytest playwright</a>.</p>
+                </div>
+
+            </section>
+
+            <section>
+                <h3>Pruebas de accesibilidad</h3>
+
+                <p>Utiliza la biblioteca axe para ejecutar pruebas de accesibilidad,
+                    a través de <a target="_blank"
+                        href="https://pypi.org/project/axe-playwright-python/">axe-playwright-python</a>
+                    o <a target="_blank"
+                        href="https://github.com/pamelafox/pytest-axe-playwright-snapshot">pytest-axe-playwright-snapshot</a>.
+                </p>
+
+                <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
+                def test_a11y(app, live_server, page: Page):
+                    page.goto(url_for("home_page", _external=True))
+                    results = Axe().run(page)
+                    assert results.violations_count == 0, results.generate_report()
+                </code></pre>
+
+                <ul>
+                    <li>
+                        <a target="_blank"
+                            href="https://blog.pamelafox.org/2023/07/automated-accessibility-audits-for.html">
+                            Auditorías automatizadas de accesibilidad para aplicaciones web en Python
+                        </a>
+                    <li><a target="_blank"
+                            href="https://blog.pamelafox.org/2023/08/accessibility-snapshot-testing-for.html">
+                            Pruebas de instantáneas de accesibilidad para Playwright
+                        </a>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Ejercicio: Pruebas de Playwright</h3>
+
+                <p>Usando este repositorio:<br>
+                    <a target="_blank"
+                        href="https://github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice/">
+                        github.com/Azure-Samples/azure-fastapi-postgres-flexible-appservice
+                    </a><br>
+                    <a class="aka" target="_blank" href="https://aka.ms/fastapi-postgres-app">
+                        aka.ms/fastapi-postgres-app
+                    </a>
+                </p>
+                <ul>
+                    <li>Abre el repositorio en Codespaces.
+                    <li>Instala las dependencias de prueba:
+
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                            python3 -m pip install -r requirements-dev.txt
+                            python3 -m playwright install chromium --with-deps
+                        </code></pre>
+                    <li>Ejecuta las pruebas:
+
+                        <pre style="font-size:0.8em;"><code data-trim data-noescape class="shell">
+                            python3 -m pytest
+                        </code></pre>
+                    <li>Agrega una nueva prueba que verifique que el pie de página contiene 2023.
+                    <li>Vuelve a ejecutar las pruebas y confirma que la nueva prueba pasa.
+                </ul>
+            </section>
+
+
+            <section class="heading-only">
+                <h2>Flujo de trabajo de pruebas</h2>
+            </section>
+
+            <section>
+                <h3>¿Cuándo hacer pruebas?</h3>
+
+                <ul>
+                    <li>Mientras se desarrollan nuevos cambios.
+                    <li>pre-commit: Antes de confirmar el código en un repositorio.
+                    <li>Antes de fusionar el código en la rama principal.
+                    <li>Antes de implementar el código en producción.
+                </ul>
+            </section>
+
+            <section>
+                <h3>pre-commit</h3>
+
+                <p><a target="_blank" href="https://pre-commit.com/">pre-commit</a> es un paquete de terceros
+                    para ejecutar ganchos pre-commit.
+                </p>
+
+                <p>¡Sin embargo, ejecutar todas las pruebas antes de confirmar puede llevar mucho tiempo!</p>
+
+            </section>
+
+            <section>
+                <h3>Integración continua (CI)</h3>
+
+                <p>Cada vez que se envía código a un repositorio, un servidor de CI puede ejecutar una serie de acciones
+                    que pueden resultar en un estado de <strong style="color:green">éxito</strong> o <strong
+                        style="color:red">fracaso</strong>.
+                </p>
+
+                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/screenshot_githubactions.jpg"
+                    height="350">
+
+                <p>Opciones populares de CI: Jenkins, TravisCI, GitHub Actions</p>
+            </section>
+
+            <section>
+                <h3>Acciones de GitHub</h3>
+
+                <p>Un ejemplo de flujo de trabajo de acciones de GitHub con pytest:</p>
+
+                <pre style="font-size:0.5em;"><code data-trim data-noescape class="text">
+                name: Verificaciones de Python
+                on: [push, pull_request]
+
+                jobs:
+                build:
+                    runs-on: ubuntu-latest
+                    steps:
+                    - uses: actions/checkout@v3
+                    - name: Configurar Python 3
+                        uses: actions/setup-python@v3
+                        with:
+                        python-version: 3.11
+                    - name: Instalar dependencias
+                        run: |
+                        python -m pip install --upgrade pip
+                        pip install pytest
+                    - name: Ejecutar pruebas unitarias
+                        run: |
+                        pytest
+                    </code></pre>
+
+                <p>Verlo en <a target="_blank"
+                        href="https://github.com/pamelafox/recursive-visualizations/actions">acción</a>.</p>
+            </section>
+
+            <section class="heading-only">
+                <h2>¿Alguna pregunta?</h2>
+                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg"
+                    alt="Un grupo de estudiantes mapaches con computadoras" width="400">
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlightjs-badge@0.1.9/highlightjs-badge.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script>
+        const srcUrlPrefix = "https://cdn.jsdelivr.net/npm/reveal.js@4.1.0/";
+        Reveal.initialize({
+            width: 1280,
+            height: 720,
+            hash: true,
+            center: false,
+            slideNumber: true,
+            showNotes: false,
+            margin: 0.1,
+            preloadIframes: true,
+            plugins: [RevealHighlight, RevealMenu],
+            pdfSeparateFragments: true
+        });
+
+        window.highlightJsBadge();
+
+    </script>
+</body>
+
+</html>
