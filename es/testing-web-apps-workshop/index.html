@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 	<head>
@@ -120,16 +121,14 @@
             <section>
                 <h3>Testing pyramid</h3>
 
-                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid.png"
-                    alt="Software testing pyramid" height="550" />
+                <img src="software_testing_pyramid.png" alt="Software testing pyramid" height="550"/>
             </section>
 
 
             <section class="heading-only">
                 <h2>unittest</h2>
 
-                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_unit.png"
-                    alt="Software testing pyramid, with unit tests highlighted" height="350" />
+                <img src="software_testing_pyramid_unit.png" alt="Software testing pyramid, with unit tests highlighted" height="350"/>
 
             </section>
 
@@ -151,8 +150,7 @@
             <section>
                 <h3>unittest</h3>
 
-                <p>The <a target="_blank" href="https://docs.python.org/3/library/unittest.html">unittest</a> module can
-                    be used to write large quantities of tests
+                <p>The <a target="_blank" href="https://docs.python.org/3/library/unittest.html">unittest</a> module can be used to write large quantities of tests
                     in files outside of the tested code.
                 </p>
 
@@ -171,9 +169,7 @@
                 </code></pre>
 
                 <p>Tests are methods inside a class that use
-                    a bunch of special <a target="_blank"
-                        href="https://docs.python.org/3/library/unittest.html#unittest.TestCase.debug">assert*</a>
-                    methods.</p>
+                    a bunch of special <a target="_blank" href="https://docs.python.org/3/library/unittest.html#unittest.TestCase.debug">assert*</a> methods.</p>
             </section>
 
             <section>
@@ -185,23 +181,18 @@
                 </code></pre>
 
                 <br>
-                <p>Run all <a target="_blank"
-                        href="https://docs.python.org/3/library/unittest.html#unittest-test-discovery">discoverable</a>
-                    tests:</p>
+                <p>Run all <a target="_blank" href="https://docs.python.org/3/library/unittest.html#unittest-test-discovery">discoverable</a> tests:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
                 python -m unittest
                 </code></pre>
                 <br>
-                <p>For more options, <a target="_blank"
-                        href="https://docs.python.org/3/library/unittest.html#command-line-interface">read the docs</a>.
-                </p>
+                <p>For more options, <a target="_blank" href="https://docs.python.org/3/library/unittest.html#command-line-interface">read the docs</a>.</p>
             </section>
 
             <section class="heading-only">
                 <h2>pytest</h2>
 
-                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_unit.png"
-                    alt="Software testing pyramid, with unit tests highlighted" height="350" />
+                <img src="software_testing_pyramid_unit.png" alt="Software testing pyramid, with unit tests highlighted" height="350"/>
 
             </section>
 
@@ -209,7 +200,7 @@
                 <h3>pytest</h3>
 
                 <p>The <a target="_blank" href="https://pytest.org">pytest</a> package is a
-                    popular third-party alternative for writing tests.</p>
+                popular third-party alternative for writing tests.</p>
 
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
                 from summer import sum_scores
@@ -222,7 +213,7 @@
                 </code></pre>
 
                 <p>Tests are simple functions that use Python's
-                    <a target="_blank" href="https://realpython.com/python-assert-statement/">assert statement</a>.
+                <a target="_blank" href="https://realpython.com/python-assert-statement/">assert statement</a>.
                 </p>
             </section>
 
@@ -241,9 +232,7 @@
                 </code></pre>
 
                 <br>
-                <p>Run all <a target="_blank"
-                        href="https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#test-discovery">discoverable</a>
-                    tests:</p>
+                <p>Run all <a target="_blank" href="https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#test-discovery">discoverable</a> tests:</p>
                 <pre style="font-size:0.8em;"><code data-trim data-noescape class="python">
                 python -m pytest
                 </code></pre>
@@ -295,8 +284,7 @@
                 <p>Two ways of measuring coverage:</p>
                 <ul>
                     <li><strong>Line coverage</strong>: Whether a line of code was executed
-                    <li><strong>Branch coverage</strong>: Whether a possible code path was followed (i.e. in
-                        <code>if</code> conditions)
+                    <li><strong>Branch coverage</strong>: Whether a possible code path was followed (i.e. in <code>if</code> conditions)
                 </ul>
 
             </section>
@@ -305,7 +293,7 @@
                 <h3>coverage.py</h3>
 
                 <p><a href="https://coverage.readthedocs.io/" target="_blank">coverage.py</a> is the most popular
-                    tool for measuring coverage in Python programs.</p>
+                tool for measuring coverage in Python programs.</p>
                 <p class="smaller padded">Example coverage report for a Python web app:</p>
                 <pre style="font-size:0.55em;"><code data-trim data-noescape class="text">
                 tests/test_routes.py .................                                   [ 89%]
@@ -344,8 +332,7 @@
                 coverage run -m pytest sum_scores_test.py
                 </code></pre>
                 <br>
-                <p>You can also run with <a target="_blank"
-                        href="https://coverage.readthedocs.io/en/6.4.4/branch.html">branch coverage</a>.</p>
+                <p>You can also run with <a target="_blank" href="https://coverage.readthedocs.io/en/6.4.4/branch.html">branch coverage</a>.</p>
             </section>
 
             <section>
@@ -380,8 +367,7 @@
                 pytest --cov=myproj tests/
                 </code></pre>
 
-                <p>See <a target="_blank" href="https://pytest-cov.readthedocs.io/en/latest/config.html">pytest-cov
-                        docs</a> for more options.</p>
+                <p>See <a target="_blank" href="https://pytest-cov.readthedocs.io/en/latest/config.html">pytest-cov docs</a> for more options.</p>
             </section>
 
             <section>
@@ -416,8 +402,8 @@
                 <h3>Mocks & monkeypatches</h3>
 
                 <p>If code uses functionality
-                    that's hard to replicate in test environments,
-                    you can <strong>monkeypatch</strong> that functionality.</p>
+                that's hard to replicate in test environments,
+                you can <strong>monkeypatch</strong> that functionality.</p>
 
                 <p class="smaller">Consider this function:</p>
                 <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
@@ -425,10 +411,10 @@
                     user_input = int(input(message))
                     return user_input
                 </code></pre>
-
+                
                 <div class="fragment">
-                    <p class="smaller">We can monkeypatch <code>input()</code> to mock it:</p>
-                    <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
+                <p class="smaller">We can monkeypatch <code>input()</code> to mock it:</p>
+                <pre style="font-size:0.7em;"><code data-trim data-noescape class="python">
                 def fake_input(msg):
                     return '5'
 
@@ -468,13 +454,9 @@
                 <img src="https://pythontest.com/img/pytest_book_2.jpg" alt="Pytest book cover" style="float:right">
                 <ul style="float:left; width:70%">
                     <li><a target="_blank" href="https://docs.pytest.org/en/latest/contents.html">Pytest docs</a>
-                    <li><a target="_blank" href="https://pythontest.com/pytest-book/">Book: Python Testing with
-                            pytest</a>, by Brian Okken
-                    <li><a target="_blank" href="https://www.obeythetestinggoat.com/">Test-Driven Development with
-                            Python</a>, by Harry Percival
-                    <li><a target="_blank"
-                            href="https://training.talkpython.fm/courses/getting-started-with-testing-in-python-using-pytest">Course:
-                            Getting started with pytest</a>, by Brian Okken
+                    <li><a target="_blank" href="https://pythontest.com/pytest-book/">Book: Python Testing with pytest</a>, by Brian Okken
+                    <li><a target="_blank" href="https://www.obeythetestinggoat.com/">Test-Driven Development with Python</a>, by Harry Percival
+                    <li><a target="_blank" href="https://training.talkpython.fm/courses/getting-started-with-testing-in-python-using-pytest">Course: Getting started with pytest</a>, by Brian Okken
                     <li><a target="_blank" href="https://testandcode.com/">Test & Code podcast</a>, by Brian Okken
                 </ul>
             </section>
@@ -482,8 +464,7 @@
             <section class="heading-only">
                 <h2>Testing web apps</h2>
 
-                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_integration.png"
-                    alt="Software testing pyramid, with integration tests highlighted" height="350" />
+                <img src="software_testing_pyramid_integration.png" alt="Software testing pyramid, with integration tests highlighted" height="350"/>
 
             </section>
 
@@ -591,26 +572,22 @@
             <section class="heading-only">
                 <h2>E2E testing</h2>
 
-                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/software_testing_pyramid_e2e.png"
-                    alt="Software testing pyramid, with e2e tests highlighted" height="350" />
+                <img src="software_testing_pyramid_e2e.png" alt="Software testing pyramid, with e2e tests highlighted" height="350"/>
 
             </section>
 
             <section>
                 <h3>End-to-end (E2E) testing</h3>
 
-                <p>E2E tests are the most realistic tests, since they test the entire program from the user's
-                    perspective.</p>
+                <p>E2E tests are the most realistic tests, since they test the entire program from the user's perspective.</p>
 
                 <p>For a web app, an E2E test actually opens up the web app in a browser, interacts with the webpage,
-                    and checks the results.</p>
+                and checks the results.</p>
 
                 <p>Most popular E2E libraries:</p>
                 <ul>
-                    <li><a target="_blank" href="https://pypi.org/project/selenium/">selenium</a>: Can be used for a
-                        wide variety of browsers
-                    <li><a target="_blank" href="https://playwright.dev/python/docs/library">playwright</a>: More
-                        limited browser-wise, but faster/less flaky 😊
+                    <li><a target="_blank" href="https://pypi.org/project/selenium/">selenium</a>: Can be used for a wide variety of browsers
+                    <li><a target="_blank" href="https://playwright.dev/python/docs/library">playwright</a>: More limited browser-wise, but faster/less flaky 😊
                 </ul>
             </section>
 
@@ -782,10 +759,10 @@
                 <h3>When to test?</h3>
 
                 <ul>
-                    <li>While developing new changes
-                    <li>pre-commit: Before committing code to a repository.
-                    <li>Before merging code into the main branch.
-                    <li>Before deploying code to production.
+                <li>While developing new changes
+                <li>pre-commit: Before committing code to a repository.
+                <li>Before merging code into the main branch.
+                <li>Before deploying code to production.
                 </ul>
             </section>
 
@@ -793,7 +770,7 @@
                 <h3>pre-commit</h3>
 
                 <p><a target="_blank" href="https://pre-commit.com/">pre-commit</a> is a third-party package
-                    for running pre-commit hooks.
+                for running pre-commit hooks.
                 </p>
 
                 <p>Running all tests before a commit can take a long time, however!</p>
@@ -804,12 +781,10 @@
                 <h3>Continuous integration (CI)</h3>
 
                 <p>Whenever code is pushed to a repo, a CI server can run a suite of actions
-                    which can result in <strong style="color:green">success</strong> or <strong
-                        style="color:red">failure</strong>.
+                which can result in <strong style="color:green">success</strong> or <strong style="color:red">failure</strong>.
                 </p>
 
-                <img src="https://pamelafox.github.io/python-web-apps/testing-web-apps-workshop/screenshot_githubactions.jpg"
-                    height="350">
+                <img src="screenshot_githubactions.jpg" height="350">
 
                 <p>Popular CI options: Jenkins, TravisCI, GitHub actions</p>
             </section>
@@ -841,8 +816,7 @@
                         pytest
                     </code></pre>
 
-                <p>See it in <a target="_blank"
-                        href="https://github.com/pamelafox/recursive-visualizations/actions">action</a>.</p>
+                    <p>See it in <a target="_blank" href="https://github.com/pamelafox/recursive-visualizations/actions">action</a>.</p>
             </section>
 
             <!--
@@ -859,8 +833,7 @@
 
             <section class="heading-only">
                 <h2>Any questions?</h2>
-                <img src="https://pamelafox.github.io/python-web-apps/static/images/BIT_STUDENTS.svg"
-                    alt="A bunch of raccoon students with computers" width="400">
+                <img src="../static/images/BIT_STUDENTS.svg" alt="A bunch of raccoon students with computers" width="400">
             </section>
         </div>
     </div>
@@ -880,13 +853,12 @@
             showNotes: false,
             margin: 0.1,
             preloadIframes: true,
-            plugins: [RevealHighlight, RevealMenu],
+            plugins: [ RevealHighlight, RevealMenu ],
             pdfSeparateFragments: true
         });
 
         window.highlightJsBadge();
 
     </script>
-</body>
-
+    </body>
 </html>
